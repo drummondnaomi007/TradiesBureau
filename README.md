@@ -27,18 +27,39 @@ python3 -m http.server 8000
 # then open http://localhost:8000
 ```
 
-## Deploying
+## Deploying — GitHub Pages
 
-Any static host works (Netlify, Vercel, GitHub Pages, Cloudflare Pages). Point the host at the repo root — there's no build command, the output directory is the repo root itself.
+This repo is set up for GitHub Pages with a custom domain (`CNAME` file already added, pointing at `tradiesbureau.com`).
+
+**One-time setup on GitHub:**
+1. Go to the repo's **Settings → Pages**.
+2. Under "Build and deployment", set **Source** to "Deploy from a branch".
+3. Set **Branch** to `main`, folder `/ (root)`, and save.
+4. GitHub will show the custom domain from the `CNAME` file — leave it as `tradiesbureau.com` and once DNS (below) is verified, tick **Enforce HTTPS**.
+
+**DNS records to add at your DNS provider (Panthur):**
+
+| Type | Host/Name | Value |
+|---|---|---|
+| A | `@` (apex, i.e. `tradiesbureau.com`) | `185.199.108.153` |
+| A | `@` | `185.199.109.153` |
+| A | `@` | `185.199.110.153` |
+| A | `@` | `185.199.111.153` |
+| CNAME | `www` | `drummondnaomi007.github.io` |
+
+These four A records are GitHub Pages' standard IPs. DNS changes can take anywhere from a few minutes to a few hours to propagate; GitHub auto-provisions an HTTPS certificate once it verifies the domain, which can take a little while after that.
 
 ## Client subdomains
 
 The site is designed around per-client portals living on subdomains, e.g. `yourbusiness.tradiesbureau.com`. `portal/index.html` is the current placeholder for that experience (linked from the "Client Portal" nav button).
 
-To turn this into real per-client subdomains later, the general approach is:
-1. Set a wildcard DNS record (`*.tradiesbureau.com`) pointing at your hosting provider.
-2. Use your host's wildcard/multi-tenant subdomain support (Vercel and Netlify both support this) to route `*.tradiesbureau.com` requests into an app that reads the subdomain and loads that client's data.
-3. The Compliance Tracker itself (the actual tracking app behind the portal) is a separate build from this marketing site — this repo is the public-facing front end only.
+The actual Compliance Tracker backend (separate build from this marketing site) deploys **one full instance per client business** — not a single shared multi-tenant app. That means subdomains don't need wildcard/tenant-routing infrastructure: each client's subdomain is just its own DNS record at Panthur, added when that client is onboarded:
+
+| Type | Host/Name | Value |
+|---|---|---|
+| CNAME | `yourbusiness` | wherever that client's backend instance is deployed (e.g. `yourbusiness-tb.up.railway.app`) |
+
+GitHub Pages only serves the root marketing site (`tradiesbureau.com` / `www`) — it has no role in the client subdomains, they point straight at each client's own deployment.
 
 ## Things to update before launch
 

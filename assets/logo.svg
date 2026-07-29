@@ -1,0 +1,29 @@
+<svg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <filter id="shadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feDropShadow dx="2" dy="2" stdDeviation="3" flood-opacity="0.25"/>
+    </filter>
+  </defs>
+
+  <!-- Back layer (teal - team/delegation) -->
+  <g transform="translate(55, 60)" filter="url(#shadow)">
+    <rect x="0" y="15" width="10" height="45" rx="2" fill="#0B6E8F" opacity="0.5"/>
+    <rect x="-7" y="8" width="24" height="10" rx="2" fill="#0B6E8F" opacity="0.5"/>
+  </g>
+
+  <!-- Middle layer (lighter blue - coordination) -->
+  <g transform="translate(50, 50)" filter="url(#shadow)">
+    <rect x="0" y="15" width="10" height="45" rx="2" fill="#2D5A8C"/>
+    <rect x="-7" y="8" width="24" height="10" rx="2" fill="#2D5A8C"/>
+  </g>
+
+  <!-- Front layer (dark blue - leadership) -->
+  <g transform="translate(45, 40)">
+    <rect x="0" y="15" width="12" height="50" rx="2" fill="#1A365D"/>
+    <rect x="-8" y="7" width="28" height="12" rx="2" fill="#1A365D"/>
+  </g>
+
+  <!-- Accent lines showing connection/delegation -->
+  <line x1="60" y1="130" x2="100" y2="130" stroke="#0B6E8F" stroke-width="1.5" opacity="0.6"/>
+  <line x1="65" y1="135" x2="95" y2="135" stroke="#0B6E8F" stroke-width="1" opacity="0.4"/>
+</svg>

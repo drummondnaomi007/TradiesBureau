@@ -1,12 +1,12 @@
-/* Tradies Bureau — green theme */
+/* Tradies Bureau — dark blue & teal theme */
 
 :root {
-  --green-900: #0b3d24;
-  --green-700: #1e7a46;
-  --green-600: #268a52;
-  --green-500: #2fa860;
-  --green-100: #e8f5ec;
-  --ink: #14231a;
+  --navy-900: #1A365D;
+  --navy-700: #2D5A8C;
+  --teal-600: #0B6E8F;
+  --teal-500: #1B8FA8;
+  --navy-100: #e8f1f6;
+  --ink: #20242b;
   --muted: #52685c;
   --white: #ffffff;
   --amber: #e0a020;
@@ -49,7 +49,7 @@ a {
 /* Header */
 
 .site-header {
-  background: var(--green-900);
+  background: var(--navy-900);
   color: var(--white);
   position: sticky;
   top: 0;
@@ -79,7 +79,7 @@ a {
   width: 32px;
   height: 32px;
   border-radius: 8px;
-  background: linear-gradient(135deg, var(--green-500), var(--green-700));
+  background: linear-gradient(135deg, var(--teal-500), var(--teal-600));
   display: inline-block;
 }
 
@@ -102,12 +102,12 @@ a {
 .nav-links a:hover,
 .nav-links a.active {
   opacity: 1;
-  border-bottom: 2px solid var(--green-500);
+  border-bottom: 2px solid var(--teal-500);
 }
 
 .nav-cta {
-  background: var(--green-500);
-  color: var(--green-900) !important;
+  background: var(--teal-500);
+  color: var(--navy-900) !important;
   padding: 8px 16px;
   border-radius: 999px;
   font-weight: 700;
@@ -132,7 +132,7 @@ a {
     top: 100%;
     left: 0;
     right: 0;
-    background: var(--green-900);
+    background: var(--navy-900);
     flex-direction: column;
     align-items: flex-start;
     padding: 16px 24px 24px;
@@ -147,7 +147,7 @@ a {
 /* Hero */
 
 .hero {
-  background: radial-gradient(circle at top right, var(--green-100), var(--white) 60%);
+  background: radial-gradient(circle at top right, var(--navy-100), var(--white) 60%);
   padding: 72px 0 56px;
 }
 
@@ -166,8 +166,8 @@ a {
 
 .eyebrow {
   display: inline-block;
-  background: var(--green-100);
-  color: var(--green-700);
+  background: var(--navy-100);
+  color: var(--teal-600);
   font-weight: 700;
   font-size: 0.8rem;
   letter-spacing: 0.06em;
@@ -181,7 +181,7 @@ h1 {
   font-size: clamp(2rem, 4vw, 3rem);
   line-height: 1.1;
   margin: 0 0 16px;
-  color: var(--green-900);
+  color: var(--navy-900);
 }
 
 .lede {
@@ -209,35 +209,35 @@ h1 {
 }
 
 .btn-primary {
-  background: var(--green-700);
+  background: var(--teal-600);
   color: var(--white);
 }
 
 .btn-primary:hover {
-  background: var(--green-900);
+  background: var(--navy-900);
 }
 
 .btn-outline {
-  border-color: var(--green-700);
-  color: var(--green-700);
+  border-color: var(--teal-600);
+  color: var(--teal-600);
   background: transparent;
 }
 
 .btn-outline:hover {
-  background: var(--green-100);
+  background: var(--navy-100);
 }
 
 .hero-card {
   background: var(--white);
-  border: 1px solid #dcebe1;
+  border: 1px solid #d8e8f4;
   border-radius: 16px;
   padding: 28px;
-  box-shadow: 0 20px 40px -24px rgba(11, 61, 36, 0.35);
+  box-shadow: 0 20px 40px -24px rgba(26, 54, 93, 0.35);
 }
 
 .hero-card h3 {
   margin-top: 0;
-  color: var(--green-900);
+  color: var(--navy-900);
 }
 
 .status-row {
@@ -245,7 +245,7 @@ h1 {
   align-items: center;
   justify-content: space-between;
   padding: 10px 0;
-  border-bottom: 1px solid #eef4f0;
+  border-bottom: 1px solid #e8f1f8;
 }
 
 .status-row:last-child {
@@ -260,8 +260,8 @@ h1 {
 }
 
 .pill-green {
-  background: #e4f6ea;
-  color: var(--green-700);
+  background: #e8f1f6;
+  color: var(--teal-600);
 }
 
 .pill-amber {
@@ -282,7 +282,7 @@ section {
 }
 
 .section-head h2 {
-  color: var(--green-900);
+  color: var(--navy-900);
   font-size: clamp(1.6rem, 3vw, 2.1rem);
   margin-bottom: 12px;
 }
@@ -292,7 +292,7 @@ section {
 }
 
 .section-alt {
-  background: var(--green-100);
+  background: var(--navy-100);
 }
 
 .grid {
@@ -326,8 +326,8 @@ section {
   width: 44px;
   height: 44px;
   border-radius: 10px;
-  background: var(--green-100);
-  color: var(--green-700);
+  background: var(--navy-100);
+  color: var(--teal-600);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -337,7 +337,7 @@ section {
 
 .card h3 {
   margin: 0 0 8px;
-  color: var(--green-900);
+  color: var(--navy-900);
 }
 
 .card p {
@@ -360,7 +360,7 @@ section {
   width: 40px;
   height: 40px;
   border-radius: 50%;
-  background: var(--green-700);
+  background: var(--teal-600);
   color: var(--white);
   display: flex;
   align-items: center;
@@ -372,7 +372,7 @@ section {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  background: var(--green-900);
+  background: var(--navy-900);
   color: var(--white);
   padding: 8px 16px;
   border-radius: 999px;
@@ -385,11 +385,11 @@ section {
   width: 8px;
   height: 8px;
   border-radius: 50%;
-  background: var(--green-500);
+  background: var(--teal-500);
 }
 
 .cta-banner {
-  background: var(--green-700);
+  background: var(--teal-600);
   color: var(--white);
   border-radius: 20px;
   padding: 48px;
@@ -403,11 +403,11 @@ section {
 
 .cta-banner .btn-primary {
   background: var(--white);
-  color: var(--green-700);
+  color: var(--teal-600);
 }
 
 .cta-banner .btn-primary:hover {
-  background: var(--green-100);
+  background: var(--navy-100);
 }
 
 table.compliance-table {
@@ -424,8 +424,8 @@ table.compliance-table td {
 }
 
 table.compliance-table th {
-  background: var(--green-100);
-  color: var(--green-900);
+  background: var(--navy-100);
+  color: var(--navy-900);
 }
 
 .contact-grid {
@@ -451,8 +451,8 @@ table.compliance-table th {
   width: 40px;
   height: 40px;
   border-radius: 10px;
-  background: var(--green-100);
-  color: var(--green-700);
+  background: var(--navy-100);
+  color: var(--teal-600);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -469,8 +469,8 @@ table.compliance-table th {
   width: 42px;
   height: 42px;
   border-radius: 50%;
-  background: var(--green-100);
-  color: var(--green-700);
+  background: var(--navy-100);
+  color: var(--teal-600);
   display: flex;
   align-items: center;
   justify-content: center;
@@ -479,14 +479,14 @@ table.compliance-table th {
 }
 
 .social-link:hover {
-  background: var(--green-700);
+  background: var(--teal-600);
   color: var(--white);
 }
 
 /* Footer */
 
 .site-footer {
-  background: var(--green-900);
+  background: var(--navy-900);
   color: #cfe6d8;
   padding: 48px 0 24px;
   margin-top: 40px;
@@ -571,6 +571,6 @@ table.compliance-table th {
 .form-stack label {
   font-weight: 600;
   font-size: 0.9rem;
-  color: var(--green-900);
+  color: var(--navy-900);
   margin-bottom: -8px;
 }

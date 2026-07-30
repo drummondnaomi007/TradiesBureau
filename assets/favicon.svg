@@ -1,5 +1,28 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
-  <rect width="64" height="64" rx="14" fill="#1e7a46"/>
-  <path d="M18 40 L32 16 L46 40 Z" fill="#e8f5ec"/>
-  <rect x="26" y="40" width="12" height="10" fill="#0b3d24"/>
+  <defs>
+    <filter id="fav-shadow" x="-50%" y="-50%" width="200%" height="200%">
+      <feDropShadow dx="1" dy="1" stdDeviation="1.5" flood-opacity="0.2"/>
+    </filter>
+  </defs>
+  <!-- Background -->
+  <rect width="64" height="64" rx="14" fill="#1A365D"/>
+
+  <!-- Layered hammers -->
+  <!-- Back layer -->
+  <g transform="translate(22, 18)" filter="url(#fav-shadow)" opacity="0.5">
+    <rect x="0" y="4" width="3" height="14" rx="0.5" fill="#0B6E8F"/>
+    <rect x="-2" y="2" width="7" height="3" rx="0.5" fill="#0B6E8F"/>
+  </g>
+
+  <!-- Middle layer -->
+  <g transform="translate(20, 16)">
+    <rect x="0" y="4" width="3" height="14" rx="0.5" fill="#2D5A8C"/>
+    <rect x="-2" y="2" width="7" height="3" rx="0.5" fill="#2D5A8C"/>
+  </g>
+
+  <!-- Front layer -->
+  <g transform="translate(18, 14)" filter="url(#fav-shadow)">
+    <rect x="0" y="4" width="3.5" height="16" rx="0.6" fill="#0B6E8F"/>
+    <rect x="-2.5" y="2" width="8" height="3.5" rx="0.6" fill="#0B6E8F"/>
+  </g>
 </svg>

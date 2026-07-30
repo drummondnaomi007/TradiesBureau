@@ -83,6 +83,12 @@ a {
   display: inline-block;
 }
 
+.brand-logo {
+  height: 40px;
+  width: auto;
+  display: block;
+}
+
 .nav-links {
   display: flex;
   align-items: center;

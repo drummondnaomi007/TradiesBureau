@@ -5,25 +5,25 @@
     </filter>
   </defs>
 
-  <!-- Back layer (teal - team/delegation) -->
+  <!-- Back layer (light white - team/delegation) -->
   <g transform="translate(55, 60)" filter="url(#shadow)">
-    <rect x="0" y="15" width="10" height="45" rx="2" fill="#0B6E8F" opacity="0.5"/>
-    <rect x="-7" y="8" width="24" height="10" rx="2" fill="#0B6E8F" opacity="0.5"/>
+    <rect x="0" y="15" width="10" height="45" rx="2" fill="#ffffff" opacity="0.5"/>
+    <rect x="-7" y="8" width="24" height="10" rx="2" fill="#ffffff" opacity="0.5"/>
   </g>
 
-  <!-- Middle layer (lighter blue - coordination) -->
+  <!-- Middle layer (light white - coordination) -->
   <g transform="translate(50, 50)" filter="url(#shadow)">
-    <rect x="0" y="15" width="10" height="45" rx="2" fill="#2D5A8C"/>
-    <rect x="-7" y="8" width="24" height="10" rx="2" fill="#2D5A8C"/>
+    <rect x="0" y="15" width="10" height="45" rx="2" fill="#f0f4f8"/>
+    <rect x="-7" y="8" width="24" height="10" rx="2" fill="#f0f4f8"/>
   </g>
 
-  <!-- Front layer (dark blue - leadership) -->
+  <!-- Front layer (white - leadership) -->
   <g transform="translate(45, 40)">
-    <rect x="0" y="15" width="12" height="50" rx="2" fill="#1A365D"/>
-    <rect x="-8" y="7" width="28" height="12" rx="2" fill="#1A365D"/>
+    <rect x="0" y="15" width="12" height="50" rx="2" fill="#ffffff"/>
+    <rect x="-8" y="7" width="28" height="12" rx="2" fill="#ffffff"/>
   </g>
 
   <!-- Accent lines showing connection/delegation -->
-  <line x1="60" y1="130" x2="100" y2="130" stroke="#0B6E8F" stroke-width="1.5" opacity="0.6"/>
-  <line x1="65" y1="135" x2="95" y2="135" stroke="#0B6E8F" stroke-width="1" opacity="0.4"/>
+  <line x1="60" y1="130" x2="100" y2="130" stroke="#e8f1f6" stroke-width="1.5" opacity="0.8"/>
+  <line x1="65" y1="135" x2="95" y2="135" stroke="#e8f1f6" stroke-width="1" opacity="0.6"/>
 </svg>

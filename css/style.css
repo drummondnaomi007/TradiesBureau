@@ -434,6 +434,20 @@ table.compliance-table th {
   color: var(--navy-900);
 }
 
+.screenshot-card {
+  max-width: 900px;
+  margin: 24px auto 0;
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid #d8e8f4;
+  box-shadow: 0 20px 40px -24px rgba(26, 54, 93, 0.35);
+}
+
+.screenshot-card img {
+  width: 100%;
+  display: block;
+}
+
 .contact-grid {
   display: grid;
   grid-template-columns: 1fr 1fr;

@@ -51,15 +51,29 @@ These four A records are GitHub Pages' standard IPs. DNS changes can take anywhe
 
 ## Client subdomains
 
-The site is designed around per-client portals living on subdomains, e.g. `yourbusiness.tradiesbureau.com`. `portal/index.html` is the current placeholder for that experience (linked from the "Client Portal" nav button).
+The site is designed around per-client portals living on subdomains, e.g. `yourbusiness.tradiesbureau.com`. `portal/index.html` links out to the live app rather than hosting it itself (GitHub Pages only serves static files).
 
-The actual Compliance Tracker backend (separate build from this marketing site) deploys **one full instance per client business** — not a single shared multi-tenant app. That means subdomains don't need wildcard/tenant-routing infrastructure: each client's subdomain is just its own DNS record at Panthur, added when that client is onboarded:
+The actual Compliance Tracker backend is a separate app (the `SKHB` repo) that deploys **one full instance per client business** — not a single shared multi-tenant app. That means subdomains don't need wildcard/tenant-routing infrastructure: each client's subdomain is just its own DNS record at Panthur, added when that client is onboarded:
 
 | Type | Host/Name | Value |
 |---|---|---|
 | CNAME | `yourbusiness` | wherever that client's backend instance is deployed (e.g. `yourbusiness-tb.up.railway.app`) |
 
 GitHub Pages only serves the root marketing site (`tradiesbureau.com` / `www`) — it has no role in the client subdomains, they point straight at each client's own deployment.
+
+**Naomi's own instance** uses the `portal` subdomain — `portal/index.html` links to `https://portal.tradiesbureau.com`. To bring that live:
+
+1. Deploy the `SKHB` app to Railway following `CONFIGURATION.md` §5 in that repo (persistent volume, env vars, start command).
+2. In Railway → Settings → Networking → Custom Domain, add `portal.tradiesbureau.com`.
+3. Add the CNAME Railway gives you at Panthur:
+
+   | Type | Host/Name | Value |
+   |---|---|---|
+   | CNAME | `portal` | (the target Railway shows, e.g. `xxxx.up.railway.app`) |
+
+4. Once DNS verifies, `portal.tradiesbureau.com` is live and the button on `portal/index.html` works.
+
+Until that deploy is done, the "Log in to the Compliance Tracker" button on `portal/index.html` won't resolve.
 
 ## Things to update before launch
 

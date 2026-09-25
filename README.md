@@ -9,6 +9,7 @@ This is the marketing site and front end for Tradies Bureau's offerings, startin
 ```
 index.html                Home
 compliance-tracker.html   MVP Compliance Tracker feature page
+compliance.html           Victorian compliance guide for trade businesses
 services.html             Services / offerings overview
 about.html                About / mission
 contact.html               Contact + social links

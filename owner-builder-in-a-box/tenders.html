@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>Tender Comparison Tool for Owner-Builders</title>
+<meta name="description" content="Run a proper tender for each trade package: compliance gates, quote levelling, weighted scoring and a clear recommendation." />
+<meta name="theme-color" content="#1A365D" />
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+<link rel="manifest" href="manifest.webmanifest" />
+<link rel="apple-touch-icon" href="assets/logo.svg" />
+<link rel="stylesheet" href="css/base.css" />
+<link rel="stylesheet" href="css/ob.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <nav class="nav">
+    <a href="index.html" class="brand">
+      <img src="assets/logo.svg" alt="" class="brand-logo">
+      <span>Owner Builder <em>in a Box</em></span>
+    </a>
+    <a href="my-build.html" class="nav-cta">Open my build</a>
+  </nav>
+</header>
+
+<nav class="hub-nav" aria-label="Sections">
+  <ul>
+    <li><a href="index.html"><span class="num">&#8962;</span>Home</a></li>
+    <li><a href="my-build.html"><span class="num">&#9638;</span>My Build</a></li>
+    <li><a href="compliance.html"><span class="num">&#10003;</span>Compliance</a></li>
+    <li><a href="gateways.html"><span class="num">&#9656;</span>Gateways</a></li>
+    <li><a href="contracts.html"><span class="num">&#9998;</span>Contracts</a></li>
+    <li><a href="tenders.html" class="active" aria-current="page"><span class="num">&#9878;</span>Tenders</a></li>
+    <li><a href="guides.html"><span class="num">&#9733;</span>Buying Guides</a></li>
+    <li><a href="faq.html"><span class="num">?</span>Q&amp;A</a></li>
+  </ul>
+</nav>
+
+<main>
+<section class="ob-hero">
+  <div class="container">
+    <span class="eyebrow">Tender processing &amp; comparison</span>
+    <h1>Don't pick the cheapest quote. Pick the best one.</h1>
+    <p class="lede">Quotes never arrive like-for-like. Run a simple, fair tender for each trade package: check compliance, level the prices, score the rest, and let the numbers make the call.</p>
+    <div class="btn-row"><a href="#tool" class="btn btn-primary">Jump to the comparison tool</a></div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="section-head">
+      <h2>The tender process</h2>
+      <p>The same steps a commercial builder follows, sized for one house.</p>
+    </div>
+    <ol class="flow">
+      <li><strong>Define the package</strong>Scope, drawings (with revision numbers), spec, program and site conditions.</li>
+      <li><strong>Build the RFQ pack</strong>One pack sent to every tenderer, so every price is for the same thing.</li>
+      <li><strong>Invite 3–5 trades</strong>Set a closing date (7–14 days). Log each invitation in the tender register.</li>
+      <li><strong>Answer questions</strong>Send every answer to all tenderers as an addendum.</li>
+      <li><strong>Close &amp; open</strong>Record each price as received. Late quotes are noted.</li>
+      <li><strong>Compliance gates</strong>Registration, insurance, ABN, SWMS, scope. A fail means excluded.</li>
+      <li><strong>Level the quotes</strong>Price the exclusions, normalise provisional sums, add risk allowances.</li>
+      <li><strong>Score &amp; decide</strong>Weighted scoring, then a written recommendation. Contract the winner and thank the others.</li>
+    </ol>
+
+    <div class="grid grid-3" style="margin-top:40px;">
+      <div class="card">
+        <h3>What goes in an RFQ pack</h3>
+        <ul class="spec-list">
+          <li>Cover letter: package, address, closing date, contact</li>
+          <li>Scope of works + inclusions list</li>
+          <li>Drawings &amp; specification (with revision numbers)</li>
+          <li>Engineering &amp; energy report extracts</li>
+          <li>Program: target start and duration</li>
+          <li>Site info: access, power, water, slope, photos</li>
+          <li>Your draft trade agreement (see <a href="contracts.html">Contracts</a>)</li>
+          <li>Pricing schedule so every quote breaks down the same way</li>
+          <li>What to return: licence, insurance, ABN, SWMS, references</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Levelling: making quotes comparable</h3>
+        <ul class="spec-list">
+          <li><b>Exclusions:</b> if Quote A excludes rubbish removal, add what it will cost you</li>
+          <li><b>Provisional sums:</b> replace each tenderer's allowance with the same figure</li>
+          <li><b>Scope gaps:</b> price anything missing against the RFQ</li>
+          <li><b>Risk:</b> add an allowance for vague or heavily qualified quotes</li>
+          <li><b>GST:</b> compare everything inc. GST</li>
+          <li>Result: a <b>levelled price</b> for each tenderer, like-for-like</li>
+        </ul>
+      </div>
+      <div class="card">
+        <h3>Red flags</h3>
+        <ul class="spec-list">
+          <li>Price more than 15% under the median: something is probably missing</li>
+          <li>Deposit request above the statutory cap</li>
+          <li>No written quote, or "cash price"</li>
+          <li>Registration or insurance in a different name</li>
+          <li>Long exclusions list or "subject to" everywhere</li>
+          <li>Can't provide references or recent jobs</li>
+          <li>Pressure to sign immediately</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section-alt" id="tool">
+  <div class="container">
+    <div class="section-head">
+      <h2>Tender comparison tool</h2>
+      <p>Enter your quotes and adjust the weights. Everything is saved on this device. An example is loaded to show you how it works.</p>
+    </div>
+
+    <div class="tool">
+      <div class="tool-row no-print">
+        <label class="field">Trade package
+          <select id="pkgSelect"></select>
+        </label>
+        <button class="btn-sm" id="pkgNew">+ New package</button>
+        <button class="btn-sm" id="pkgRename">Rename</button>
+        <button class="btn-sm ghost" id="pkgDelete">Delete</button>
+        <span style="flex:1"></span>
+        <label class="field">Your budget for this package ($)
+          <input type="number" id="pkgBudget" min="0" step="100" style="width:150px">
+        </label>
+      </div>
+
+      <h3>1. Tenderers &amp; quotes</h3>
+      <div class="table-wrap">
+        <table class="tender-table" id="tenderTable"></table>
+      </div>
+      <div class="tool-row no-print">
+        <button class="btn-sm solid" id="addTenderer">+ Add tenderer</button>
+        <button class="btn-sm" id="exportCsv">Export CSV</button>
+        <button class="btn-sm" onclick="window.print()">Print</button>
+        <button class="btn-sm ghost" id="resetExample">Reset to example</button>
+      </div>
+
+      <h3>2. Criteria weights</h3>
+      <div class="weight-grid" id="weights"></div>
+      <div class="weight-total" id="weightTotal"></div>
+
+      <h3>3. Results</h3>
+      <div id="recommendation" class="callout ok"></div>
+      <div class="results" id="results"></div>
+
+      <div class="bar-chart" id="chart"></div>
+    </div>
+
+    <div class="card" style="margin-top:28px;">
+      <h3>How the scoring works</h3>
+      <ul class="spec-list">
+        <li><b>Compliance gates are pass / fail.</b> A tenderer who fails any gate (not registered, no current insurance, no SWMS, non-conforming scope) is excluded from ranking, whatever the price.</li>
+        <li><b>Levelled price</b> = quoted price + cost of exclusions + provisional sum adjustment + risk allowance.</li>
+        <li><b>Price score</b> = lowest compliant levelled price ÷ this levelled price × 10. The cheapest scores 10.</li>
+        <li><b>Non-price criteria</b> are scored 0–10 by you: experience, program, quality, communication, warranty.</li>
+        <li><b>Weighted total</b> = Σ (score × weight) ÷ 10, out of 100. Weights must add to 100%.</li>
+        <li>Quotes more than 15% below the median levelled price are flagged <span class="pill pill-amber">Check scope</span>.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <h4>Owner Builder in a Box</h4>
+        <p>Your whole owner-builder project on your phone: compliance, gateways, trades, tenders, plans and specs.</p>
+        <p style="font-size:0.85rem;opacity:0.8;">General information only. It is not legal, financial or building advice. Always confirm current requirements with the Building and Plumbing Commission (BPC), your relevant building surveyor, your council and WorkSafe Victoria.</p>
+      </div>
+      <div>
+        <h4>Plan &amp; comply</h4>
+        <ul>
+          <li><a href="compliance.html">Compliance checklist</a></li>
+          <li><a href="gateways.html">Project gateways</a></li>
+          <li><a href="faq.html">Questions answered</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Build &amp; buy</h4>
+        <ul>
+          <li><a href="my-build.html">My Build</a></li>
+          <li><a href="contracts.html">Trade contracts</a></li>
+          <li><a href="tenders.html">Tender comparison</a></li>
+          <li><a href="guides.html">Buying guides</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; <span data-year></span> Owner Builder in a Box. Built on the Tradies Bureau framework.</span>
+      <span>Victorian rules checked September 2026</span>
+    </div>
+  </div>
+</footer>
+
+<nav class="tabbar" aria-label="Quick navigation">
+  <a href="index.html"><span>&#8962;</span>Home</a>
+  <a href="my-build.html"><span>&#9638;</span>Build</a>
+  <a href="compliance.html"><span>&#10003;</span>Comply</a>
+  <a href="tenders.html" class="active"><span>&#9878;</span>Tenders</a>
+  <a href="guides.html"><span>&#9733;</span>Guides</a>
+</nav>
+
+<script src="js/app.js"></script>
+<script src="js/tender-tool.js"></script>
+</body>
+</html>

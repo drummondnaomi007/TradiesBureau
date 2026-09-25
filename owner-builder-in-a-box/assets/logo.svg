@@ -1,0 +1,7 @@
+<svg viewBox="0 0 64 64" xmlns="http://www.w3.org/2000/svg" role="img" aria-label="Owner Builder in a Box">
+  <path d="M32 6 58 19v26L32 58 6 45V19Z" fill="#1B8FA8"/>
+  <path d="M32 6 58 19 32 32 6 19Z" fill="#ffffff" opacity="0.92"/>
+  <path d="M32 32v26L6 45V19Z" fill="#1A365D" opacity="0.35"/>
+  <path d="M20 44V33l7-6 7 6v11h-5v-6h-4v6Z" fill="#ffffff"/>
+  <path d="M40 30l10-5v14l-10 5Z" fill="#ffffff" opacity="0.55"/>
+</svg>

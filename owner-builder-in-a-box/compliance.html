@@ -1,0 +1,307 @@
+<!DOCTYPE html>
+<html lang="en-AU">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+<title>Victorian Owner-Builder Compliance Checklist</title>
+<meta name="description" content="Every compliance and documentation requirement for owner-builders in Victoria, in the order you'll need them, with an interactive progress checklist." />
+<meta name="theme-color" content="#1A365D" />
+<link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+<link rel="manifest" href="manifest.webmanifest" />
+<link rel="apple-touch-icon" href="assets/logo.svg" />
+<link rel="stylesheet" href="css/base.css" />
+<link rel="stylesheet" href="css/ob.css" />
+</head>
+<body>
+
+<header class="site-header">
+  <nav class="nav">
+    <a href="index.html" class="brand">
+      <img src="assets/logo.svg" alt="" class="brand-logo">
+      <span>Owner Builder <em>in a Box</em></span>
+    </a>
+    <a href="my-build.html" class="nav-cta">Open my build</a>
+  </nav>
+</header>
+
+<nav class="hub-nav" aria-label="Sections">
+  <ul>
+    <li><a href="index.html"><span class="num">&#8962;</span>Home</a></li>
+    <li><a href="my-build.html"><span class="num">&#9638;</span>My Build</a></li>
+    <li><a href="compliance.html" class="active" aria-current="page"><span class="num">&#10003;</span>Compliance</a></li>
+    <li><a href="gateways.html"><span class="num">&#9656;</span>Gateways</a></li>
+    <li><a href="contracts.html"><span class="num">&#9998;</span>Contracts</a></li>
+    <li><a href="tenders.html"><span class="num">&#9878;</span>Tenders</a></li>
+    <li><a href="guides.html"><span class="num">&#9733;</span>Buying Guides</a></li>
+    <li><a href="faq.html"><span class="num">?</span>Q&amp;A</a></li>
+  </ul>
+</nav>
+
+<main>
+<section class="ob-hero">
+  <div class="container">
+    <span class="eyebrow">Victoria · checked September 2026</span>
+    <h1>Owner-builder compliance, start to finish.</h1>
+    <p class="lede">Every requirement a Victorian owner-builder has to meet, in the order you'll meet it. Tick items off as you go. Your progress is saved on this device.</p>
+    <div class="stat-grid" style="margin-top:28px;">
+      <div class="stat"><div class="value">$20,000</div><div class="label">Domestic work value (labour + materials + GST) above which you need a certificate of consent</div></div>
+      <div class="stat"><div class="value">$10,000</div><div class="label">Trade contracts above this need a registered builder &amp; written contract*</div></div>
+      <div class="stat"><div class="value">$350,000</div><div class="label">Project value at which WorkSafe principal contractor duties apply</div></div>
+      <div class="stat"><div class="value">6 yrs 6 mths</div><div class="label">Sell within this time and the s137B report &amp; insurance rules apply</div></div>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container with-toc">
+    <aside class="toc">
+      <h4>On this page</h4>
+      <a href="#legend">How to read this</a>
+      <a href="#eligibility">1. Eligibility</a>
+      <a href="#consent">2. Certificate of consent</a>
+      <a href="#design">3. Site, planning &amp; design</a>
+      <a href="#permit">4. Building permit &amp; pre-start</a>
+      <a href="#safety">5. Health &amp; safety</a>
+      <a href="#insurance">6. Insurance</a>
+      <a href="#trades">7. Engaging trades</a>
+      <a href="#construction">8. During construction</a>
+      <a href="#completion">9. Completion &amp; occupancy</a>
+      <a href="#selling">10. Records &amp; selling</a>
+      <a href="#money">11. Finance &amp; tax</a>
+      <a href="#numbers">Key numbers</a>
+      <a href="#sources">Sources</a>
+    </aside>
+
+    <div>
+      <div class="progress-wrap no-print" id="legend">
+        <span class="progress-text">0 of 0 done</span>
+        <div class="progress-bar"><span></span></div>
+        <button class="btn-sm" onclick="window.print()">Print</button>
+        <button class="btn-sm ghost" data-reset-checklist>Reset</button>
+      </div>
+      <p style="margin-top:-8px;margin-bottom:32px;">
+        <span class="tag tag-must">Must</span> legal requirement for every owner-builder &nbsp;
+        <span class="tag tag-if">If applies</span> depends on your site or project &nbsp;
+        <span class="tag tag-good">Best practice</span> not legally required but strongly recommended
+      </p>
+
+      <div class="content-block" id="eligibility">
+        <h2>1. Eligibility</h2>
+        <p class="intro">Under section 25E of the <em>Building Act 1993</em>, the BPC can only give you consent if all of these are true.</p>
+        <ul class="check-list">
+          <li><label><input type="checkbox" data-id="el-own"><div><strong>You own the land <span class="tag tag-must">Must</span></strong><small>Or you're a director of the company, or a beneficiary of the trust, that owns it. Your name must match the title.</small></div></label></li>
+          <li><label><input type="checkbox" data-id="el-single"><div><strong>The work relates to a single domestic dwelling <span class="tag tag-must">Must</span></strong><small>This includes work ancillary to it, such as a garage, shed, pool or deck. Multi-unit developments are out.</small></div></label></li>
+          <li><label><input type="checkbox" data-id="el-reside"><div><strong>You live in it, or intend to live in it <span class="tag tag-must">Must</span></strong><small>A small second dwelling on the same lot is exempt from this rule.</small></div></label></li>
+          <li><label><input type="checkbox" data-id="el-business"><div><strong>You're not in the "business of building" <span class="tag tag-must">Must</span></strong><small>Owner-building repeatedly for profit is treated as running a building business and needs registration.</small></div></label></li>
+          <li><label><input type="checkbox" data-id="el-5yr"><div><strong>No owner-builder permit in the last 5 years <span class="tag tag-must">Must</span></strong><small>This applies to you and to anyone you co-own, or have co-owned, property with. Small second dwellings and further work on the same home are exceptions. The BPC can grant exemptions for special circumstances such as hardship.</small></div></label></li>
+          <li><label><input type="checkbox" data-id="el-elearn"><div><strong>Pass the BPC owner-builder eLearning assessment <span class="tag tag-must">Must</span></strong><small>Free and online, about 2–3 hours. Download and keep your pass certificate.</small></div></label></li>
+          <li><label><input type="checkbox" data-id="el-white"><div><strong>Complete construction induction training (white card) <span class="tag tag-must">Must</span></strong><small>It's part of the eligibility criteria. Anyone else working on your site needs one too.</small></div></label></li>
+        </ul>
+      </div>
+
+      <div class="content-block" id="consent">
+        <h2>2. Certificate of consent</h2>
+        <p class="intro">You need one before a building permit can be issued. It's required when the domestic building work is valued over $20,000. That threshold rose from $16,000 on 1 July 2026.</p>
+        <div class="callout warn"><strong>Your own labour counts.</strong><p>The value is your estimate of labour plus materials plus GST, as if you paid someone to do it all. DIY work can pass $20,000 even when the materials don't.</p></div>
+        <ul class="check-list">
+          <li><label><input type="checkbox" data-id="co-value"><div><strong>Estimate the full value of the work <span class="tag tag-must">Must</span></strong><small>Use market rates for your own labour. Keep the working. The building surveyor and BPC may ask for it.</small></div></label></li>
+          <li><label><input type="checkbox" data-id="co-apply"><div><strong>Apply to the BPC with proof of ownership and ID <span class="tag tag-must">Must</span></strong><small>Include your eLearning pass, construction induction card, title search and project description. There's a non-refundable application fee, so check the BPC fee schedule.</small></div></label></li>
+          <li><label><input type="checkbox" data-id="co-receive"><div><strong>Receive your certificate of consent <span class="tag tag-must">Must</span></strong><small>Give a copy to your relevant building surveyor. It's specific to you, this land and this work.</small></div></label></li>
+        </ul>
+      </div>
+
+      <div class="content-block" id="design">
+        <h2>3. Site, planning &amp; design</h2>
+        <p class="intro">Get this right and the rest of the build gets easier. Most expensive mistakes start here.</p>
+        <ul class="check-list">
+          <li><label><input type="checkbox" data-id="de-title"><div><strong>Title search: covenants, easements, section 173 agreements <span class="tag tag-must">Must</span></strong><small>These can limit what, where and how you build. Get the plan of subdivision too.</small></div></label></li>
+          <li><label><input type="checkbox" data-id="de-planning"><div><strong>Check zoning &amp; overlays and get a planning permit <span class="tag tag-if">If applies</span></strong><small>Use VicPlan / Planning Property Report. Heritage, bushfire (BMO), flood, vegetation and neighbourhood character overlays often need a permit from council.</small></div></label></li>
+          <li><label><input type="checkbox" data-id="de-survey"><div><strong>Feature &amp; level survey, plus a soil test (site classification) <span class="tag tag-must">Must</span></strong><small>Soil classification to AS 2870 drives footing and slab design. A licensed surveyor sets out the boundaries.</small></div></label></li>
+          <li><label><input type="checkbox" data-id="de-drawings"><div><strong>Working drawings by a registered draftsperson or architect <span class="tag tag-must">Must</span></strong><small>Include site plan, floor plans, elevations, sections, window schedule and specification.</small></div></label></li>
+          <li><label><input type="checkbox" data-id="de-eng"><div><strong>Structural &amp; civil engineering by a registered engineer <span class="tag tag-must">Must</span></strong><small>Covers footings and slab, framing and bracing, tie-downs, retaining walls and stormwater drainage. You need computations and certificates of compliance (design).</small></div></label></li>
+          <li><label><input type="checkbox" data-id="de-energy"><div><strong>Energy rating: 7-star NatHERS plus whole-of-home <span class="tag tag-must">Must</span></strong><small>New Victorian homes must meet NCC 2022 energy efficiency, in force since 1 May 2024. You'll need a stamped energy report.</small></div></label></li>
+          <li><label><input type="checkbox" data-id="de-bal"><div><strong>Bushfire Attack Level (BAL) assessment <span class="tag tag-if">If applies</span></strong><small>Required in designated bushfire prone areas. The BAL rating sets construction to AS 3959 (glazing, cladding, screens, decks).</small></div></label></li>
+          <li><label><input type="checkbox" data-id="de-lpod"><div><strong>Legal point of stormwater discharge from council <span class="tag tag-must">Must</span></strong><small>Request it early. It can dictate drainage design and cost.</small></div></label></li>
+          <li><label><input type="checkbox" data-id="de-easement"><div><strong>Build-over-easement consent from the water authority <span class="tag tag-if">If applies</span></strong><small>Needed if any structure sits over or near a sewer or drainage easement.</small></div></label></li>
+          <li><label><input type="checkbox" data-id="de-siting"><div><strong>Council report &amp; consent for siting variations <span class="tag tag-if">If applies</span></strong><small>Needed when you vary the Building Regulations siting rules (setbacks, site cover, overshadowing, fences), or for works over council assets.</small></div></label></li>
+        </ul>
+      </div>
+
+      <div class="content-block" id="permit">
+        <h2>4. Building permit &amp; pre-start</h2>
+        <p class="intro">You appoint the relevant building surveyor (RBS), council or private. The RBS issues the permit and inspects the work.</p>
+        <ul class="check-list">
+          <li><label><input type="checkbox" data-id="bp-rbs"><div><strong>Appoint a relevant building surveyor <span class="tag tag-must">Must</span></strong><small>Get a written fee proposal. Confirm the inspection stages and what they need from you at each one.</small></div></label></li>
+          <li><label><input type="checkbox" data-id="bp-permit"><div><strong>Obtain the building permit, naming you as owner-builder <span class="tag tag-must">Must</span></strong><small>Include your certificate of consent number. The state building permit levy applies to work over $10,000.</small></div></label></li>
+          <li><label><input type="checkbox" data-id="bp-asset"><div><strong>Council asset protection permit (and bond) <span class="tag tag-must">Must</span></strong><small>Needed before any work or deliveries. Photograph the footpath, kerb, nature strip and crossover before you start.</small></div></label></li>
+          <li><label><input type="checkbox" data-id="bp-protect"><div><strong>Protection work notices to neighbours <span class="tag tag-if">If applies</span></strong><small>Needed when work could affect adjoining property, for example excavation near a boundary.</small></div></label></li>
+          <li><label><input type="checkbox" data-id="bp-byda"><div><strong>Before You Dig Australia enquiry <span class="tag tag-must">Must</span></strong><small>Locate underground services before any excavation.</small></div></label></li>
+          <li><label><input type="checkbox" data-id="bp-site"><div><strong>Site set-up: fencing, signage, toilet, waste <span class="tag tag-must">Must</span></strong><small>Display a sign with the permit number and owner-builder contact details. Secure the site against the public.</small></div></label></li>
+          <li><label><input type="checkbox" data-id="bp-utilities"><div><strong>Temporary power &amp; water, and utility applications <span class="tag tag-good">Best practice</span></strong><small>Power, water, sewer, gas and NBN connections can take months. Lodge them at permit stage.</small></div></label></li>
+        </ul>
+      </div>
+
+      <div class="content-block" id="safety">
+        <h2>5. Health &amp; safety (WorkSafe Victoria)</h2>
+        <p class="intro">Once trades are on your block it's a workplace. You have duties under the <em>OHS Act 2004</em> and OHS Regulations 2017.</p>
+        <ul class="check-list">
+          <li><label><input type="checkbox" data-id="oh-duty"><div><strong>Understand your duties as the person managing the site <span class="tag tag-must">Must</span></strong><small>Provide a safe site, safe access, amenities and first aid. Consult and coordinate with every trade.</small></div></label></li>
+          <li><label><input type="checkbox" data-id="oh-pc"><div><strong>Principal contractor for projects of $350,000 or more <span class="tag tag-if">If applies</span></strong><small>Appoint in writing. Duties include a health &amp; safety coordination plan, site induction, HRCW oversight and signage.</small></div></label></li>
+          <li><label><input type="checkbox" data-id="oh-swms"><div><strong>SWMS for all high risk construction work <span class="tag tag-must">Must</span></strong><small>Covers work at heights over 2 m, trenches over 1.5 m, structural alterations, work near powerlines, and more. Collect and check a SWMS before the work starts.</small></div></label></li>
+          <li><label><input type="checkbox" data-id="oh-cards"><div><strong>Check white cards &amp; high-risk licences <span class="tag tag-must">Must</span></strong><small>Everyone on site needs a construction induction card. Crane, forklift and scaffold work need HRW licences.</small></div></label></li>
+          <li><label><input type="checkbox" data-id="oh-induct"><div><strong>Site induction &amp; sign-in register <span class="tag tag-good">Best practice</span></strong><small>Give a 10-minute induction to every new person: hazards, amenities, emergency points and first aid.</small></div></label></li>
+          <li><label><input type="checkbox" data-id="oh-asbestos"><div><strong>Asbestos check before renovating or demolishing <span class="tag tag-if">If applies</span></strong><small>Homes built before 1990 may contain asbestos. A licensed removalist is required above the prescribed limits.</small></div></label></li>
+          <li><label><input type="checkbox" data-id="oh-workcover"><div><strong>Register for WorkCover if you employ workers <span class="tag tag-if">If applies</span></strong><small>Paying wages (not contractor invoices) can make you an employer. Contractors must carry their own cover.</small></div></label></li>
+        </ul>
+      </div>
+
+      <div class="content-block" id="insurance">
+        <h2>6. Insurance</h2>
+        <ul class="check-list">
+          <li><label><input type="checkbox" data-id="in-cw"><div><strong>Construction (contract works) insurance <span class="tag tag-good">Best practice</span></strong><small>Covers fire, storm, theft and vandalism to the works in progress. Lenders usually require it.</small></div></label></li>
+          <li><label><input type="checkbox" data-id="in-pl"><div><strong>Public liability insurance ($10m–$20m) <span class="tag tag-good">Best practice</span></strong><small>Covers injury to visitors and damage to neighbours' property. Home insurance usually won't cover a construction site.</small></div></label></li>
+          <li><label><input type="checkbox" data-id="in-pa"><div><strong>Personal accident / income protection <span class="tag tag-good">Best practice</span></strong><small>You're the project. If you're injured, the build stops.</small></div></label></li>
+          <li><label><input type="checkbox" data-id="in-trade"><div><strong>Certificates of currency from every trade <span class="tag tag-must">Must</span></strong><small>Check public liability, WorkCover (if they have employees) and domestic building insurance where required. Track the expiry dates.</small></div></label></li>
+        </ul>
+      </div>
+
+      <div class="content-block" id="trades">
+        <h2>7. Engaging trades</h2>
+        <p class="intro">See the <a href="contracts.html">trade contracts guide</a> and <a href="tenders.html">tender tool</a> for the full process.</p>
+        <ul class="check-list">
+          <li><label><input type="checkbox" data-id="tr-reg"><div><strong>Registered builder for trade work over $10,000* <span class="tag tag-must">Must</span></strong><small>A written major domestic building contract is required. Some single-trade work (e.g. electrical, glazing) is exempt when it's the whole scope. Search the BPC practitioner register.</small></div></label></li>
+          <li><label><input type="checkbox" data-id="tr-lic"><div><strong>Licensed plumbers, gasfitters and electricians <span class="tag tag-must">Must</span></strong><small>Plumbers are licensed or registered with the BPC. Electricians are licensed by Energy Safe Victoria. You can't do this work yourself.</small></div></label></li>
+          <li><label><input type="checkbox" data-id="tr-written"><div><strong>Written contract for every trade <span class="tag tag-good">Best practice</span></strong><small>Include scope, price, inclusions and exclusions, program, payments, variations, defects and insurance, even for small jobs.</small></div></label></li>
+          <li><label><input type="checkbox" data-id="tr-abn"><div><strong>Check ABN and GST status <span class="tag tag-good">Best practice</span></strong><small>Verify it on ABN Lookup. Only pay GST on invoices from GST-registered businesses.</small></div></label></li>
+        </ul>
+        <p style="font-size:0.85rem;color:var(--muted);">* A proposal to lift the major domestic building contract threshold from $10,000 to $20,000 went to public consultation in August–September 2026. Confirm the current figure before signing.</p>
+      </div>
+
+      <div class="content-block" id="construction">
+        <h2>8. During construction</h2>
+        <ul class="check-list">
+          <li><label><input type="checkbox" data-id="cn-notify"><div><strong>Notify the RBS at every mandatory stage <span class="tag tag-must">Must</span></strong><small>Typically before placing footings, before pouring the slab, at frame and at final. Your permit may list more. Don't cover up work before it's inspected.</small></div></label></li>
+          <li><label><input type="checkbox" data-id="cn-plans"><div><strong>Build to the approved plans, or get amendments approved <span class="tag tag-must">Must</span></strong><small>Changes to structure, siting or energy features need RBS approval before you build them.</small></div></label></li>
+          <li><label><input type="checkbox" data-id="cn-pcc"><div><strong>Plumbing compliance certificates <span class="tag tag-must">Must</span></strong><small>Your plumber lodges them for prescribed plumbing work. Collect a copy for every stage (drainage, rough-in, fit-off, gas).</small></div></label></li>
+          <li><label><input type="checkbox" data-id="cn-coes"><div><strong>Certificate of Electrical Safety <span class="tag tag-must">Must</span></strong><small>Your electrician issues it for all prescribed electrical work. Get a copy.</small></div></label></li>
+          <li><label><input type="checkbox" data-id="cn-certs"><div><strong>Collect product &amp; installer certificates <span class="tag tag-must">Must</span></strong><small>Includes termite management (AS 3660.1), waterproofing (AS 3740), glazing (AS 1288/2047), insulation, smoke alarms, engineer's frame and retaining-wall sign-offs, and truss certificates.</small></div></label></li>
+          <li><label><input type="checkbox" data-id="cn-diary"><div><strong>Keep a site diary &amp; dated photos <span class="tag tag-good">Best practice</span></strong><small>Record who was on site, weather, deliveries, instructions and defects. Photograph everything before it's covered. My Build does this.</small></div></label></li>
+          <li><label><input type="checkbox" data-id="cn-variations"><div><strong>Written variations before extra work <span class="tag tag-good">Best practice</span></strong><small>Get the price and time impact agreed in writing first. It protects both sides.</small></div></label></li>
+        </ul>
+      </div>
+
+      <div class="content-block" id="completion">
+        <h2>9. Completion &amp; occupancy</h2>
+        <ul class="check-list">
+          <li><label><input type="checkbox" data-id="fi-final"><div><strong>Final inspection by the RBS <span class="tag tag-must">Must</span></strong><small>Hand over every compliance certificate first. A missing certificate is the most common reason a final is delayed.</small></div></label></li>
+          <li><label><input type="checkbox" data-id="fi-op"><div><strong>Occupancy permit (new home) or certificate of final inspection <span class="tag tag-must">Must</span></strong><small>You must not live in a new dwelling until the occupancy permit is issued.</small></div></label></li>
+          <li><label><input type="checkbox" data-id="fi-asset"><div><strong>Council asset inspection &amp; bond refund <span class="tag tag-if">If applies</span></strong><small>Repair any damage to the footpath, kerb or crossover first.</small></div></label></li>
+          <li><label><input type="checkbox" data-id="fi-insure"><div><strong>Switch to home &amp; contents insurance <span class="tag tag-good">Best practice</span></strong><small>Construction cover usually ends at completion or occupancy.</small></div></label></li>
+        </ul>
+      </div>
+
+      <div class="content-block" id="selling">
+        <h2>10. Records &amp; selling</h2>
+        <div class="callout danger"><strong>Selling within 6 years 6 months of completion?</strong><p>Under s137B of the <em>Building Act 1993</em> it's an offence to sell unless you have (a) a defects report from a prescribed building practitioner, no more than 6 months old, on the BPC template, and (b) for work over $20,000, you've met the statutory insurance scheme requirements, now the First Resort Home Warranty Scheme from 1 July 2026, <strong>before</strong> signing a contract of sale. The buyer gets copies.</p></div>
+        <ul class="check-list">
+          <li><label><input type="checkbox" data-id="se-file"><div><strong>Build a handover file <span class="tag tag-good">Best practice</span></strong><small>Include permits, stamped plans, certificates, warranties, manuals, paint and tile codes, and as-built service locations. Keep it at least 10 years.</small></div></label></li>
+          <li><label><input type="checkbox" data-id="se-137b"><div><strong>s137B defects report before any sale within 6.5 years <span class="tag tag-if">If applies</span></strong><small>Commission it from a prescribed practitioner no more than 6 months before the sale.</small></div></label></li>
+          <li><label><input type="checkbox" data-id="se-ins"><div><strong>Owner-builder statutory insurance before sale <span class="tag tag-if">If applies</span></strong><small>Required where the work was over $20,000. Arrange it before signing the contract of sale.</small></div></label></li>
+          <li><label><input type="checkbox" data-id="se-s32"><div><strong>Disclose owner-builder work in the section 32 <span class="tag tag-if">If applies</span></strong><small>Your conveyancer needs the building permit details, report and insurance.</small></div></label></li>
+        </ul>
+      </div>
+
+      <div class="content-block" id="money">
+        <h2>11. Finance &amp; tax</h2>
+        <ul class="check-list">
+          <li><label><input type="checkbox" data-id="mo-loan"><div><strong>Confirm your lender accepts owner-builders <span class="tag tag-if">If applies</span></strong><small>Many don't, or they cap the loan-to-value ratio. Expect progress draws tied to stages and a valuer's inspections.</small></div></label></li>
+          <li><label><input type="checkbox" data-id="mo-cont"><div><strong>Budget with a 10–15% contingency <span class="tag tag-good">Best practice</span></strong><small>Owner-builders commonly underestimate site works, services connections and finishes.</small></div></label></li>
+          <li><label><input type="checkbox" data-id="mo-fhog"><div><strong>Check First Home Owner Grant / stamp duty concessions <span class="tag tag-if">If applies</span></strong><small>Owner-builders may be eligible. Check the rules and deadlines with the State Revenue Office.</small></div></label></li>
+          <li><label><input type="checkbox" data-id="mo-tax"><div><strong>Get tax advice on GST &amp; CGT <span class="tag tag-good">Best practice</span></strong><small>Building to live in is generally private. Building to sell can be treated as a business. Get advice early.</small></div></label></li>
+        </ul>
+      </div>
+
+      <div class="content-block" id="numbers">
+        <h2>Key numbers at a glance</h2>
+        <div class="table-wrap">
+          <table class="ob-table">
+            <thead><tr><th>Rule</th><th>Figure</th><th>Where it comes from</th></tr></thead>
+            <tbody>
+              <tr><td>Certificate of consent required</td><td>Work over <b>$20,000</b> (was $16,000 before 1 July 2026)</td><td>Building Act 1993, BPC</td></tr>
+              <tr><td>Owner-builder permit frequency</td><td>1 every <b>5 years</b> (exemptions apply)</td><td>Building Act s25E, BPC</td></tr>
+              <tr><td>Major domestic building contract / registered builder</td><td>Work over <b>$10,000</b> (proposed increase to $20,000)</td><td>Domestic Building Contracts Act 1995</td></tr>
+              <tr><td>Principal contractor (OHS)</td><td>Projects of <b>$350,000</b> or more</td><td>OHS Regulations 2017</td></tr>
+              <tr><td>Selling: defects report &amp; insurance</td><td>Within <b>6 yrs 6 mths</b> of completion. Report ≤ <b>6 months</b> old</td><td>Building Act s137B</td></tr>
+              <tr><td>Energy efficiency (new homes)</td><td><b>7-star</b> NatHERS + whole-of-home</td><td>NCC 2022, Victoria from 1 May 2024</td></tr>
+              <tr><td>Building permit levy</td><td>Work over <b>$10,000</b></td><td>Building Act, collected by the RBS</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <div class="content-block" id="sources">
+        <h2>Sources</h2>
+        <ul class="source-list">
+          <li><a href="https://www.bpc.vic.gov.au/owner-builders" target="_blank" rel="noopener">Building and Plumbing Commission: Owner-builders</a></li>
+          <li><a href="https://www.bpc.vic.gov.au/owner-builders/becoming-an-owner-builder/eligibility" target="_blank" rel="noopener">BPC: Owner-builder eligibility</a></li>
+          <li><a href="https://www.bpc.vic.gov.au/owner-builders/becoming-an-owner-builder/certificate-of-consent" target="_blank" rel="noopener">BPC: Certificate of consent</a></li>
+          <li><a href="https://www.bpc.vic.gov.au/owner-builders/selling-an-owner-built-home" target="_blank" rel="noopener">BPC: Selling an owner-built home</a></li>
+          <li><a href="https://www.bpc.vic.gov.au/resource-hub/practice-notes/mi-01-mandatory-notifications-and-inspections-of-building-work" target="_blank" rel="noopener">BPC Practice Note MI 01: Mandatory notifications and inspections</a></li>
+          <li><a href="https://classic.austlii.edu.au/au/legis/vic/consol_act/ba199391/s137b.html" target="_blank" rel="noopener">Building Act 1993 s137B (AustLII)</a></li>
+          <li><a href="https://www.consumer.vic.gov.au/housing/building-and-renovating/owner-builders" target="_blank" rel="noopener">Consumer Affairs Victoria: Owner builders</a></li>
+          <li><a href="https://www.consumer.vic.gov.au/licensing-and-registration/builders-and-tradespeople/running-your-business/domestic-building-contracts/what-work-requires-a-building-contract" target="_blank" rel="noopener">Consumer Affairs Victoria: What work requires a building contract</a></li>
+          <li><a href="https://www.worksafe.vic.gov.au/safe-work-method-statements-swms" target="_blank" rel="noopener">WorkSafe Victoria: Safe Work Method Statements</a></li>
+          <li><a href="https://www.vic.gov.au/better-domestic-building-insurance" target="_blank" rel="noopener">vic.gov.au: Better domestic building insurance</a></li>
+          <li><a href="https://hia.com.au/resources-and-advice/managing-your-business/managing-compliance/articles/legal-obligations-when-working-for-an-owner-builder-vic" target="_blank" rel="noopener">HIA: Legal obligations when working for an owner-builder (VIC)</a></li>
+        </ul>
+        <p class="disclaimer">General information only, current to the best of our knowledge in September 2026. Victorian building law changed significantly on 1 July 2026 under the <em>Building Legislation Amendment (Buyer Protections) Act 2025</em>. Always confirm requirements with the BPC, your relevant building surveyor and a lawyer before acting.</p>
+      </div>
+    </div>
+  </div>
+</section>
+</main>
+
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div>
+        <h4>Owner Builder in a Box</h4>
+        <p>Your whole owner-builder project on your phone: compliance, gateways, trades, tenders, plans and specs.</p>
+        <p style="font-size:0.85rem;opacity:0.8;">General information only. It is not legal, financial or building advice. Always confirm current requirements with the Building and Plumbing Commission (BPC), your relevant building surveyor, your council and WorkSafe Victoria.</p>
+      </div>
+      <div>
+        <h4>Plan &amp; comply</h4>
+        <ul>
+          <li><a href="compliance.html">Compliance checklist</a></li>
+          <li><a href="gateways.html">Project gateways</a></li>
+          <li><a href="faq.html">Questions answered</a></li>
+        </ul>
+      </div>
+      <div>
+        <h4>Build &amp; buy</h4>
+        <ul>
+          <li><a href="my-build.html">My Build</a></li>
+          <li><a href="contracts.html">Trade contracts</a></li>
+          <li><a href="tenders.html">Tender comparison</a></li>
+          <li><a href="guides.html">Buying guides</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>&copy; <span data-year></span> Owner Builder in a Box. Built on the Tradies Bureau framework.</span>
+      <span>Victorian rules checked September 2026</span>
+    </div>
+  </div>
+</footer>
+
+<nav class="tabbar" aria-label="Quick navigation">
+  <a href="index.html"><span>&#8962;</span>Home</a>
+  <a href="my-build.html"><span>&#9638;</span>Build</a>
+  <a href="compliance.html" class="active"><span>&#10003;</span>Comply</a>
+  <a href="tenders.html"><span>&#9878;</span>Tenders</a>
+  <a href="guides.html"><span>&#9733;</span>Guides</a>
+</nav>
+
+<script src="js/app.js"></script>
+</body>
+</html>

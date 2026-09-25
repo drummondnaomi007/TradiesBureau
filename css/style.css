@@ -712,3 +712,24 @@ table.compliance-table th {
     columns: 1;
   }
 }
+
+.card-link {
+  display: block;
+  text-decoration: none;
+  transition: border-color 0.15s, transform 0.15s;
+}
+
+.card-link h3 {
+  color: var(--navy-900);
+  margin-top: 0;
+}
+
+.card-link p {
+  color: var(--muted);
+  margin-bottom: 0;
+}
+
+.card-link:hover {
+  border-color: var(--teal-500);
+  transform: translateY(-2px);
+}

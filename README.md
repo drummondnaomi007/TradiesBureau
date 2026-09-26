@@ -82,4 +82,4 @@ Until that deploy is done, the "Log in to the Compliance Tracker" button on `por
 - Replace the placeholder email `hello@tradiesbureau.com` and add a real phone number in `contact.html`.
 - Swap `assets/favicon.svg` for your real logo/mark.
 - The compliance dashboard example on the home page and `compliance-tracker.html` uses sample data for illustration only.
-- `assets/screenshots/compliance-dashboard.png` predates the September 2026 polish pass (it still shows emoji and "DAYS LEFT" labels). Retake it from the current app.
+- The dashboard screenshots in `assets/screenshots/` (`dashboard.jpg`, `dashboard-full.jpg`, `dashboard-phone.jpg`) are taken from the real app running with a made-up business, "Brightwire Electrical Co.", so no real client data is shown. Retake them the same way when the dashboard changes.

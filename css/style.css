@@ -445,7 +445,39 @@ table.compliance-table th {
 
 .screenshot-card img {
   width: 100%;
+  height: auto;
   display: block;
+}
+
+a.screenshot-card {
+  display: block;
+}
+
+.shot-note {
+  margin: 16px 0 0;
+  color: var(--muted);
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.phone-shot {
+  margin: 0 auto;
+  max-width: 300px;
+  text-align: center;
+}
+
+.phone-shot img {
+  width: 100%;
+  height: auto;
+  border-radius: 36px;
+  border: 10px solid var(--navy-900);
+  box-shadow: 0 30px 60px -30px rgba(26, 54, 93, 0.55);
+}
+
+.phone-shot figcaption {
+  margin-top: 12px;
+  color: var(--muted);
+  font-size: 0.85rem;
 }
 
 .contact-grid {

@@ -8,7 +8,8 @@ This is the marketing site and front end for Tradies Bureau's offerings, startin
 
 ```
 index.html                Home
-compliance-tracker.html   MVP Compliance Tracker feature page
+compliance-tracker.html   Compliance Tracker feature page (incl. Share my credentials)
+whats-new.html            Latest app updates (keep in step with the SKHB app)
 services.html             Services / offerings overview
 about.html                About / mission
 contact.html               Contact + social links
@@ -81,3 +82,4 @@ Until that deploy is done, the "Log in to the Compliance Tracker" button on `por
 - Replace the placeholder email `hello@tradiesbureau.com` and add a real phone number in `contact.html`.
 - Swap `assets/favicon.svg` for your real logo/mark.
 - The compliance dashboard example on the home page and `compliance-tracker.html` uses sample data for illustration only.
+- `assets/screenshots/compliance-dashboard.png` predates the September 2026 polish pass (it still shows emoji and "DAYS LEFT" labels). Retake it from the current app.

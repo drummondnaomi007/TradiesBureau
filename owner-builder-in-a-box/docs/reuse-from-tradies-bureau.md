@@ -1,5 +1,7 @@
 # Reusing the Tradies Bureau Compliance Tracker (SKHB) in Owner Builder in a Box
 
+> **Out of date (27 Sept 2026).** SKHB `248762c` added multi-business support (Postgres, organisations, users), requirement packs, the Compliance Checker, evidence review, projects/work packages/tenders, live credential links, client quote sharing and end-of-job certificates. The "one deployment per customer" blocker below is solved, and the recommendation is now one platform with two front doors rather than copying modules into a new app. See version 2 of the product strategy for the current gap analysis.
+
 Checked against `drummondnaomi007/SKHB` @ `5b7779f` (Sept 2026). The TradiesBureau repo is only the marketing site; the working app is SKHB: Next.js 14, Prisma/SQLite, magic-link sign-in, Resend email, WhatsApp (Meta Cloud API), Google Drive storage, tesseract OCR and 58 test files.
 
 Most of SKHB's domain logic lives in pure modules marked "No prisma here", written to be unit-tested. That makes them easy to lift into another app.

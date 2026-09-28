@@ -1,61 +1,83 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-AU">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Compliance Tracker Portal — Tradies Bureau</title>
-<meta name="description" content="Log in to the Tradies Bureau Compliance Tracker — no password, just a magic link sent to your email." />
+<title>Signing In | Tradies Bureau</title>
+<meta name="description" content="How to sign in to Tradies Bureau, create an account, or open a link a tradie or builder sent you." />
+<link rel="canonical" href="https://tradiesbureau.com/portal/index.html" />
+<meta name="theme-color" content="#0B6E8F" />
+<meta property="og:title" content="Signing In | Tradies Bureau" />
+<meta property="og:description" content="How to sign in to Tradies Bureau, create an account, or open a link a tradie or builder sent you." />
+<meta property="og:image" content="https://tradiesbureau.com/assets/screenshots/dashboard.jpg" />
 <link rel="icon" type="image/svg+xml" href="../assets/favicon.svg" />
 <link rel="stylesheet" href="../css/style.css" />
+<script src="../js/portal.js"></script>
 </head>
 <body>
 
 <header class="site-header">
-  <nav class="nav">
+  <nav class="nav" aria-label="Main">
     <a href="../index.html" class="brand">
-      <img src="../assets/logo.svg" alt="Tradies Bureau" class="brand-logo">
+      <img src="../assets/logo.svg" alt="" class="brand-logo">
       Tradies Bureau
     </a>
     <ul class="nav-links">
       <li><a href="../index.html">Home</a></li>
-      <li><a href="../compliance-tracker.html">Compliance Tracker</a></li>
-      <li><a href="../compliance.html">Compliance Guide</a></li>
-      <li><a href="../services.html">Services</a></li>
-      <li><a href="../about.html">About</a></li>
+      <li><a href="../features.html">Features</a></li>
+      <li><a href="../builders.html">For builders</a></li>
+      <li><a href="../compliance.html">Compliance guide</a></li>
       <li><a href="../contact.html">Contact</a></li>
-      <li><a href="index.html" class="nav-cta active">Client Portal</a></li>
+      <li><a href="https://portal.tradiesbureau.com/login" data-portal="/login" class="nav-signin">Sign in</a></li>
+      <li><a href="https://portal.tradiesbureau.com/check" data-portal="/check" class="nav-cta">Check what applies</a></li>
     </ul>
-    <button class="nav-toggle" aria-label="Toggle menu">&#9776;</button>
+    <button class="nav-toggle" aria-label="Open menu">&#9776;</button>
   </nav>
 </header>
 
 <main>
-  <section class="hero">
-    <div class="container center" style="max-width:640px;margin:0 auto;">
-      <span class="eyebrow">Compliance Tracker</span>
-      <h1>Access your Compliance Tracker</h1>
-      <p class="lede" style="margin-left:auto;margin-right:auto;">Log in to your dashboard — no password required, just a magic link sent to your email.</p>
-      <div class="btn-row" style="justify-content:center;margin-top:8px;">
-        <a href="https://portal.tradiesbureau.com" class="btn btn-primary">Log in to the Compliance Tracker</a>
-      </div>
-    </div>
-  </section>
+<section class="hero">
+  <div class="container">
+    <span class="eyebrow">Signing in</span>
+    <h1>Get into Tradies Bureau</h1>
+    <p class="lede">The app lives at <span class="portal-address">portal.tradiesbureau.com</span>. Sign in with a link sent to your email. There's no password to remember.</p>
+  </div>
+</section>
 
-  <section>
-    <div class="container">
-      <div class="grid grid-2" style="margin-top:8px;">
-        <div class="card">
-          <h3>How logging in works</h3>
-          <p style="margin-bottom:0;">Enter your email at <code>portal.tradiesbureau.com</code> and we'll send you a one-time link — click it and you're straight into your dashboard. Links expire after 7 days, so no need to remember a password.</p>
-        </div>
-        <div class="card">
-          <h3>Trouble getting in?</h3>
-          <p style="margin-bottom:16px;">If your magic link has expired or you can't find the email, just ask for a new one from the login page, or get in touch below.</p>
-          <a href="../contact.html" class="btn btn-outline">Contact us</a>
-        </div>
+<section style="padding-top:8px;">
+  <div class="container split">
+    <div class="portal-box">
+      <h2>Already have an account?</h2>
+      <p>Enter your email and we'll send you a sign-in link. If you work in more than one business, you'll pick which one after you sign in.</p>
+      <a href="https://portal.tradiesbureau.com/login" data-portal="/login" class="btn btn-primary">Sign in</a>
+    </div>
+    <div class="portal-box">
+      <h2>New to Tradies Bureau?</h2>
+      <p>Start with the Compliance Checker. It shows everything that applies to your business, and creating your account from there saves your answers as your checklist.</p>
+      <a href="https://portal.tradiesbureau.com/check" data-portal="/check" class="btn btn-primary">Check what applies to you</a>
+    </div>
+  </div>
+</section>
+
+<section class="section-alt">
+  <div class="container">
+    <div class="grid grid-3">
+      <div class="card">
+        <h3>Link expired or not arriving?</h3>
+        <p>Ask for a new one from the sign-in page. Check your junk folder for an email from Tradies Bureau. Still stuck? <a href="../contact.html">Get in touch</a>.</p>
+      </div>
+      <div class="card">
+        <h3>Got a link from a tradie or builder?</h3>
+        <p>You don't need an account. Open the link they sent: it shows their current registration and insurance, a quote to respond to, or quotes shared with you.</p>
+      </div>
+      <div class="card">
+        <h3>How to use the app</h3>
+        <p>The user guide walks through setting up, adding records, subbies, jobs and tenders.</p>
+        <p style="margin-top:10px;"><a href="https://portal.tradiesbureau.com/docs" data-portal="/docs">Open the user guide</a></p>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 </main>
 
 <footer class="site-footer">
@@ -63,7 +85,7 @@
     <div class="footer-grid">
       <div>
         <h4>Tradies Bureau</h4>
-        <p>Bringing freedom to trade service businesses — one less thing to chase, one more thing sorted.</p>
+        <p>Bringing freedom to trade service businesses. One less thing to chase, one more thing sorted.</p>
         <div class="social-row">
           <a class="social-link" href="https://facebook.com/tradiesbureau" target="_blank" rel="noopener" aria-label="Facebook">f</a>
           <a class="social-link" href="https://instagram.com/tradiesbureau" target="_blank" rel="noopener" aria-label="Instagram">ig</a>
@@ -71,26 +93,30 @@
         </div>
       </div>
       <div>
-        <h4>Explore</h4>
+        <h4>The app</h4>
         <ul>
-          <li><a href="../compliance-tracker.html">Compliance Tracker</a></li>
-          <li><a href="../compliance.html">Compliance Guide</a></li>
-          <li><a href="../services.html">Services</a></li>
-          <li><a href="../about.html">About</a></li>
-          <li><a href="index.html">Client Portal</a></li>
+          <li><a href="https://portal.tradiesbureau.com/check" data-portal="/check">Check what applies to you</a></li>
+          <li><a href="https://portal.tradiesbureau.com/login" data-portal="/login">Sign in</a></li>
+          <li><a href="https://portal.tradiesbureau.com/docs" data-portal="/docs">User guide</a></li>
+          <li><a href="../portal/index.html">Help signing in</a></li>
         </ul>
       </div>
       <div>
-        <h4>Contact</h4>
+        <h4>Explore</h4>
         <ul>
+          <li><a href="../features.html">Features</a></li>
+          <li><a href="../builders.html">For builders</a></li>
+          <li><a href="../compliance.html">Compliance guide</a></li>
+          <li><a href="../whats-new.html">What's new</a></li>
+          <li><a href="../about.html">About</a></li>
+          <li><a href="../contact.html">Contact</a></li>
           <li><a href="mailto:hello@tradiesbureau.com">hello@tradiesbureau.com</a></li>
-          <li><a href="../contact.html">Contact page</a></li>
         </ul>
       </div>
     </div>
     <div class="footer-bottom">
       <span>&copy; <span data-year></span> Tradies Bureau. All rights reserved.</span>
-      <span>ABN pending</span>
+      <span>Made in Victoria for Victorian trades</span>
     </div>
   </div>
 </footer>

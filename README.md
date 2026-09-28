@@ -29,7 +29,6 @@ css/style.css           Dark blue and teal theme
 js/main.js              Mobile menu, footer year
 js/portal.js            Points app links at localhost:8080 when testing locally
 scripts/check-portal-links.py   Checks every link into the app
-owner-builder-in-a-box/         Separate product prototype (see note below)
 ```
 
 ## How the site links into the app
@@ -97,7 +96,7 @@ Full steps are in the SKHB repo's `CONFIGURATION.md` §5. The parts that connect
 
 ## Owner Builder in a Box
 
-`owner-builder-in-a-box/` is a separate product's prototype, kept here until it has its own repository. Anything in this repo is published once merged to `main`, so it would appear at `tradiesbureau.com/owner-builder-in-a-box/`. Move it out, or remove it before merging, if it shouldn't be public yet.
+The Owner Builder in a Box prototype used to live in `owner-builder-in-a-box/`. It was moved out so it isn't published on tradiesbureau.com. It will get its own repository. Until then it can be recovered from this repository's history: `git checkout 99fe447 -- owner-builder-in-a-box`.
 
 ## Before launch
 

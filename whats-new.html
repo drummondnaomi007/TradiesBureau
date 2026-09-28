@@ -1,47 +1,108 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-AU">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>What's new — Tradies Bureau</title>
-<meta name="description" content="The latest updates to the Tradies Bureau Compliance Tracker: credential sharing, Fair Work checks, safety, subcontractors and contract admin." />
+<title>What's New | Tradies Bureau</title>
+<meta name="description" content="The latest in Tradies Bureau: the Compliance Checker, one account for every business you work in, tenders, live credentials and more." />
+<link rel="canonical" href="https://tradiesbureau.com/whats-new.html" />
+<meta name="theme-color" content="#0B6E8F" />
+<meta property="og:title" content="What's New | Tradies Bureau" />
+<meta property="og:description" content="The latest in Tradies Bureau: the Compliance Checker, one account for every business you work in, tenders, live credentials and more." />
+<meta property="og:image" content="https://tradiesbureau.com/assets/screenshots/dashboard.jpg" />
 <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
 <link rel="stylesheet" href="css/style.css" />
+<script src="js/portal.js"></script>
 </head>
 <body>
 
 <header class="site-header">
-  <nav class="nav">
+  <nav class="nav" aria-label="Main">
     <a href="index.html" class="brand">
-      <img src="assets/logo.svg" alt="Tradies Bureau" class="brand-logo">
+      <img src="assets/logo.svg" alt="" class="brand-logo">
       Tradies Bureau
     </a>
     <ul class="nav-links">
       <li><a href="index.html">Home</a></li>
-      <li><a href="compliance-tracker.html">Compliance Tracker</a></li>
-      <li><a href="services.html">Services</a></li>
+      <li><a href="features.html">Features</a></li>
+      <li><a href="builders.html">For builders</a></li>
+      <li><a href="whats-new.html" class="active" aria-current="page">What's new</a></li>
       <li><a href="about.html">About</a></li>
       <li><a href="contact.html">Contact</a></li>
-      <li><a href="portal/index.html" class="nav-cta">Client Portal</a></li>
+      <li><a href="https://portal.tradiesbureau.com/login" data-portal="/login" class="nav-signin">Sign in</a></li>
+      <li><a href="https://portal.tradiesbureau.com/check" data-portal="/check" class="nav-cta">Check what applies</a></li>
     </ul>
-    <button class="nav-toggle" aria-label="Toggle menu">&#9776;</button>
+    <button class="nav-toggle" aria-label="Open menu">&#9776;</button>
   </nav>
 </header>
 
 <main>
-  <section class="hero">
-    <div class="container">
-      <span class="eyebrow">What's new</span>
-      <h1>The latest in the Compliance Tracker</h1>
-      <p class="lede">Here's what we've added lately. Most of it came straight from tradies telling us what was eating their time.</p>
-      <div class="btn-row">
-        <a href="portal/index.html" class="btn btn-primary">Log in to see it</a>
-        <a href="compliance-tracker.html" class="btn btn-outline">Tour the tracker</a>
+<section class="hero">
+  <div class="container">
+    <span class="eyebrow">What's new</span>
+    <h1>The latest in Tradies Bureau</h1>
+    <p class="lede">Here's what we've added lately. Most of it came straight from tradies and builders telling us what was eating their time.</p>
+    <div class="btn-row">
+      <a href="https://portal.tradiesbureau.com/check" data-portal="/check" class="btn btn-primary">Check what applies to you</a>
+      <a href="https://portal.tradiesbureau.com/login" data-portal="/login" class="btn btn-outline">Sign in to see it</a>
+    </div>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="release">
+      <div class="release-date">Late September 2026</div>
+      <h2 style="margin:4px 0 6px;color:var(--navy-900);">The new build: one app for every business</h2>
+      <p style="margin:0 0 24px;color:var(--muted);">The biggest update yet. Sign-up now starts with the Compliance Checker, and builders can run tenders on compliant trades.</p>
+    </div>
+    <div class="grid grid-2">
+      <div class="card">
+        <h3>The Compliance Checker</h3>
+        <p>Answer questions about your trades, your work, your staff and whether you engage other trades, and watch a map of everything that applies fill in beside them. Nothing is saved until you create an account, and your answers become your checklist.</p>
+      </div>
+      <div class="card">
+        <h3>Your compliance map</h3>
+        <p>Every requirement for your business, each person and each job, marked met, missing, due within 30 days or doesn't apply. Each record shows how sure we are, from your own upload to a register check.</p>
+      </div>
+      <div class="card">
+        <h3>One sign-in, every business</h3>
+        <p>Everyone signs in as themselves. Work in more than one business and you switch between them. Roles for Owner, Admin, Employee and a read-only Auditor.</p>
+      </div>
+      <div class="card">
+        <h3>Subbie uploads checked before they count</h3>
+        <p>Certificates from subbies wait for you to accept them. Reject one with a reason and they get a link to send it again.</p>
+      </div>
+      <div class="card">
+        <h3>Projects, work packages and tenders</h3>
+        <p>Invite trades to quote from a link with no account. Bidders are checked live against the package, compliant first. Awarding someone missing a legal requirement needs a reason, kept in the audit log.</p>
+      </div>
+      <div class="card">
+        <h3>Share quotes with your client</h3>
+        <p>A read-only page of a package's quotes and each bidder's compliance, with prices shown or hidden, and who you chose.</p>
+      </div>
+      <div class="card">
+        <h3>End-of-job certificates</h3>
+        <p>Subbies send their Certificate of Electrical Safety or plumbing compliance certificate to your handover checklist. Accept it and it's ready for your client.</p>
+      </div>
+      <div class="card">
+        <h3>A free account for trades</h3>
+        <p>Trades who quote through a link can keep their certificates in a free account and share one live link with every builder.</p>
       </div>
     </div>
-  </section>
+  </div>
+</section>
 
-  <section class="section-alt" id="share-credentials">
+<section class="section-alt" style="padding-bottom:8px;">
+  <div class="container">
+    <div class="release">
+      <div class="release-date">Earlier in September 2026</div>
+      <h2 style="margin:4px 0 6px;color:var(--navy-900);">Credentials, Fair Work, safety and contracts</h2>
+    </div>
+  </div>
+</section>
+
+<section class="section-alt" id="share-credentials">
     <div class="container">
       <div class="section-head">
         <h2>Share my credentials</h2>
@@ -191,13 +252,13 @@
     </div>
   </section>
 
-  <section>
-    <div class="container cta-banner">
-      <h2>Something you'd like to see next?</h2>
-      <p>Tell us what's eating your time and we'll look at building it in.</p>
-      <a href="contact.html" class="btn btn-primary">Tell us what you need</a>
-    </div>
-  </section>
+<section>
+  <div class="container cta-banner">
+    <h2>Something you'd like to see next?</h2>
+    <p>Tell us what's eating your time and we'll look at building it in.</p>
+    <a href="contact.html" class="btn btn-primary">Tell us what you need</a>
+  </div>
+</section>
 </main>
 
 <footer class="site-footer">
@@ -205,7 +266,7 @@
     <div class="footer-grid">
       <div>
         <h4>Tradies Bureau</h4>
-        <p>Bringing freedom to trade service businesses — one less thing to chase, one more thing sorted.</p>
+        <p>Bringing freedom to trade service businesses. One less thing to chase, one more thing sorted.</p>
         <div class="social-row">
           <a class="social-link" href="https://facebook.com/tradiesbureau" target="_blank" rel="noopener" aria-label="Facebook">f</a>
           <a class="social-link" href="https://instagram.com/tradiesbureau" target="_blank" rel="noopener" aria-label="Instagram">ig</a>
@@ -213,26 +274,28 @@
         </div>
       </div>
       <div>
-        <h4>Explore</h4>
+        <h4>The app</h4>
         <ul>
-          <li><a href="compliance-tracker.html">Compliance Tracker</a></li>
-          <li><a href="whats-new.html">What's new</a></li>
-          <li><a href="services.html">Services</a></li>
-          <li><a href="about.html">About</a></li>
-          <li><a href="portal/index.html">Client Portal</a></li>
+          <li><a href="https://portal.tradiesbureau.com/check" data-portal="/check">Check what applies to you</a></li>
+          <li><a href="https://portal.tradiesbureau.com/login" data-portal="/login">Sign in</a></li>
+          <li><a href="https://portal.tradiesbureau.com/docs" data-portal="/docs">User guide</a></li>
+          <li><a href="portal/index.html">Help signing in</a></li>
         </ul>
       </div>
       <div>
-        <h4>Contact</h4>
+        <h4>Explore</h4>
         <ul>
+          <li><a href="features.html">Features</a></li>
+          <li><a href="builders.html">For builders</a></li>
+          <li><a href="whats-new.html">What's new</a></li>
+          <li><a href="contact.html">Contact</a></li>
           <li><a href="mailto:hello@tradiesbureau.com">hello@tradiesbureau.com</a></li>
-          <li><a href="contact.html">Contact page</a></li>
         </ul>
       </div>
     </div>
     <div class="footer-bottom">
       <span>&copy; <span data-year></span> Tradies Bureau. All rights reserved.</span>
-      <span>ABN pending</span>
+      <span>Made in Victoria for Victorian trades</span>
     </div>
   </div>
 </footer>

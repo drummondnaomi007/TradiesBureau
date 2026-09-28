@@ -1,39 +1,47 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en-AU">
 <head>
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-<title>Contact — Tradies Bureau</title>
-<meta name="description" content="Get in touch with Tradies Bureau." />
+<title>Contact | Tradies Bureau</title>
+<meta name="description" content="Get in touch with Tradies Bureau about the app, getting started, or what you'd like us to build next." />
+<link rel="canonical" href="https://tradiesbureau.com/contact.html" />
+<meta name="theme-color" content="#0B6E8F" />
+<meta property="og:title" content="Contact | Tradies Bureau" />
+<meta property="og:description" content="Get in touch with Tradies Bureau about the app, getting started, or what you'd like us to build next." />
+<meta property="og:image" content="https://tradiesbureau.com/assets/screenshots/dashboard.jpg" />
 <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
 <link rel="stylesheet" href="css/style.css" />
+<script src="js/portal.js"></script>
 </head>
 <body>
 
 <header class="site-header">
-  <nav class="nav">
+  <nav class="nav" aria-label="Main">
     <a href="index.html" class="brand">
-      <img src="assets/logo.svg" alt="Tradies Bureau" class="brand-logo">
+      <img src="assets/logo.svg" alt="" class="brand-logo">
       Tradies Bureau
     </a>
     <ul class="nav-links">
       <li><a href="index.html">Home</a></li>
-      <li><a href="compliance-tracker.html">Compliance Tracker</a></li>
-      <li><a href="services.html">Services</a></li>
+      <li><a href="features.html">Features</a></li>
+      <li><a href="builders.html">For builders</a></li>
+      <li><a href="whats-new.html">What's new</a></li>
       <li><a href="about.html">About</a></li>
-      <li><a href="contact.html" class="active">Contact</a></li>
-      <li><a href="portal/index.html" class="nav-cta">Client Portal</a></li>
+      <li><a href="contact.html" class="active" aria-current="page">Contact</a></li>
+      <li><a href="https://portal.tradiesbureau.com/login" data-portal="/login" class="nav-signin">Sign in</a></li>
+      <li><a href="https://portal.tradiesbureau.com/check" data-portal="/check" class="nav-cta">Check what applies</a></li>
     </ul>
-    <button class="nav-toggle" aria-label="Toggle menu">&#9776;</button>
+    <button class="nav-toggle" aria-label="Open menu">&#9776;</button>
   </nav>
 </header>
 
 <main>
-  <section class="hero">
+<section class="hero">
     <div class="container">
       <span class="eyebrow">Get in touch</span>
       <h1>We'd love to hear from you</h1>
-      <p class="lede">Questions about the Compliance Tracker, early access, or just want to say g'day — reach out below.</p>
+      <p class="lede">Questions about Tradies Bureau, getting your business set up, or just want to say g'day? Reach out below.</p>
     </div>
   </section>
 
@@ -69,7 +77,7 @@
 
       <div class="card">
         <h3 style="margin-top:0;">Send a message</h3>
-        <p style="color:var(--muted);">This form opens your email client addressed to us — no data is stored or sent anywhere else.</p>
+        <p style="color:var(--muted);">This form opens your email client addressed to us. No data is stored or sent anywhere else.</p>
         <form class="form-stack" action="mailto:hello@tradiesbureau.com" method="post" enctype="text/plain">
           <label for="name">Name</label>
           <input id="name" name="name" type="text" required />
@@ -91,7 +99,7 @@
     <div class="footer-grid">
       <div>
         <h4>Tradies Bureau</h4>
-        <p>Bringing freedom to trade service businesses — one less thing to chase, one more thing sorted.</p>
+        <p>Bringing freedom to trade service businesses. One less thing to chase, one more thing sorted.</p>
         <div class="social-row">
           <a class="social-link" href="https://facebook.com/tradiesbureau" target="_blank" rel="noopener" aria-label="Facebook">f</a>
           <a class="social-link" href="https://instagram.com/tradiesbureau" target="_blank" rel="noopener" aria-label="Instagram">ig</a>
@@ -99,26 +107,28 @@
         </div>
       </div>
       <div>
-        <h4>Explore</h4>
+        <h4>The app</h4>
         <ul>
-          <li><a href="compliance-tracker.html">Compliance Tracker</a></li>
-          <li><a href="whats-new.html">What's new</a></li>
-          <li><a href="services.html">Services</a></li>
-          <li><a href="about.html">About</a></li>
-          <li><a href="portal/index.html">Client Portal</a></li>
+          <li><a href="https://portal.tradiesbureau.com/check" data-portal="/check">Check what applies to you</a></li>
+          <li><a href="https://portal.tradiesbureau.com/login" data-portal="/login">Sign in</a></li>
+          <li><a href="https://portal.tradiesbureau.com/docs" data-portal="/docs">User guide</a></li>
+          <li><a href="portal/index.html">Help signing in</a></li>
         </ul>
       </div>
       <div>
-        <h4>Contact</h4>
+        <h4>Explore</h4>
         <ul>
+          <li><a href="features.html">Features</a></li>
+          <li><a href="builders.html">For builders</a></li>
+          <li><a href="whats-new.html">What's new</a></li>
+          <li><a href="contact.html">Contact</a></li>
           <li><a href="mailto:hello@tradiesbureau.com">hello@tradiesbureau.com</a></li>
-          <li><a href="contact.html">Contact page</a></li>
         </ul>
       </div>
     </div>
     <div class="footer-bottom">
       <span>&copy; <span data-year></span> Tradies Bureau. All rights reserved.</span>
-      <span>ABN pending</span>
+      <span>Made in Victoria for Victorian trades</span>
     </div>
   </div>
 </footer>

@@ -19,6 +19,7 @@ tradiesbureau.com  (GitHub Pages, this repo)          portal.tradiesbureau.com  
 index.html              Home: trade picker into the Checker, what the app does, three steps
 features.html           Every feature, grouped, with jump links
 builders.html           Projects, work packages, tenders, client quote sharing, handover certificates
+compliance.html         Victorian compliance guide for trade businesses (free, with sources)
 whats-new.html          Release notes, newest first
 about.html              Mission and values
 contact.html            Email, socials, a message form (opens the visitor's email app)
@@ -29,6 +30,7 @@ css/style.css           Dark blue and teal theme
 js/main.js              Mobile menu, footer year
 js/portal.js            Points app links at localhost:8080 when testing locally
 scripts/check-portal-links.py   Checks every link into the app
+research/                       Research briefs behind the compliance guide
 ```
 
 ## How the site links into the app

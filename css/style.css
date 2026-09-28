@@ -1415,3 +1415,19 @@ a.screenshot-card {
 .app-window-body picture {
   display: block;
 }
+
+/* Home headline: one sentence per line */
+.headline-beats span {
+  display: block;
+}
+
+.headline-beats span:last-child {
+  color: var(--teal-600);
+}
+
+@media (max-width: 420px) {
+  .hero-app .eyebrow {
+    font-size: 0.72rem;
+    letter-spacing: 0.04em;
+  }
+}

@@ -9,7 +9,7 @@
 <meta name="theme-color" content="#0B6E8F" />
 <meta property="og:title" content="Tradies Bureau: Compliance for Victorian Trade Businesses" />
 <meta property="og:description" content="See every licence, registration, insurance and ticket your trade needs in Victoria, then let Tradies Bureau keep it all current." />
-<meta property="og:image" content="https://tradiesbureau.com/assets/screenshots/dashboard.jpg" />
+<meta property="og:image" content="https://tradiesbureau.com/assets/screenshots/og-dashboard.jpg" />
 <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
 <link rel="stylesheet" href="css/style.css" />
 <script src="js/portal.js"></script>
@@ -36,9 +36,9 @@
 </header>
 
 <main>
-<section class="hero">
-  <div class="container hero-inner">
-    <div>
+<section class="hero hero-app">
+  <div class="container">
+    <div class="hero-copy">
       <span class="eyebrow">For Victorian trade businesses</span>
       <h1>Know exactly what your trade needs. Then stop chasing it.</h1>
       <p class="lede">Answer a few questions and see every licence, registration, insurance and ticket your work needs in Victoria. Tradies Bureau then tracks it all and tells you before anything lapses.</p>
@@ -48,12 +48,17 @@
       </div>
       <p class="hero-note">Free to check. Nothing is saved until you create an account.</p>
     </div>
-    <figure style="margin:0;">
-      <div class="hero-shot">
-        <img src="assets/screenshots/dashboard.jpg" alt="The Tradies Bureau dashboard for a sample business, with items marked red, amber and green" width="1280" height="880">
-      </div>
-      <figcaption class="hero-note">A made-up business, used to show the app.</figcaption>
-    </figure>
+    <figure class="app-window">
+  <div class="app-window-bar" aria-hidden="true"><span class="dots"><i></i><i></i><i></i></span><span class="app-window-address">portal.tradiesbureau.com/compliance</span></div>
+  <div class="app-window-body" tabindex="0" role="region" aria-label="The Tradies Bureau dashboard for a made-up electrician. Scrollable screenshot.">
+    <picture>
+      <source media="(max-width: 600px)" srcset="assets/screenshots/phone-dashboard.jpg" width="780" height="8714">
+      <img src="assets/screenshots/app-dashboard.jpg" alt="The Tradies Bureau dashboard for a made-up electrician: counts of critical and expiring items, a compliance map summary, a subcontractor upload waiting to be checked, active projects, recent activity, and items marked red, amber and green" width="2000" height="3653" fetchpriority="high" decoding="async">
+    </picture>
+  </div>
+  <span class="scroll-hint" aria-hidden="true">Scroll to see more</span>
+</figure>
+    <p class="screen-caption">The dashboard for Brightwire Electrical Co., a made-up business. Scroll inside the window to see the whole page.</p>
   </div>
 </section>
 
@@ -119,6 +124,167 @@
       </div>
     </div>
     <p class="center" style="margin-top:28px;"><a href="features.html" class="btn btn-outline">See every feature</a></p>
+  </div>
+</section>
+
+<section>
+  <div class="container">
+    <div class="section-head">
+      <h2>Take a look inside</h2>
+      <p>Real screens from the app. The business, trades, clients and addresses are all made up.</p>
+    </div>
+    <div class="screen-tabs" role="tablist" aria-label="App screens">
+      <button type="button" role="tab" id="tab-map" aria-controls="panel-map">Compliance map</button>
+      <button type="button" role="tab" id="tab-credentials" aria-controls="panel-credentials">Credentials link</button>
+      <button type="button" role="tab" id="tab-tender" aria-controls="panel-tender">Tenders</button>
+      <button type="button" role="tab" id="tab-digest" aria-controls="panel-digest">Sunday digest</button>
+      <button type="button" role="tab" id="tab-checker" aria-controls="panel-checker">Compliance Checker</button>
+    </div>
+
+    <div class="screen-panel" id="panel-map" role="tabpanel" aria-labelledby="tab-map">
+      <div>
+        <h3>Your compliance map</h3>
+        <p>Tick what you do on the left. The right side shows everything that applies, and whether it's met, missing or due soon.</p>
+        <ul>
+          <li>Licences, registrations, insurance, training, staff and job certificates</li>
+          <li>"Add it" or "Doesn't apply" on every item</li>
+          <li>Change an answer and the map redraws</li>
+        </ul>
+      </div>
+      <figure class="app-window">
+  <div class="app-window-bar" aria-hidden="true"><span class="dots"><i></i><i></i><i></i></span><span class="app-window-address">portal.tradiesbureau.com/compliance/map</span></div>
+  <div class="app-window-body" tabindex="0" role="region" aria-label="The compliance map. Scrollable screenshot.">
+    <picture>
+      <img src="assets/screenshots/app-compliance-map.jpg" alt="The compliance map: questions about the business on the left, and every licence, registration, insurance and ticket that applies on the right, each marked met, missing or due soon" width="2000" height="3016" loading="lazy" decoding="async">
+    </picture>
+  </div>
+  <span class="scroll-hint" aria-hidden="true">Scroll to see more</span>
+</figure>
+    </div>
+
+    <div class="screen-panel" id="panel-credentials" role="tabpanel" aria-labelledby="tab-credentials">
+      <div>
+        <h3>What your customer sees</h3>
+        <p>Send one link instead of a pile of PDFs. It reads your records each time it's opened, so it's never out of date.</p>
+        <ul>
+          <li>Each item marked current or expired</li>
+          <li>Links to check registrations on the official register</li>
+          <li>Policy numbers masked to the last four digits</li>
+        </ul>
+      </div>
+      <figure class="app-window">
+  <div class="app-window-bar" aria-hidden="true"><span class="dots"><i></i><i></i><i></i></span><span class="app-window-address">portal.tradiesbureau.com/c/…</span></div>
+  <div class="app-window-body" tabindex="0" role="region" aria-label="A live credentials page a customer opens. Scrollable screenshot.">
+    <picture>
+      <source media="(max-width: 600px)" srcset="assets/screenshots/phone-credentials.jpg" width="780" height="3992">
+      <img src="assets/screenshots/app-credentials.jpg" alt="A live credentials page a customer opens: the electrician's registration, licences and insurance, each marked current, with links to check them on Energy Safe Victoria's register" width="2000" height="2919" loading="lazy" decoding="async">
+    </picture>
+  </div>
+  <span class="scroll-hint" aria-hidden="true">Scroll to see more</span>
+</figure>
+    </div>
+
+    <div class="screen-panel" id="panel-tender" role="tabpanel" aria-labelledby="tab-tender">
+      <div>
+        <h3>Tenders, compliant bidders first</h3>
+        <p>Put a work package out to quote and see every bidder checked against what the job needs.</p>
+        <ul>
+          <li>What every bidder must hold, with minimum cover</li>
+          <li>Live credentials, uploads or nothing sent yet</li>
+          <li>Share the quotes with your client, read only</li>
+        </ul>
+        <p style="margin-top:12px;"><a href="builders.html">More for builders</a></p>
+      </div>
+      <figure class="app-window">
+  <div class="app-window-bar" aria-hidden="true"><span class="dots"><i></i><i></i><i></i></span><span class="app-window-address">portal.tradiesbureau.com/projects/…/packages/…</span></div>
+  <div class="app-window-body" tabindex="0" role="region" aria-label="A work package out to tender. Scrollable screenshot.">
+    <picture>
+      <img src="assets/screenshots/app-tender-builder.jpg" alt="A work package out to tender: what every bidder needs to hold, and three plumbers' quotes with the compliant bidder, sharing live credentials, listed first" width="2000" height="3172" loading="lazy" decoding="async">
+    </picture>
+  </div>
+  <span class="scroll-hint" aria-hidden="true">Scroll to see more</span>
+</figure>
+    </div>
+
+    <div class="screen-panel" id="panel-digest" role="tabpanel" aria-labelledby="tab-digest">
+      <div>
+        <h3>The Sunday digest</h3>
+        <p>One email each week, sorted by what needs you first. Critical items also come by WhatsApp.</p>
+        <ul>
+          <li>Needs action now, coming up, and missing details</li>
+          <li>Your compliance score</li>
+          <li>Subbies with a certificate about to run out</li>
+        </ul>
+      </div>
+      <figure class="app-window">
+  <div class="app-window-bar" aria-hidden="true"><span class="dots"><i></i><i></i><i></i></span><span class="app-window-address">Sunday email</span></div>
+  <div class="app-window-body" tabindex="0" role="region" aria-label="The Sunday digest email. Scrollable screenshot.">
+    <picture>
+      <img src="assets/screenshots/app-digest.jpg" alt="The Sunday digest email: what needs action now, what's coming up, what needs a date or document, and the compliance score" width="2000" height="2198" loading="lazy" decoding="async">
+    </picture>
+  </div>
+  <span class="scroll-hint" aria-hidden="true">Scroll to see more</span>
+</figure>
+    </div>
+
+    <div class="screen-panel" id="panel-checker" role="tabpanel" aria-labelledby="tab-checker">
+      <div>
+        <h3>The Compliance Checker</h3>
+        <p>Where everyone starts. Answer the questions and see what applies before you sign up.</p>
+        <ul>
+          <li>Free, with nothing saved until you create an account</li>
+          <li>Your answers become your checklist</li>
+        </ul>
+        <p style="margin-top:14px;"><a href="https://portal.tradiesbureau.com/check" data-portal="/check" class="btn btn-primary">Try it now</a></p>
+      </div>
+      <figure class="app-window">
+  <div class="app-window-bar" aria-hidden="true"><span class="dots"><i></i><i></i><i></i></span><span class="app-window-address">portal.tradiesbureau.com/check</span></div>
+  <div class="app-window-body" tabindex="0" role="region" aria-label="The Compliance Checker with Electrician ticked, listing the six things that apply and a form to create an account. Scrollable screenshot.">
+    <picture>
+      <img src="assets/screenshots/app-checker.jpg" alt="The Compliance Checker with Electrician ticked, listing the six things that apply and a form to create an account" width="2000" height="2884" loading="lazy" decoding="async">
+    </picture>
+  </div>
+  <span class="scroll-hint" aria-hidden="true">Scroll to see more</span>
+</figure>
+    </div>
+  </div>
+</section>
+
+<section class="section-alt">
+  <div class="container">
+    <div class="section-head">
+      <h2>Made for the phone in your pocket</h2>
+      <p>Check what's due from the ute, and send your credentials from the job.</p>
+    </div>
+    <div class="phone-row">
+      <figure class="phone-frame">
+  <div class="phone-shell">
+    <div class="phone-screen" tabindex="0" role="region" aria-label="The dashboard on a phone. Scrollable screenshot.">
+      <img src="assets/screenshots/phone-dashboard.jpg" alt="The dashboard on a phone" width="780" height="8714" loading="lazy" decoding="async">
+    </div>
+    <span class="scroll-hint" aria-hidden="true">Scroll</span>
+  </div>
+  <figcaption><strong>Your dashboard</strong><span>What needs you today, on site</span></figcaption>
+</figure>
+      <figure class="phone-frame">
+  <div class="phone-shell">
+    <div class="phone-screen" tabindex="0" role="region" aria-label="A credentials link opened on a customer's phone. Scrollable screenshot.">
+      <img src="assets/screenshots/phone-credentials.jpg" alt="A credentials link opened on a customer's phone" width="780" height="3992" loading="lazy" decoding="async">
+    </div>
+    <span class="scroll-hint" aria-hidden="true">Scroll</span>
+  </div>
+  <figcaption><strong>Your credentials link</strong><span>How a customer sees it on their phone</span></figcaption>
+</figure>
+      <figure class="phone-frame">
+  <div class="phone-shell">
+    <div class="phone-screen" tabindex="0" role="region" aria-label="A tender invite opened on a trade's phone. Scrollable screenshot.">
+      <img src="assets/screenshots/phone-tender.jpg" alt="A tender invite opened on a trade's phone" width="780" height="3450" loading="lazy" decoding="async">
+    </div>
+    <span class="scroll-hint" aria-hidden="true">Scroll</span>
+  </div>
+  <figcaption><strong>A tender invite</strong><span>A trade quotes from a link, no account</span></figcaption>
+</figure>
+    </div>
   </div>
 </section>
 

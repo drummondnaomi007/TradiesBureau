@@ -3,6 +3,7 @@
 // Every portal link is written in the HTML with its full live address, so it
 // works with no JavaScript:
 //   <a href="https://portal.tradiesbureau.com/check" data-portal="/check">
+// (The contact form's action is written the same way, with data-portal.)
 // This script only changes the address when you're testing locally: on
 // localhost it points the links at the app running on port 8080 (the port the
 // app listens on, locally and on Railway). Add ?portal=http://localhost:3000
@@ -42,6 +43,9 @@
   function rewrite() {
     document.querySelectorAll("a[data-portal]").forEach(function (a) {
       a.href = base + a.getAttribute("data-portal");
+    });
+    document.querySelectorAll("form[data-portal]").forEach(function (f) {
+      f.action = base + f.getAttribute("data-portal");
     });
   }
   if (document.readyState === "loading") document.addEventListener("DOMContentLoaded", rewrite);

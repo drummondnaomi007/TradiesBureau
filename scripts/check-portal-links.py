@@ -37,9 +37,9 @@ class Links(HTMLParser):
         self.links = []
 
     def handle_starttag(self, tag, attrs):
-        if tag in ("a", "link", "script", "img"):
+        if tag in ("a", "link", "script", "img", "form"):
             a = dict(attrs)
-            url = a.get("href") or a.get("src")
+            url = a.get("href") or a.get("src") or a.get("action")
             if url:
                 self.links.append((tag, url, a.get("data-portal"), self.getpos()[0]))
 
@@ -129,7 +129,8 @@ def main():
 
     if args.base:
         base = args.base.rstrip("/")
-        for p in sorted(portal_paths | {"/api/health"}):
+        # /api/enquiries only takes posts from the site, so it's checked in the app's own tests.
+        for p in sorted((portal_paths - {"/api/enquiries"}) | {"/api/health"}):
             status, body = fetch(base + p)
             ok = status == 200
             print(f"  {'ok  ' if ok else 'FAIL'} {status} {base}{p}")

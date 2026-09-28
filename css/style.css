@@ -1431,3 +1431,84 @@ a.screenshot-card {
     letter-spacing: 0.04em;
   }
 }
+
+/* ------------------------------------------------------------------
+   Contact form sent to the app, privacy page
+   ------------------------------------------------------------------ */
+
+.form-stack[hidden] {
+  display: none;
+}
+
+.form-stack .optional {
+  font-weight: 400;
+  color: var(--muted);
+}
+
+.form-stack button[disabled] {
+  opacity: 0.7;
+  cursor: wait;
+}
+
+/* The spam trap: people never see it, bots fill it in. */
+.hp-field {
+  position: absolute;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.form-status {
+  padding: 14px 16px;
+  border-radius: var(--radius);
+  margin-bottom: 16px;
+  line-height: 1.5;
+}
+
+.form-status[hidden] {
+  display: none;
+}
+
+/* Back from the app after a form post with no JavaScript. */
+.form-status:target {
+  display: block;
+}
+
+.form-status-ok:target ~ .form-stack {
+  display: none;
+}
+
+.form-status {
+  scroll-margin-top: 110px;
+}
+
+.form-status-ok {
+  background: #e6f4ea;
+  border: 1px solid #9fd0ad;
+  color: #14532d;
+}
+
+.form-status-error {
+  background: #fdecea;
+  border: 1px solid #f1b0a8;
+  color: #7f1d1d;
+}
+
+.prose {
+  max-width: 760px;
+}
+
+.prose h2 {
+  color: var(--navy-900);
+  margin: 32px 0 8px;
+  font-size: 1.3rem;
+}
+
+.prose h2:first-child {
+  margin-top: 0;
+}
+
+.prose p {
+  line-height: 1.7;
+}

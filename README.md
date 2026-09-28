@@ -109,7 +109,7 @@ The app only accepts enquiries from `https://tradiesbureau.com` and `www.` (and 
 
 ## Visitor statistics
 
-`js/analytics.js` adds Google Analytics 4 once a Measurement ID is pasted into it. Until then nothing loads. To set it up:
+`js/analytics.js` adds Google Analytics 4 (Measurement ID `G-GF6MK11613`). With no ID in it, nothing loads. How it was set up:
 
 1. Go to [analytics.google.com](https://analytics.google.com) and sign in with the Google account that should own the data.
 2. **Start measuring** (or **Admin → Create → Property**). Name it "Tradies Bureau", time zone Australia/Melbourne, currency AUD.
@@ -136,6 +136,5 @@ The Owner Builder in a Box prototype used to live in `owner-builder-in-a-box/`. 
 ## Before launch
 
 - Replace the placeholder social links (search for `facebook.com/tradiesbureau`, `instagram.com/tradiesbureau`, `linkedin.com/company/tradiesbureau`).
-- Add the Google Analytics Measurement ID (see Visitor statistics).
 - Set `ADMIN_EMAILS` in the app's Railway variables so enquiries can be read.
 - The app screenshots in `assets/screenshots/` show a made-up business (Brightwire Electrical Co.) with made-up trades, clients and addresses (postcode 3999 doesn't exist). They were taken from the real app running locally with demo data, in an Australian locale. `app-*.jpg` are desktop screens (2000px wide), `phone-*.jpg` phone screens (780px wide), `og-dashboard.jpg` the social share preview.

@@ -11,7 +11,7 @@
 (function () {
   "use strict";
 
-  var MEASUREMENT_ID = "";
+  var MEASUREMENT_ID = "G-GF6MK11613";
 
   window.tbTrack = function () {};
   var host = location.hostname;

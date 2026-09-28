@@ -108,7 +108,11 @@ def main():
                 continue
             if re.match(r"^(https?:|mailto:|tel:|#|data:)", url) or url.startswith("//"):
                 continue
-            target = (page.parent / url.split("#")[0].split("?")[0]).resolve()
+            path_part = url.split("#")[0].split("?")[0]
+            # Links starting with / are from the site root (used by 404.html).
+            target = (ROOT / path_part.lstrip("/")) if path_part.startswith("/") else (page.parent / path_part).resolve()
+            if path_part.endswith("/"):
+                target = target / "index.html"
             if url.split("#")[0] and not target.exists():
                 problems.append(f"{where}: broken link to {url}")
 

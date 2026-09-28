@@ -95,6 +95,16 @@ Full steps are in the SKHB repo's `CONFIGURATION.md` §5. The parts that connect
 | CNAME | `www` | `drummondnaomi007.github.io` | GitHub Pages |
 | CNAME | `portal` | the target Railway shows for the custom domain (currently `0xlrojlx.up.railway.app`) | The app |
 
+## Search engines and sharing
+
+- `sitemap.xml` lists every page for Google and Bing. `robots.txt` points to it and keeps `scripts/` and `research/` out of search results.
+- Every page has its own title (about 60 characters) and description (about 155) written around what Victorian tradies search for, plus a canonical address.
+- Open Graph and Twitter tags give a proper preview card (`assets/screenshots/og-dashboard.jpg`, 1200×630) when the site is shared on Facebook, LinkedIn or in messages.
+- Structured data (JSON-LD) on every page describes Tradies Bureau as an organisation serving Victoria. The home page adds the app, and the compliance guide is marked as an article. Add the real Facebook, Instagram and LinkedIn addresses to it once they exist.
+- `404.html` is shown for any missing address, with links from the site root.
+
+After changing pages, update `lastmod` in `sitemap.xml` and resubmit it in Google Search Console.
+
 ## Owner Builder in a Box
 
 The Owner Builder in a Box prototype used to live in `owner-builder-in-a-box/`. It was moved out so it isn't published on tradiesbureau.com. It will get its own repository. Until then it can be recovered from this repository's history: `git checkout 99fe447 -- owner-builder-in-a-box`.
@@ -102,5 +112,5 @@ The Owner Builder in a Box prototype used to live in `owner-builder-in-a-box/`. 
 ## Before launch
 
 - Replace the placeholder social links (search for `facebook.com/tradiesbureau`, `instagram.com/tradiesbureau`, `linkedin.com/company/tradiesbureau`).
-- Add a real phone number in `contact.html`.
+- Add a real phone number to `contact.html`. The placeholder phone card was removed until there is one.
 - The app screenshots in `assets/screenshots/` show a made-up business (Brightwire Electrical Co.) with made-up trades, clients and addresses (postcode 3999 doesn't exist). They were taken from the real app running locally with demo data, in an Australian locale. `app-*.jpg` are desktop screens (2000px wide), `phone-*.jpg` phone screens (780px wide), `og-dashboard.jpg` the social share preview.

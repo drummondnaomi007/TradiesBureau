@@ -1134,3 +1134,300 @@ a.screenshot-card {
     display: flex;
   }
 }
+
+/* ------------------------------------------------------------------
+   App screens: real screenshots in a browser window or phone frame
+   that scroll inside the page
+   ------------------------------------------------------------------ */
+
+.hero-app .hero-copy {
+  max-width: 720px;
+  margin-bottom: 40px;
+}
+
+.app-window {
+  margin: 0;
+  background: var(--white);
+  border: 1px solid #cfdde6;
+  border-radius: 14px;
+  box-shadow: 0 24px 60px rgba(26, 54, 93, 0.18);
+  overflow: hidden;
+  position: relative;
+}
+
+.app-window-bar {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  padding: 10px 14px;
+  background: #eef3f6;
+  border-bottom: 1px solid #d9e6ee;
+}
+
+.app-window-bar .dots {
+  display: flex;
+  gap: 6px;
+  flex: none;
+}
+
+.app-window-bar .dots i {
+  width: 11px;
+  height: 11px;
+  border-radius: 50%;
+  background: #c9d6df;
+}
+
+.app-window-address {
+  flex: 1;
+  min-width: 0;
+  max-width: 460px;
+  margin: 0 auto;
+  background: var(--white);
+  border: 1px solid #d9e6ee;
+  border-radius: 999px;
+  padding: 4px 14px;
+  font-size: 0.8rem;
+  color: var(--muted);
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.app-window-body {
+  height: 560px;
+  max-height: 70vh;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  background: #ece7e0;
+}
+
+.app-window-body.tall {
+  height: 640px;
+}
+
+.app-window-body img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.app-window-body:focus-visible,
+.phone-screen:focus-visible {
+  outline: 3px solid var(--teal-500);
+  outline-offset: -3px;
+}
+
+/* A hint at the bottom until the visitor scrolls the window */
+.scroll-hint {
+  position: absolute;
+  left: 50%;
+  bottom: 14px;
+  transform: translateX(-50%);
+  background: rgba(26, 54, 93, 0.88);
+  color: var(--white);
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 6px 14px;
+  border-radius: 999px;
+  pointer-events: none;
+  transition: opacity 0.3s ease;
+  white-space: nowrap;
+}
+
+.app-window.scrolled .scroll-hint,
+.phone-frame.scrolled .scroll-hint {
+  opacity: 0;
+}
+
+.screen-caption {
+  font-size: 0.88rem;
+  color: var(--muted);
+  margin: 12px 2px 0;
+}
+
+/* Phone frame */
+
+.phone-row {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 28px;
+  justify-items: center;
+}
+
+@media (max-width: 900px) {
+  .phone-row {
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  }
+}
+
+.phone-frame {
+  margin: 0;
+  width: 100%;
+  max-width: 290px;
+  position: relative;
+}
+
+.phone-shell {
+  border: 10px solid #16263b;
+  border-radius: 36px;
+  overflow: hidden;
+  background: #16263b;
+  box-shadow: 0 20px 44px rgba(26, 54, 93, 0.22);
+  position: relative;
+}
+
+.phone-screen {
+  height: 540px;
+  overflow-y: auto;
+  overscroll-behavior: contain;
+  border-radius: 26px;
+  background: #ece7e0;
+}
+
+.phone-screen img {
+  width: 100%;
+  height: auto;
+  display: block;
+}
+
+.phone-frame figcaption {
+  text-align: center;
+  margin-top: 14px;
+}
+
+.phone-frame figcaption strong {
+  display: block;
+  color: var(--navy-900);
+}
+
+.phone-frame figcaption span {
+  font-size: 0.88rem;
+  color: var(--muted);
+}
+
+/* Tabs for switching screens. Without JavaScript every screen shows. */
+
+.screen-tabs {
+  display: none;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 8px;
+  margin-bottom: 24px;
+}
+
+.js .screen-tabs {
+  display: flex;
+}
+
+.screen-tabs button {
+  font: inherit;
+  font-size: 0.92rem;
+  font-weight: 600;
+  color: var(--teal-600);
+  background: var(--white);
+  border: 1px solid #cfe0e8;
+  border-radius: 999px;
+  padding: 8px 16px;
+  cursor: pointer;
+}
+
+.screen-tabs button:hover {
+  border-color: var(--teal-500);
+}
+
+.screen-tabs button[aria-selected="true"] {
+  background: var(--teal-600);
+  border-color: var(--teal-600);
+  color: var(--white);
+}
+
+.screen-tabs button:focus-visible {
+  outline: 3px solid var(--teal-500);
+  outline-offset: 2px;
+}
+
+.screen-panel {
+  display: grid;
+  grid-template-columns: 300px minmax(0, 1fr);
+  gap: 32px;
+  align-items: start;
+}
+
+.screen-panel + .screen-panel {
+  margin-top: 48px;
+}
+
+.js .screen-panel + .screen-panel {
+  margin-top: 0;
+}
+
+@media (max-width: 900px) {
+  .screen-panel {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+}
+
+.screen-panel h3 {
+  margin: 0 0 8px;
+  color: var(--navy-900);
+  font-size: 1.3rem;
+}
+
+.screen-panel p {
+  margin: 0 0 12px;
+  color: var(--ink);
+}
+
+.screen-panel ul {
+  margin: 0;
+  padding-left: 18px;
+  color: var(--ink);
+  font-size: 0.95rem;
+}
+
+.screen-panel li + li {
+  margin-top: 6px;
+}
+
+@media (max-width: 600px) {
+  .app-window-body,
+  .app-window-body.tall {
+    height: 460px;
+  }
+  .app-window-bar .dots {
+    display: none;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .scroll-hint {
+    transition: none;
+  }
+}
+
+/* The panel layout above would otherwise override the hidden attribute */
+.screen-panel[hidden] {
+  display: none;
+}
+
+.app-window-body picture {
+  display: block;
+}
+
+/* Home headline: one sentence per line */
+.headline-beats span {
+  display: block;
+}
+
+.headline-beats span:last-child {
+  color: var(--teal-600);
+}
+
+@media (max-width: 420px) {
+  .hero-app .eyebrow {
+    font-size: 0.72rem;
+    letter-spacing: 0.04em;
+  }
+}

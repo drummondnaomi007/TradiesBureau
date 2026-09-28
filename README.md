@@ -104,4 +104,4 @@ The Owner Builder in a Box prototype used to live in `owner-builder-in-a-box/`. 
 
 - Replace the placeholder social links (search for `facebook.com/tradiesbureau`, `instagram.com/tradiesbureau`, `linkedin.com/company/tradiesbureau`).
 - Add a real phone number in `contact.html`.
-- The dashboard screenshots show a made-up business (Brightwire Electrical Co.).
+- The app screenshots in `assets/screenshots/` show a made-up business (Brightwire Electrical Co.) with made-up trades, clients and addresses (postcode 3999 doesn't exist). They were taken from the real app running locally with demo data, in an Australian locale. `app-*.jpg` are desktop screens (2000px wide), `phone-*.jpg` phone screens (780px wide), `og-dashboard.jpg` the social share preview.

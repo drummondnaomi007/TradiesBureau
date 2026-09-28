@@ -9,7 +9,7 @@
 <meta name="theme-color" content="#0B6E8F" />
 <meta property="og:title" content="For Builders | Tradies Bureau" />
 <meta property="og:description" content="Run tenders on compliant trades, share quotes with your client, and collect end-of-job certificates for handover. Built for Victorian builders." />
-<meta property="og:image" content="https://tradiesbureau.com/assets/screenshots/dashboard.jpg" />
+<meta property="og:image" content="https://tradiesbureau.com/assets/screenshots/og-dashboard.jpg" />
 <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
 <link rel="stylesheet" href="css/style.css" />
 <script src="js/portal.js"></script>
@@ -77,6 +77,84 @@
 </section>
 
 <section class="section-alt">
+  <div class="container">
+    <div class="section-head">
+      <h2>One tender, three views</h2>
+      <p>A made-up electrician putting a plumbing job out to quote, as each person sees it.</p>
+    </div>
+    <div class="screen-tabs" role="tablist" aria-label="Tender screens">
+      <button type="button" role="tab" id="tab-builder" aria-controls="panel-builder">Your view</button>
+      <button type="button" role="tab" id="tab-trade" aria-controls="panel-trade">The trade's view</button>
+      <button type="button" role="tab" id="tab-client" aria-controls="panel-client">Your client's view</button>
+    </div>
+
+    <div class="screen-panel" id="panel-builder" role="tabpanel" aria-labelledby="tab-builder">
+      <div>
+        <h3>The work package</h3>
+        <p>What every bidder must hold, then each quote with what's met and missing. Bayside Plumbing shares live credentials, so it's checked without anyone chasing paperwork.</p>
+        <ul>
+          <li>Compliant bidders listed first</li>
+          <li>Invite from your subbie list or someone new</li>
+          <li>Share the quotes with your client</li>
+        </ul>
+      </div>
+      <figure class="app-window">
+  <div class="app-window-bar" aria-hidden="true"><span class="dots"><i></i><i></i><i></i></span><span class="app-window-address">portal.tradiesbureau.com/projects/…/packages/…</span></div>
+  <div class="app-window-body" tabindex="0" role="region" aria-label="A work package out to tender. Scrollable screenshot.">
+    <picture>
+      <img src="assets/screenshots/app-tender-builder.jpg" alt="A work package out to tender: what every bidder needs to hold, and three plumbers' quotes with the compliant bidder, sharing live credentials, listed first" width="2000" height="3172" loading="lazy" decoding="async">
+    </picture>
+  </div>
+  <span class="scroll-hint" aria-hidden="true">Scroll to see more</span>
+</figure>
+    </div>
+
+    <div class="screen-panel" id="panel-trade" role="tabpanel" aria-labelledby="tab-trade">
+      <div>
+        <h3>The trade's invite</h3>
+        <p>The trade opens a link. No account, no app to download.</p>
+        <ul>
+          <li>The scope and what they need to hold</li>
+          <li>Quote, or say it's not for them</li>
+          <li>Paste a credentials link or upload certificates</li>
+        </ul>
+      </div>
+      <figure class="app-window">
+  <div class="app-window-bar" aria-hidden="true"><span class="dots"><i></i><i></i><i></i></span><span class="app-window-address">portal.tradiesbureau.com/tender/…</span></div>
+  <div class="app-window-body" tabindex="0" role="region" aria-label="The page a trade opens from a tender invite, with no account. Scrollable screenshot.">
+    <picture>
+      <source media="(max-width: 600px)" srcset="assets/screenshots/phone-tender.jpg" width="780" height="3450">
+      <img src="assets/screenshots/app-tender-trade.jpg" alt="The page a trade opens from a tender invite, with no account: the job, what they need to hold, their quote, and where to share their credentials or upload certificates" width="2000" height="2464" loading="lazy" decoding="async">
+    </picture>
+  </div>
+  <span class="scroll-hint" aria-hidden="true">Scroll to see more</span>
+</figure>
+    </div>
+
+    <div class="screen-panel" id="panel-client" role="tabpanel" aria-labelledby="tab-client">
+      <div>
+        <h3>Your client's page</h3>
+        <p>Show your client who's quoting and whether they check out, with or without prices.</p>
+        <ul>
+          <li>Never shows bidders' contact details or files</li>
+          <li>Shows who you chose once you award</li>
+          <li>Withdraw the link any time</li>
+        </ul>
+      </div>
+      <figure class="app-window">
+  <div class="app-window-bar" aria-hidden="true"><span class="dots"><i></i><i></i><i></i></span><span class="app-window-address">portal.tradiesbureau.com/q/…</span></div>
+  <div class="app-window-body" tabindex="0" role="region" aria-label="The read-only page a builder shares with their client. Scrollable screenshot.">
+    <picture>
+      <img src="assets/screenshots/app-client-quotes.jpg" alt="The read-only page a builder shares with their client: each quote and whether the trade's licence and insurance check out" width="2000" height="1706" loading="lazy" decoding="async">
+    </picture>
+  </div>
+  <span class="scroll-hint" aria-hidden="true">Scroll to see more</span>
+</figure>
+    </div>
+  </div>
+</section>
+
+<section>
   <div class="container">
     <div class="grid grid-3">
       <div class="card">

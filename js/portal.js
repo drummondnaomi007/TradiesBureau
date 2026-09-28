@@ -13,6 +13,9 @@
 (function () {
   "use strict";
 
+  // Lets the CSS know scripts run (screen tabs show only then).
+  document.documentElement.classList.add("js");
+
   var LIVE = "https://portal.tradiesbureau.com";
   var LOCAL = "http://localhost:8080";
 

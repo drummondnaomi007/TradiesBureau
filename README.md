@@ -9,7 +9,6 @@ tradiesbureau.com  (GitHub Pages, this repo)          portal.tradiesbureau.com  
   "Check what applies"  ───────────────────────────▶  /check        Compliance Checker, the sign-up front door
   "Check what applies" on a trade tile  ───────────▶  /check?trade=Builder   (opens with that trade ticked)
   "Sign in"  ──────────────────────────────────────▶  /login        sign-in link sent by email
-  "User guide"  ───────────────────────────────────▶  /docs
                                                       /api/health   is the app up? (database, migrations, rules)
 ```
 

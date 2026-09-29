@@ -1512,3 +1512,34 @@ a.screenshot-card {
 .prose p {
   line-height: 1.7;
 }
+
+/* Shown after logging out of the app (js/main.js). */
+.signed-out-note {
+  background: #e6f4ea;
+  border-bottom: 1px solid #9fd0ad;
+  color: #14532d;
+  padding: 12px 0;
+}
+
+.signed-out-note .container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.signed-out-note a {
+  color: #14532d;
+  font-weight: 600;
+}
+
+.signed-out-note button {
+  margin-left: auto;
+  background: none;
+  border: 0;
+  font-size: 1.4rem;
+  line-height: 1;
+  color: inherit;
+  cursor: pointer;
+  padding: 0 4px;
+}

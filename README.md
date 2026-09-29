@@ -28,7 +28,7 @@ portal/index.html       Help signing in: sign in, create an account, links from 
 compliance-tracker.html Redirects to features.html (old address kept working)
 services.html           Redirects to features.html (old address kept working)
 css/style.css           Dark blue and teal theme
-js/main.js              Mobile menu, footer year, screen tabs
+js/main.js              Mobile menu, footer year, screen tabs, "you've logged out" note
 js/enquiry.js           Sends the contact form to the app
 js/analytics.js         Visitor statistics (Google Analytics), off until a Measurement ID is added
 js/portal.js            Points app links at localhost:8080 when testing locally

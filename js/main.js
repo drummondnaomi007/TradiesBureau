@@ -8,6 +8,28 @@ document.addEventListener("DOMContentLoaded", function () {
     });
   }
 
+  // Back from logging out of the app (it sends people to /?signed-out=1).
+  try {
+    var params = new URLSearchParams(location.search);
+    if (params.get("signed-out") === "1") {
+      params.delete("signed-out");
+      var rest = params.toString();
+      history.replaceState(null, "", location.pathname + (rest ? "?" + rest : "") + location.hash);
+      var main = document.querySelector("main");
+      if (main) {
+        var note = document.createElement("div");
+        note.className = "signed-out-note";
+        note.setAttribute("role", "status");
+        var login = (window.TB_PORTAL || "https://portal.tradiesbureau.com") + "/login";
+        note.innerHTML = '<div class="container"><span>You\u2019ve logged out of Tradies Bureau.</span> ' +
+          '<a href="' + login + '">Sign in again</a>' +
+          '<button type="button" aria-label="Close">&times;</button></div>';
+        note.querySelector("button").addEventListener("click", function () { note.remove(); });
+        main.insertBefore(note, main.firstChild);
+      }
+    }
+  } catch (e) { /* very old browser: no note */ }
+
   var yearEl = document.querySelector("[data-year]");
   if (yearEl) {
     yearEl.textContent = new Date().getFullYear();

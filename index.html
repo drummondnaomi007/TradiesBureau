@@ -29,13 +29,13 @@
    "name": "Tradies Bureau",
    "url": "https://tradiesbureau.com/",
    "logo": "https://tradiesbureau.com/assets/logo.svg",
-   "email": "tradiesbureau@gmail.com",
+   "email": "hello@tradiesbureau.com",
    "telephone": "+61402469948",
    "contactPoint": {
     "@type": "ContactPoint",
     "contactType": "sales",
     "telephone": "+61402469948",
-    "email": "tradiesbureau@gmail.com",
+    "email": "hello@tradiesbureau.com",
     "areaServed": "AU",
     "availableLanguage": "English"
    },
@@ -61,6 +61,13 @@
    "url": "https://portal.tradiesbureau.com/",
    "applicationCategory": "BusinessApplication",
    "operatingSystem": "Web browser, iPhone, Android",
+   "offers": {
+    "@type": "Offer",
+    "price": "49",
+    "valueAddedTaxIncluded": true,
+    "priceCurrency": "AUD",
+    "description": "Free for 30 days, then $49 per month including GST."
+   },
    "description": "Shows every licence, registration, insurance and ticket a Victorian trade business needs, tracks renewals, and shares live credentials with customers and builders.",
    "publisher": {
     "@id": "https://tradiesbureau.com/#organization"
@@ -70,6 +77,9 @@
 }
 </script>
 <link rel="icon" type="image/svg+xml" href="assets/favicon.svg" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&amp;family=Plus+Jakarta+Sans:wght@600;700;800&amp;display=swap" />
 <link rel="stylesheet" href="css/style.css" />
 <script src="js/portal.js"></script>
 <script src="js/analytics.js" async></script>
@@ -79,36 +89,42 @@
 <header class="site-header">
   <nav class="nav" aria-label="Main">
     <a href="index.html" class="brand">
-      <img src="assets/logo.svg" alt="" class="brand-logo">
-      Tradies Bureau
+      <img src="assets/logo-mark.svg" alt="" class="brand-logo" width="32" height="39">
+      <span class="brand-name">Tradies <span>Bureau</span></span>
     </a>
     <ul class="nav-links">
-      <li><a href="index.html" class="active" aria-current="page">Home</a></li>
       <li><a href="features.html">Features</a></li>
+      <li><a href="pricing.html">Pricing</a></li>
       <li><a href="builders.html">For builders</a></li>
       <li><a href="compliance.html">Compliance guide</a></li>
       <li><a href="contact.html">Contact</a></li>
       <li><a href="https://portal.tradiesbureau.com/login" data-portal="/login" class="nav-signin">Sign in</a></li>
       <li><a href="https://portal.tradiesbureau.com/check" data-portal="/check" class="nav-cta">Check what applies</a></li>
     </ul>
-    <button class="nav-toggle" aria-label="Open menu">&#9776;</button>
+    <button class="nav-toggle" aria-label="Open menu" aria-expanded="false"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4 7h16M4 12h16M4 17h16"/></svg></button>
   </nav>
 </header>
 
 <main>
-<section class="hero hero-app">
+<section class="hero hero-split">
   <div class="container">
     <div class="hero-copy">
       <span class="eyebrow">Victorian trade compliance, simplified</span>
       <h1 class="headline-beats"><span>Stay compliant.</span> <span>Prove it in one link.</span> <span>Win the job.</span></h1>
       <p class="lede">The Compliance Checker shows every licence, registration, insurance and ticket your trade needs in Victoria. Tradies Bureau keeps them current, and gives customers and builders one live link that shows you&rsquo;re covered.</p>
+      <ul class="tick-list">
+        <li>Reminders before anything lapses, by email and WhatsApp</li>
+        <li>Registrations link to the BPC and Energy Safe Victoria registers</li>
+        <li>No password. Works on your phone, on site</li>
+      </ul>
       <div class="btn-row">
         <a href="https://portal.tradiesbureau.com/check" data-portal="/check" class="btn btn-primary">Check what applies to you</a>
-        <a href="https://portal.tradiesbureau.com/login" data-portal="/login" class="btn btn-outline">Sign in</a>
+        <a href="pricing.html" class="btn btn-outline">See pricing</a>
       </div>
-      <p class="hero-note">Free to check. Nothing is saved until you create an account.</p>
+      <p class="hero-note">Free to check. Free for 30 days, then $49 a month including GST.</p>
     </div>
-    <figure class="app-window">
+    <div class="hero-visual">
+      <figure class="app-window">
   <div class="app-window-bar" aria-hidden="true"><span class="dots"><i></i><i></i><i></i></span><span class="app-window-address">portal.tradiesbureau.com/compliance</span></div>
   <div class="app-window-body" tabindex="0" role="region" aria-label="The Tradies Bureau dashboard for a made-up electrician. Scrollable screenshot.">
     <picture>
@@ -118,15 +134,31 @@
   </div>
   <span class="scroll-hint" aria-hidden="true">Scroll to see more</span>
 </figure>
-    <p class="screen-caption">The dashboard for Brightwire Electrical Co., a made-up business. Scroll inside the window to see the whole page.</p>
+      <div class="hero-phone" aria-hidden="true">
+        <img src="assets/screenshots/phone-credentials.jpg" alt="" width="780" height="3992" decoding="async">
+      </div>
+      <p class="screen-caption">Brightwire Electrical Co. is a made-up business. Scroll inside the window to see the whole page.</p>
+    </div>
   </div>
 </section>
 
+<div class="built-around">
+  <div class="container">
+    <span class="built-around-label">Built around</span>
+    <span>Building &amp; Plumbing Commission</span>
+    <span>Energy Safe Victoria</span>
+    <span>WorkSafe Victoria</span>
+    <span>Fair Work</span>
+    <span>ABN Lookup</span>
+  </div>
+</div>
+
 <section>
   <div class="container">
-    <div class="section-head">
-      <h2>Start with your trade</h2>
-      <p>Pick your trade and the Checker opens with it already ticked. Add any others you do.</p>
+    <div class="section-head section-head-left">
+      <span class="eyebrow">Start with your trade</span>
+      <h2>Pick your trade. We'll show you what applies.</h2>
+      <p>The Checker opens with your trade already ticked. Add any others you do.</p>
     </div>
     <div class="trade-grid">
       <a href="https://portal.tradiesbureau.com/check?trade=Electrician" data-portal="/check?trade=Electrician">Electrician<span>REC, A-grade licence</span></a>
@@ -148,164 +180,115 @@
 <section class="section-alt">
   <div class="container">
     <div class="section-head">
-      <h2>What Tradies Bureau does for you</h2>
-      <p>One app for the paperwork that keeps you on the tools.</p>
-    </div>
-    <div class="grid grid-3">
-      <div class="card">
-        <div class="icon"><svg viewBox="0 0 24 24"><path d="M9 4 3 6v14l6-2 6 2 6-2V4l-6 2-6-2z"/><path d="M9 4v14M15 6v14"/></svg></div>
-        <h3>Your compliance map</h3>
-        <p>Everything that applies to your business, your people and your jobs, marked met, missing or due soon. Tick "Doesn't apply" with a reason when it doesn't.</p>
-      </div>
-      <div class="card">
-        <div class="icon"><svg viewBox="0 0 24 24"><path d="M6 8a6 6 0 1 1 12 0c0 7 3 8 3 8H3s3-1 3-8"/><path d="M10 20a2 2 0 0 0 4 0"/></svg></div>
-        <h3>Reminders before it lapses</h3>
-        <p>A Sunday email with what needs you this week, and a WhatsApp message for anything critical. Text "check" any time for a live summary.</p>
-      </div>
-      <div class="card">
-        <div class="icon"><svg viewBox="0 0 24 24"><path d="M10 14a4 4 0 0 0 5.7 0l3-3a4 4 0 0 0-5.7-5.7l-1 1"/><path d="M14 10a4 4 0 0 0-5.7 0l-3 3a4 4 0 0 0 5.7 5.7l1-1"/></svg></div>
-        <h3>One live credentials link</h3>
-        <p>Send customers and builders a link to your registration and insurance instead of PDFs. Renewals show straight away. Add the QR code to your ute.</p>
-      </div>
-      <div class="card">
-        <div class="icon"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><path d="M16 4.5a3.5 3.5 0 0 1 0 7M18 14a6 6 0 0 1 3.5 6"/></svg></div>
-        <h3>Your team and your subbies</h3>
-        <p>Fair Work statements, award checks, White Cards and licences for staff. Subbies upload their own certificates, and you check them before they count.</p>
-      </div>
-      <div class="card">
-        <div class="icon"><svg viewBox="0 0 24 24"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4V3h6v1M9 11h6M9 15h4"/></svg></div>
-        <h3>Tenders, contracts, handover</h3>
-        <p>Invite trades to quote on a work package and see who's compliant. Sign contracts and variations online, and collect end-of-job certificates.</p>
-      </div>
-      <div class="card">
-        <div class="icon"><svg viewBox="0 0 24 24"><path d="M4 12.5 9 17.5 20 6.5"/></svg></div>
-        <h3>Set up for Victorian rules</h3>
-        <p>BPC and Energy Safe Victoria registrations, WorkSafe, the Domestic Building Contracts Act and home warranty, kept up to date for you.</p>
-      </div>
-    </div>
-    <p class="center" style="margin-top:28px;"><a href="features.html" class="btn btn-outline">See every feature</a></p>
-  </div>
-</section>
-
-<section>
-  <div class="container">
-    <div class="section-head">
-      <h2>Take a look inside</h2>
-      <p>Real screens from the app. The business, trades, clients and addresses are all made up.</p>
-    </div>
-    <div class="screen-tabs" role="tablist" aria-label="App screens">
-      <button type="button" role="tab" id="tab-map" aria-controls="panel-map">Compliance map</button>
-      <button type="button" role="tab" id="tab-credentials" aria-controls="panel-credentials">Credentials link</button>
-      <button type="button" role="tab" id="tab-tender" aria-controls="panel-tender">Tenders</button>
-      <button type="button" role="tab" id="tab-digest" aria-controls="panel-digest">Sunday digest</button>
-      <button type="button" role="tab" id="tab-checker" aria-controls="panel-checker">Compliance Checker</button>
+      <span class="eyebrow">What it does</span>
+      <h2>One app for the paperwork that keeps you on the tools</h2>
     </div>
 
-    <div class="screen-panel" id="panel-map" role="tabpanel" aria-labelledby="tab-map">
-      <div>
-        <h3>Your compliance map</h3>
-        <p>Tick what you do on the left. The right side shows everything that applies, and whether it's met, missing or due soon.</p>
-        <ul>
-          <li>Licences, registrations, insurance, training, staff and job certificates</li>
-          <li>"Add it" or "Doesn't apply" on every item</li>
-          <li>Change an answer and the map redraws</li>
+    <div class="feature-split">
+      <div class="feature-split-copy">
+        <span class="eyebrow">Compliance map</span>
+        <h3>See what's met, missing or due soon</h3>
+        <p>Everything that applies to your business, your people and your jobs, in one place. Tick "Doesn't apply" with a reason when it doesn't.</p>
+        <ul class="tick-list">
+          <li>Licences, registrations, insurance, training and job certificates</li>
+          <li>A Sunday email, and WhatsApp alerts for anything critical</li>
         </ul>
       </div>
       <figure class="app-window">
   <div class="app-window-bar" aria-hidden="true"><span class="dots"><i></i><i></i><i></i></span><span class="app-window-address">portal.tradiesbureau.com/compliance/map</span></div>
   <div class="app-window-body" tabindex="0" role="region" aria-label="The compliance map. Scrollable screenshot.">
-    <picture>
-      <img src="assets/screenshots/app-compliance-map.jpg" alt="The compliance map: questions about the business on the left, and every licence, registration, insurance and ticket that applies on the right, each marked met, missing or due soon" width="2000" height="3016" loading="lazy" decoding="async">
-    </picture>
+    <img src="assets/screenshots/app-compliance-map.jpg" alt="The compliance map: questions about the business on the left, and every licence, registration, insurance and ticket that applies on the right, each marked met, missing or due soon" width="2000" height="3016" loading="lazy" decoding="async">
   </div>
   <span class="scroll-hint" aria-hidden="true">Scroll to see more</span>
 </figure>
     </div>
 
-    <div class="screen-panel" id="panel-credentials" role="tabpanel" aria-labelledby="tab-credentials">
-      <div>
-        <h3>What your customer sees</h3>
-        <p>Send one link instead of a pile of PDFs. It reads your records each time it's opened, so it's never out of date.</p>
-        <ul>
-          <li>Each item marked current or expired</li>
+    <div class="feature-split feature-split-flip">
+      <div class="feature-split-copy">
+        <span class="eyebrow">Win work</span>
+        <h3>One live link instead of a pile of PDFs</h3>
+        <p>Send customers and builders a link to your registration and insurance. It reads your records each time it's opened, so it's never out of date.</p>
+        <ul class="tick-list">
           <li>Links to check registrations on the official register</li>
-          <li>Policy numbers masked to the last four digits</li>
+          <li>A QR code for the ute, your website or email signature</li>
         </ul>
       </div>
       <figure class="app-window">
   <div class="app-window-bar" aria-hidden="true"><span class="dots"><i></i><i></i><i></i></span><span class="app-window-address">portal.tradiesbureau.com/c/…</span></div>
   <div class="app-window-body" tabindex="0" role="region" aria-label="A live credentials page a customer opens. Scrollable screenshot.">
-    <picture>
-      <source media="(max-width: 600px)" srcset="assets/screenshots/phone-credentials.jpg" width="780" height="3992">
-      <img src="assets/screenshots/app-credentials.jpg" alt="A live credentials page a customer opens: the electrician's registration, licences and insurance, each marked current, with links to check them on Energy Safe Victoria's register" width="2000" height="2919" loading="lazy" decoding="async">
-    </picture>
+    <img src="assets/screenshots/app-credentials.jpg" alt="A live credentials page for a made-up electrician: licences and registrations marked current with links to Energy Safe Victoria's register, then public liability and WorkCover with policy numbers masked" width="2000" height="2919" loading="lazy" decoding="async">
   </div>
   <span class="scroll-hint" aria-hidden="true">Scroll to see more</span>
 </figure>
     </div>
 
-    <div class="screen-panel" id="panel-tender" role="tabpanel" aria-labelledby="tab-tender">
-      <div>
-        <h3>Tenders, compliant bidders first</h3>
-        <p>Put a work package out to quote and see every bidder checked against what the job needs.</p>
-        <ul>
+    <div class="feature-split">
+      <div class="feature-split-copy">
+        <span class="eyebrow">For builders</span>
+        <h3>Run tenders on compliant trades</h3>
+        <p>Put a work package out to quote. Trades reply from a link, no account needed, and you see each bidder's licence and insurance checked against the job before you award it.</p>
+        <ul class="tick-list">
           <li>What every bidder must hold, with minimum cover</li>
-          <li>Live credentials, uploads or nothing sent yet</li>
           <li>Share the quotes with your client, read only</li>
         </ul>
-        <p style="margin-top:12px;"><a href="builders.html">More for builders</a></p>
+        <p><a href="builders.html" class="text-link">More for builders</a></p>
       </div>
       <figure class="app-window">
   <div class="app-window-bar" aria-hidden="true"><span class="dots"><i></i><i></i><i></i></span><span class="app-window-address">portal.tradiesbureau.com/projects/…/packages/…</span></div>
   <div class="app-window-body" tabindex="0" role="region" aria-label="A work package out to tender. Scrollable screenshot.">
-    <picture>
-      <img src="assets/screenshots/app-tender-builder.jpg" alt="A work package out to tender: what every bidder needs to hold, and three plumbers' quotes with the compliant bidder, sharing live credentials, listed first" width="2000" height="3172" loading="lazy" decoding="async">
-    </picture>
+    <img src="assets/screenshots/app-tender-builder.jpg" alt="A work package out to tender: what every bidder must hold, and each bidder's licence and insurance checked against it" width="2000" height="3172" loading="lazy" decoding="async">
   </div>
   <span class="scroll-hint" aria-hidden="true">Scroll to see more</span>
 </figure>
     </div>
 
-    <div class="screen-panel" id="panel-digest" role="tabpanel" aria-labelledby="tab-digest">
+    <div class="icon-row">
       <div>
-        <h3>The Sunday digest</h3>
-        <p>One email each week, sorted by what needs you first. Critical items also come by WhatsApp.</p>
-        <ul>
-          <li>Needs action now, coming up, and missing details</li>
-          <li>Your compliance score</li>
-          <li>Subbies with a certificate about to run out</li>
-        </ul>
+        <div class="icon"><svg viewBox="0 0 24 24"><circle cx="9" cy="8" r="3.5"/><path d="M2.5 20a6.5 6.5 0 0 1 13 0"/><path d="M16 4.5a3.5 3.5 0 0 1 0 7M18 14a6 6 0 0 1 3.5 6"/></svg></div>
+        <h3>Your team and your subbies</h3>
+        <p>Fair Work statements, award checks, White Cards and licences. Subbies upload their own certificates, and you check them before they count.</p>
       </div>
-      <figure class="app-window">
-  <div class="app-window-bar" aria-hidden="true"><span class="dots"><i></i><i></i><i></i></span><span class="app-window-address">Sunday email</span></div>
-  <div class="app-window-body" tabindex="0" role="region" aria-label="The Sunday digest email. Scrollable screenshot.">
-    <picture>
-      <img src="assets/screenshots/app-digest.jpg" alt="The Sunday digest email: what needs action now, what's coming up, what needs a date or document, and the compliance score" width="2000" height="2198" loading="lazy" decoding="async">
-    </picture>
-  </div>
-  <span class="scroll-hint" aria-hidden="true">Scroll to see more</span>
-</figure>
+      <div>
+        <div class="icon"><svg viewBox="0 0 24 24"><rect x="5" y="4" width="14" height="17" rx="2"/><path d="M9 4V3h6v1M9 11h6M9 15h4"/></svg></div>
+        <h3>Contracts and handover</h3>
+        <p>Sign contracts and variations online, and collect end-of-job certificates for your client.</p>
+      </div>
+      <div>
+        <div class="icon"><svg viewBox="0 0 24 24"><path d="M12 3 4 6v6c0 5 3.5 8 8 9 4.5-1 8-4 8-9V6z"/><path d="m8.5 12 2.5 2.5 4.5-5"/></svg></div>
+        <h3>Set up for Victorian rules</h3>
+        <p>BPC and Energy Safe Victoria, WorkSafe, the Domestic Building Contracts Act and home warranty, kept up to date for you.</p>
+      </div>
     </div>
-
-    <div class="screen-panel" id="panel-checker" role="tabpanel" aria-labelledby="tab-checker">
-      <div>
-        <h3>The Compliance Checker</h3>
-        <p>Where everyone starts. Answer the questions and see what applies before you sign up.</p>
-        <ul>
-          <li>Free, with nothing saved until you create an account</li>
-          <li>Your answers become your checklist</li>
-        </ul>
-        <p style="margin-top:14px;"><a href="https://portal.tradiesbureau.com/check" data-portal="/check" class="btn btn-primary">Try it now</a></p>
-      </div>
-      <figure class="app-window">
-  <div class="app-window-bar" aria-hidden="true"><span class="dots"><i></i><i></i><i></i></span><span class="app-window-address">portal.tradiesbureau.com/check</span></div>
-  <div class="app-window-body" tabindex="0" role="region" aria-label="The Compliance Checker with Electrician ticked, listing the six things that apply and a form to create an account. Scrollable screenshot.">
-    <picture>
-      <img src="assets/screenshots/app-checker.jpg" alt="The Compliance Checker with Electrician ticked, listing the six things that apply and a form to create an account" width="2000" height="2884" loading="lazy" decoding="async">
-    </picture>
+    <p class="center" style="margin-top:32px;"><a href="features.html" class="btn btn-outline">See every feature</a></p>
   </div>
-  <span class="scroll-hint" aria-hidden="true">Scroll to see more</span>
-</figure>
+</section>
+
+<section id="pricing">
+  <div class="container">
+    <div class="section-head">
+      <span class="eyebrow">Pricing</span>
+      <h2>Simple pricing. Start free.</h2>
+      <p>Try everything free for 30 days. Then one flat price to stay compliant.</p>
+    </div>
+    <div class="pricing-grid">
+      <div class="price-card price-card-main">
+        <h3>Tradies Bureau</h3>
+        <p class="price"><span class="price-amount">$49</span><span class="price-period">per month, incl. GST</span></p>
+        <p class="price-trial">Free for 30 days, then $49 a month to stay compliant.</p>
+        <ul class="tick-list">
+          <li>Your compliance map, checked against Victorian rules</li>
+          <li>Sunday digest and WhatsApp reminders</li>
+          <li>Live credentials link and QR code</li>
+          <li>Your team, your subbies, contracts and handover</li>
+        </ul>
+        <a href="https://portal.tradiesbureau.com/check" data-portal="/check" class="btn btn-primary">Start with the free check</a>
+      </div>
+      <div class="price-card">
+        <h3>Need something different?</h3>
+        <p>Builders running tenders, several businesses, or help getting set up? Contact Tradies Bureau for pricing and services.</p>
+        <a href="contact.html" class="btn btn-outline">Contact us about pricing</a>
+        <p class="price-contact"><a href="tel:+61402469948" data-track="phone">0402 469 948</a> &middot; <a href="mailto:hello@tradiesbureau.com">hello@tradiesbureau.com</a></p>
+      </div>
     </div>
   </div>
 </section>
@@ -313,96 +296,15 @@
 <section class="section-alt">
   <div class="container">
     <div class="section-head">
-      <h2>Made for the phone in your pocket</h2>
-      <p>Check what's due from the ute, and send your credentials from the job.</p>
-    </div>
-    <div class="phone-row">
-      <figure class="phone-frame">
-  <div class="phone-shell">
-    <div class="phone-screen" tabindex="0" role="region" aria-label="The dashboard on a phone. Scrollable screenshot.">
-      <img src="assets/screenshots/phone-dashboard.jpg" alt="The dashboard on a phone" width="780" height="8714" loading="lazy" decoding="async">
-    </div>
-    <span class="scroll-hint" aria-hidden="true">Scroll</span>
-  </div>
-  <figcaption><strong>Your dashboard</strong><span>What needs you today, on site</span></figcaption>
-</figure>
-      <figure class="phone-frame">
-  <div class="phone-shell">
-    <div class="phone-screen" tabindex="0" role="region" aria-label="A credentials link opened on a customer's phone. Scrollable screenshot.">
-      <img src="assets/screenshots/phone-credentials.jpg" alt="A credentials link opened on a customer's phone" width="780" height="3992" loading="lazy" decoding="async">
-    </div>
-    <span class="scroll-hint" aria-hidden="true">Scroll</span>
-  </div>
-  <figcaption><strong>Your credentials link</strong><span>How a customer sees it on their phone</span></figcaption>
-</figure>
-      <figure class="phone-frame">
-  <div class="phone-shell">
-    <div class="phone-screen" tabindex="0" role="region" aria-label="A tender invite opened on a trade's phone. Scrollable screenshot.">
-      <img src="assets/screenshots/phone-tender.jpg" alt="A tender invite opened on a trade's phone" width="780" height="3450" loading="lazy" decoding="async">
-    </div>
-    <span class="scroll-hint" aria-hidden="true">Scroll</span>
-  </div>
-  <figcaption><strong>A tender invite</strong><span>A trade quotes from a link, no account</span></figcaption>
-</figure>
-    </div>
-  </div>
-</section>
-
-<section>
-  <div class="container">
-    <div class="section-head">
-      <span class="eyebrow">Free guide · Victoria</span>
-      <h2>The Victorian compliance guide for trade businesses</h2>
-      <p>Plain-English answers on the Building and Plumbing Commission, insurance minimums, apprentice supervision, WorkCover and the dates you can't miss.</p>
-    </div>
-    <div class="grid grid-3">
-      <a class="card card-link" href="compliance.html#home-warranty">
-        <h3>Home warranty premium</h3>
-        <p>Due within <strong>10 business days</strong> of signing, or before work starts — whichever comes first.</p>
-      </a>
-      <a class="card card-link" href="compliance.html#plumbers">
-        <h3>Plumbers' insurance</h3>
-        <p><strong>$50,000</strong> warranty cover per compliance certificate for domestic work, plus <strong>$5 million</strong> public liability.</p>
-      </a>
-      <a class="card card-link" href="compliance.html#electrical">
-        <h3>Apprentice supervision</h3>
-        <p>Energy Safe's ratios have been mandatory since 1 September 2025 — <strong>1:1</strong> direct supervision for first-years.</p>
-      </a>
-    </div>
-    <p class="center" style="margin-top:32px;">
-      <a href="compliance.html" class="btn btn-primary">Read the compliance guide</a>
-    </p>
-  </div>
-</section>
-
-<section>
-  <div class="container">
-    <div class="section-head">
-      <h2>Get going in three steps</h2>
-      <p>Most businesses are set up in one sitting.</p>
+      <span class="eyebrow">Get going</span>
+      <h2>Set up in one sitting</h2>
     </div>
     <ol class="flow-steps">
       <li><h3>Check what applies</h3><p>Answer questions about your trades, the work you do, your staff and whether you engage other trades. The map fills in as you go.</p></li>
       <li><h3>Create your account</h3><p>Enter your name and email. We send a sign-in link, so there's no password. Your answers become your checklist.</p></li>
       <li><h3>Add what you hold</h3><p>Upload your licences and policies. Photos work: we read the expiry date off the certificate for you. Then we keep watch.</p></li>
     </ol>
-  </div>
-</section>
-
-<section class="section-alt">
-  <div class="container split">
-    <div class="portal-box">
-      <span class="eyebrow" style="align-self:flex-start;">Builders</span>
-      <h2>Run tenders on compliant trades</h2>
-      <p>Put a work package out to quote. Trades reply from a link, no account needed, and you see each bidder's licence and insurance checked against the job before you award it.</p>
-      <a href="builders.html" class="btn btn-outline">For builders</a>
-    </div>
-    <div class="portal-box">
-      <span class="eyebrow" style="align-self:flex-start;">New</span>
-      <h2>One sign-in for every business</h2>
-      <p>Work in more than one business, or have an office manager or auditor who needs access? Everyone signs in as themselves and switches between businesses.</p>
-      <a href="whats-new.html" class="btn btn-outline">See what's new</a>
-    </div>
+    <p class="guide-teaser">New to the rules? Read the free <a href="compliance.html">Victorian compliance guide for trade businesses</a>.</p>
   </div>
 </section>
 
@@ -419,12 +321,12 @@
   <div class="container">
     <div class="footer-grid">
       <div>
-        <h4>Tradies Bureau</h4>
+        <a href="index.html" class="footer-brand"><img src="assets/logo-mark-white.svg" alt="" width="26" height="32"><span>Tradies <span>Bureau</span></span></a>
         <p>Bringing freedom to trade service businesses. One less thing to chase, one more thing sorted.</p>
         <div class="social-row">
-          <a class="social-link" href="https://facebook.com/tradiesbureau" target="_blank" rel="noopener" aria-label="Facebook">f</a>
-          <a class="social-link" href="https://instagram.com/tradiesbureau" target="_blank" rel="noopener" aria-label="Instagram">ig</a>
-          <a class="social-link" href="https://linkedin.com/company/tradiesbureau" target="_blank" rel="noopener" aria-label="LinkedIn">in</a>
+          <a class="social-link" href="https://facebook.com/tradiesbureau" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 8.5V6.8c0-.8.5-1.3 1.3-1.3H17V2.3h-2.6C11.6 2.3 10.6 4 10.6 6.5v2H8.3v3.2h2.3v10h3.4v-10h2.6l.4-3.2z"/></svg></a>
+          <a class="social-link" href="https://instagram.com/tradiesbureau" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M12 7.3a4.7 4.7 0 1 0 0 9.4 4.7 4.7 0 0 0 0-9.4zm0 7.7a3 3 0 1 1 0-6 3 3 0 0 1 0 6zm4.9-8.9a1.1 1.1 0 1 1 0 2.2 1.1 1.1 0 0 1 0-2.2zM12 3.6c2.7 0 3 0 4.1.1 2.7.1 4 1.4 4.1 4.1.1 1.1.1 1.4.1 4.1s0 3-.1 4.1c-.1 2.7-1.4 4-4.1 4.1-1.1.1-1.4.1-4.1.1s-3 0-4.1-.1c-2.7-.1-4-1.4-4.1-4.1-.1-1.1-.1-1.4-.1-4.1s0-3 .1-4.1c.1-2.7 1.4-4 4.1-4.1 1.1-.1 1.4-.1 4.1-.1zM12 2c-2.7 0-3.1 0-4.2.1C4.2 2.2 2.2 4.2 2.1 7.8 2 8.9 2 9.3 2 12s0 3.1.1 4.2c.1 3.6 2.1 5.6 5.7 5.7 1.1.1 1.5.1 4.2.1s3.1 0 4.2-.1c3.6-.1 5.6-2.1 5.7-5.7.1-1.1.1-1.5.1-4.2s0-3.1-.1-4.2c-.1-3.6-2.1-5.6-5.7-5.7C15.1 2 14.7 2 12 2z"/></svg></a>
+          <a class="social-link" href="https://linkedin.com/company/tradiesbureau" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M4.5 3a2 2 0 1 1 0 4 2 2 0 0 1 0-4zM3 8.5h3V21H3zM9 8.5h2.9v1.7h.1c.4-.8 1.4-1.9 3.1-1.9 3.2 0 3.9 2.1 3.9 4.9V21h-3v-6.8c0-1.6 0-3.7-2.3-3.7s-2.6 1.8-2.6 3.6V21H9z"/></svg></a>
         </div>
       </div>
       <div>
@@ -439,12 +341,13 @@
         <h4>Explore</h4>
         <ul>
           <li><a href="features.html">Features</a></li>
+          <li><a href="pricing.html">Pricing</a></li>
           <li><a href="builders.html">For builders</a></li>
           <li><a href="compliance.html">Compliance guide</a></li>
           <li><a href="whats-new.html">What's new</a></li>
           <li><a href="about.html">About</a></li>
           <li><a href="contact.html">Contact</a></li>
-          <li><a href="mailto:tradiesbureau@gmail.com">tradiesbureau@gmail.com</a></li>
+          <li><a href="mailto:hello@tradiesbureau.com">hello@tradiesbureau.com</a></li>
           <li><a href="tel:+61402469948" data-track="phone">0402 469 948</a></li>
         </ul>
       </div>

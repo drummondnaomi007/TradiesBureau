@@ -16,7 +16,8 @@ tradiesbureau.com  (GitHub Pages, this repo)          portal.tradiesbureau.com  
 ## Pages
 
 ```
-index.html              Home: trade picker into the Checker, what the app does, three steps
+index.html              Home: app beside the headline, trade picker, three feature rows, pricing, three steps
+pricing.html            Pricing: free for 30 days, then $49 a month incl. GST; contact us for builders and other services
 features.html           Every feature, grouped, with jump links
 builders.html           Projects, work packages, tenders, client quote sharing, handover certificates
 compliance.html         Victorian compliance guide for trade businesses (free, with sources)
@@ -27,13 +28,14 @@ privacy.html            Privacy policy: the message form and visitor statistics
 portal/index.html       Help signing in: sign in, create an account, links from tradies and builders
 compliance-tracker.html Redirects to features.html (old address kept working)
 services.html           Redirects to features.html (old address kept working)
-css/style.css           Dark blue and teal theme
+css/style.css           Navy, teal and hi-vis theme (Plus Jakarta Sans headings, Inter body; the 2026 refresh is layered at the end)
 js/main.js              Mobile menu, footer year, screen tabs, "you've logged out" note
 js/enquiry.js           Sends the contact form to the app
 js/analytics.js         Visitor statistics (Google Analytics), off until a Measurement ID is added
 js/portal.js            Points app links at localhost:8080 when testing locally
 scripts/check-portal-links.py   Checks every link into the app
 research/                       Research briefs behind the compliance guide
+assets/logo-mark.svg            Navy logo for the white header (logo-mark-white.svg for the footer)
 ```
 
 ## How the site links into the app

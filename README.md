@@ -17,7 +17,7 @@ tradiesbureau.com  (GitHub Pages, this repo)          portal.tradiesbureau.com  
 
 ```
 index.html              Home: app beside the headline, trade picker, three feature rows, pricing, three steps
-pricing.html            Pricing: free trial, then $49 a month; contact us for builders and other services
+pricing.html            Pricing: free for 30 days, then $49 a month incl. GST; contact us for builders and other services
 features.html           Every feature, grouped, with jump links
 builders.html           Projects, work packages, tenders, client quote sharing, handover certificates
 compliance.html         Victorian compliance guide for trade businesses (free, with sources)

@@ -2110,7 +2110,7 @@ h1 {
 }
 
 .price-card-main::before {
-  content: "Free trial";
+  content: "30-day free trial";
   position: absolute;
   top: -13px;
   left: 32px;

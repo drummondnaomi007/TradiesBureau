@@ -2237,3 +2237,19 @@ h1 {
     grid-template-columns: minmax(0, 1fr);
   }
 }
+
+/* Two buttons in a call-to-action banner; the second is a light outline */
+.cta-buttons {
+  justify-content: center;
+}
+
+.btn-ghost-light {
+  border: 1.5px solid rgba(255, 255, 255, 0.7);
+  color: var(--white);
+  background: transparent;
+}
+
+.btn-ghost-light:hover {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: var(--white);
+}

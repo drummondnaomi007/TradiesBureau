@@ -2253,3 +2253,142 @@ h1 {
   background: rgba(255, 255, 255, 0.12);
   border-color: var(--white);
 }
+
+/* ------------------------------------------------------------------
+   Blog: case-study hub and posts
+   ------------------------------------------------------------------ */
+
+.post-back {
+  margin: 0 0 18px;
+  font-size: 0.92rem;
+  font-weight: 600;
+}
+
+.post-back a {
+  color: var(--teal-600);
+  text-decoration: none;
+}
+
+.post-back a:hover {
+  text-decoration: underline;
+}
+
+.post-title {
+  max-width: 22ch;
+  font-size: clamp(1.9rem, 4vw, 2.8rem);
+}
+
+.post-section {
+  padding-top: 40px;
+}
+
+.post-body p {
+  font-size: 1.08rem;
+  line-height: 1.75;
+  margin: 0 0 1.1em;
+}
+
+.tip {
+  background: var(--bg-soft);
+  border-left: 4px solid var(--hivis);
+  border-radius: 0 12px 12px 0;
+  padding: 18px 22px;
+  margin: 28px 0;
+}
+
+.tip strong {
+  display: block;
+  font-size: 0.78rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--teal-600);
+  margin-bottom: 6px;
+}
+
+.tip p {
+  margin: 0;
+}
+
+.post-tb {
+  color: var(--muted);
+}
+
+.post-pager {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin-top: 48px;
+  padding-top: 28px;
+  border-top: 1px solid var(--line);
+}
+
+.post-pager a {
+  display: block;
+  text-decoration: none;
+  color: var(--navy-900);
+  font-family: var(--font-head);
+  font-weight: 700;
+  line-height: 1.3;
+  padding: 16px 18px;
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  transition: border-color 0.15s ease, transform 0.15s ease;
+}
+
+.post-pager a:hover,
+.post-pager a:focus-visible {
+  border-color: var(--teal-500);
+  transform: translateY(-2px);
+}
+
+.post-pager a span {
+  display: block;
+  font-family: var(--font);
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--teal-600);
+  margin-bottom: 4px;
+}
+
+.post-pager-next {
+  text-align: right;
+}
+
+@media (max-width: 600px) {
+  .post-pager {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .post-pager-next {
+    text-align: left;
+  }
+}
+
+.thread-card {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.thread-card .kicker {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--teal-600);
+}
+
+.thread-card h3 {
+  margin: 0;
+  font-size: 1.2rem;
+  line-height: 1.25;
+}
+
+.thread-card .read-more {
+  margin-top: auto;
+  padding-top: 6px;
+  font-weight: 600;
+  color: var(--teal-600);
+}

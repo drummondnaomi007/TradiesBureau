@@ -21,6 +21,7 @@ pricing.html            Redirects to the home page while pricing is off the site
 features.html           Every feature, grouped, with jump links
 builders.html           Projects, work packages, tenders, client quote sharing, handover certificates
 compliance.html         Victorian compliance guide for trade businesses (free, with sources)
+workcover-declaration-2026.html  WorkCover wage declaration dates for this cycle (24 October 2026 for payrolls over $200,000)
 whats-new.html          Release notes, newest first
 about.html              Mission and values
 contact.html            Phone, email, socials, a message form (saved in the app)

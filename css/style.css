@@ -2384,3 +2384,60 @@ h1 {
     margin-bottom: 12px;
   }
 }
+
+/* ------------------------------------------------------------------
+   October 2026: early-access sign-up, a person to talk to on builders
+   ------------------------------------------------------------------ */
+
+.early-access {
+  padding: 56px 0;
+}
+
+.early-access-box {
+  display: grid;
+  grid-template-columns: 1.1fr 1fr;
+  gap: 40px;
+  align-items: start;
+  background: var(--bg-soft);
+  border: 1px solid var(--line);
+  border-radius: 20px;
+  padding: 40px;
+}
+
+.early-access-box h2 {
+  margin: 8px 0 12px;
+}
+
+.early-access-box p {
+  color: var(--ink);
+}
+
+.early-access-form {
+  max-width: none;
+}
+
+.early-access-form input {
+  background: var(--white);
+}
+
+.early-access-form .btn {
+  align-self: flex-start;
+}
+
+.cta-talk {
+  margin: 20px 0 0;
+}
+
+.cta-talk a {
+  color: var(--white);
+  font-weight: 600;
+}
+
+@media (max-width: 760px) {
+  .early-access-box {
+    grid-template-columns: 1fr;
+    gap: 20px;
+    padding: 24px 20px;
+    margin: 0 16px;
+  }
+}

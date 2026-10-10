@@ -43,6 +43,11 @@
     "@type": "State",
     "name": "Victoria, Australia"
    },
+   "sameAs": [
+    "https://facebook.com/tradiesbureau",
+    "https://instagram.com/tradiesbureau",
+    "https://linkedin.com/company/tradiesbureau"
+   ],
    "description": "Compliance software for Victorian trade businesses: licences, registrations, insurance, subcontractors, tenders and handover."
   },
   {
@@ -59,7 +64,8 @@
    "@type": "Article",
    "headline": "The Victorian compliance guide for trade businesses",
    "inLanguage": "en-AU",
-   "dateModified": "2026-09-25",
+   "datePublished": "2026-09-25",
+   "dateModified": "2026-10-10",
    "author": {
     "@id": "https://tradiesbureau.com/#organization"
    },
@@ -67,6 +73,59 @@
     "@id": "https://tradiesbureau.com/#organization"
    },
    "mainEntityOfPage": "https://tradiesbureau.com/compliance.html"
+  },
+  {
+   "@type": "FAQPage",
+   "mainEntity": [
+    {
+     "@type": "Question",
+     "name": "How much warranty insurance does a Victorian plumber need?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "$50,000 per compliance certificate for domestic work, $100,000 for non-domestic, lasting 6 years after completion. Plus $5 million public liability."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "What is the minimum professional indemnity insurance for a building designer in Victoria?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "$1.5 million per claim and in total (defence costs inside the limit), or $1 million + $500,000 for defence costs. At least one automatic reinstatement."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "What are the apprentice supervision rules for electricians in Victoria?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Mandatory since 1 September 2025. First-years: 1:1 direct supervision. Broad supervision: up to 5 apprentices per supervisor. General-supervision and mixed-group ratios are in section 8 of Energy Safe's requirements."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "When is the WorkCover wage declaration due in Victoria?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Payroll of $200,000 or less: declare by March 2027 (last year: 20 March). Over $200,000: 24 October 2026. The date on your renewal notice is the one that counts."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "When do Victoria's new domestic building contract laws start?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "Originally 1 December 2026 at the latest. A delay was passed in September 2026 and the new date hasn't been confirmed."
+     }
+    },
+    {
+     "@type": "Question",
+     "name": "When must a Victorian builder pay the home warranty premium?",
+     "acceptedAnswer": {
+      "@type": "Answer",
+      "text": "10 business days after the contract is signed, or before work starts — whichever comes first."
+     }
+    }
+   ]
   }
  ]
 }
@@ -83,7 +142,7 @@
 
 <header class="site-header">
   <nav class="nav" aria-label="Main">
-    <a href="index.html" class="brand">
+    <a href="/" class="brand">
       <img src="assets/logo-mark.svg" alt="" class="brand-logo" width="32" height="39">
       <span class="brand-name">Tradies <span>Bureau</span></span>
     </a>
@@ -105,7 +164,7 @@
       <span class="eyebrow">Victoria, Australia</span>
       <h1>The Victorian compliance guide for trade businesses</h1>
       <p class="lede">The rules that keep builders, plumbers, electricians and designers legally on the tools — the Building and Plumbing Commission, insurance minimums, apprentice supervision, WorkCover and the dates you can't miss.</p>
-      <p class="guide-meta">Last reviewed 25 September 2026; solar and batteries section added 7 October 2026. General information only — not legal advice.</p>
+      <p class="guide-meta">Last updated 10 October 2026; solar and batteries section added 7 October 2026; last full review 25 September 2026. General information only — not legal advice.</p>
       <nav class="toc" aria-label="On this page">
         <a href="#quick-answers">Quick answers</a>
         <a href="#bpc">The BPC</a>
@@ -381,6 +440,7 @@
         <li>If your wages are running more than <strong>20%</strong> over your estimate, tell WorkSafe within <strong>28 days</strong>.</li>
         <li>Some contractors count as workers, so their pay counts towards your WorkCover wages.</li>
       </ul>
+      <p>More on this cycle&rsquo;s dates: <a href="workcover-declaration-2026.html">WorkCover wage declaration 2026: who declares by 24 October</a>.</p>
 
       <h3>Payroll tax</h3>
       <p>Tax-free threshold is <strong>$1 million</strong> a year. The rate is 4.85% (1.2125% for regional employers).</p>
@@ -437,6 +497,37 @@
     </div>
   </section>
 
+<section class="early-access" id="early-access">
+  <div class="container early-access-box">
+    <div>
+      <span class="eyebrow">Early access</span>
+      <h2>Sign-up opens soon</h2>
+      <p>Tradies Bureau is running as a demo while we get ready for sign-ups. Leave your name and email and we&rsquo;ll tell you the day it opens. No spam, and our <a href="privacy.html">privacy policy</a> explains what happens to your details.</p>
+    </div>
+    <div>
+      <div class="form-status form-status-ok" data-enquiry-sent hidden role="status" tabindex="-1">
+        <strong>You&rsquo;re on the list.</strong> We&rsquo;ll email you the day sign-up opens. In the meantime, <a href="https://portal.tradiesbureau.com/login" data-portal="/login">try the demo</a>.
+      </div>
+      <div class="form-status form-status-error" data-enquiry-error hidden role="alert" tabindex="-1">
+        <strong>Sorry, that didn&rsquo;t send.</strong> <span data-enquiry-error-text>Please try again, or email <a href="mailto:hello@tradiesbureau.com">hello@tradiesbureau.com</a>.</span>
+      </div>
+      <form class="form-stack early-access-form" data-enquiry action="https://portal.tradiesbureau.com/api/enquiries" data-portal="/api/enquiries" method="post">
+        <label for="ea-name">Name</label>
+        <input id="ea-name" name="name" type="text" autocomplete="name" maxlength="120" required />
+        <label for="ea-email">Email</label>
+        <input id="ea-email" name="email" type="email" autocomplete="email" maxlength="254" required />
+        <div class="hp-field" aria-hidden="true">
+          <label for="ea-website">Leave this empty</label>
+          <input id="ea-website" name="website" type="text" tabindex="-1" autocomplete="off" />
+        </div>
+        <input type="hidden" name="message" value="Early access: please email me when sign-up opens." />
+        <input type="hidden" name="page" value="early-access-guide" />
+        <button type="submit" class="btn btn-primary">Join early access</button>
+      </form>
+    </div>
+  </div>
+</section>
+
   <section id="sources" class="guide-section">
     <div class="container">
       <h2>Sources</h2>
@@ -464,7 +555,7 @@
         <li><a href="https://www.ato.gov.au/businesses-and-organisations/super-for-employers/payday-super/paying-super-on-payday/payment-deadlines-for-payday-super" target="_blank" rel="noopener">ATO — Payday Super deadlines</a></li>
         <li><a href="https://www.ato.gov.au/businesses-and-organisations/preparing-lodging-and-paying/reports-and-returns/taxable-payments-annual-report" target="_blank" rel="noopener">ATO — taxable payments annual report</a></li>
       </ul>
-      <p class="guide-meta">This guide is general information for trade businesses in Victoria, last reviewed 25 September 2026. It isn't legal, insurance or financial advice.</p>
+      <p class="guide-meta">This guide is general information for trade businesses in Victoria, last updated 10 October 2026. It isn't legal, insurance or financial advice.</p>
     </div>
   </section>
 </main>
@@ -473,7 +564,7 @@
   <div class="container">
     <div class="footer-grid">
       <div>
-        <a href="index.html" class="footer-brand"><img src="assets/logo-mark-white.svg" alt="" width="26" height="32"><span>Tradies <span>Bureau</span></span></a>
+        <a href="/" class="footer-brand"><img src="assets/logo-mark-white.svg" alt="" width="26" height="32"><span>Tradies <span>Bureau</span></span></a>
         <p>Bringing freedom to trade service businesses. One less thing to chase, one more thing sorted.</p>
         <div class="social-row">
           <a class="social-link" href="https://facebook.com/tradiesbureau" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" aria-hidden="true"><path d="M14 8.5V6.8c0-.8.5-1.3 1.3-1.3H17V2.3h-2.6C11.6 2.3 10.6 4 10.6 6.5v2H8.3v3.2h2.3v10h3.4v-10h2.6l.4-3.2z"/></svg></a>
@@ -512,5 +603,6 @@
 </footer>
 
 <script src="js/main.js"></script>
+<script src="js/enquiry.js"></script>
 </body>
 </html>

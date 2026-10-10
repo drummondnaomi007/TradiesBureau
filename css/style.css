@@ -2253,3 +2253,134 @@ h1 {
   background: rgba(255, 255, 255, 0.12);
   border-color: var(--white);
 }
+
+/* Home: the pitch. "What tradies actually want" as numbered cards, then
+   "What quiet delegation gives you" as numbered rows. */
+.lede-second {
+  font-size: 1.05rem;
+}
+
+.want-list,
+.benefit-list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  counter-reset: pitch;
+}
+
+.want-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+  gap: 16px;
+}
+
+.want-list li,
+.benefit-list > li {
+  counter-increment: pitch;
+  background: var(--white);
+  border: 1px solid var(--line);
+  border-radius: 14px;
+  padding: 24px;
+  position: relative;
+}
+
+.want-list li::before,
+.benefit-list > li::before {
+  content: counter(pitch);
+  display: grid;
+  place-items: center;
+  width: 34px;
+  height: 34px;
+  border-radius: 50%;
+  background: var(--navy-100);
+  color: var(--teal-600);
+  font-family: var(--font-head);
+  font-weight: 800;
+  margin-bottom: 14px;
+}
+
+.want-list h3,
+.benefit-list h3 {
+  font-size: 1.08rem;
+  line-height: 1.3;
+  margin: 0 0 8px;
+}
+
+.want-list p,
+.benefit-list p {
+  margin: 0;
+  color: var(--muted);
+}
+
+/* One full-width row per benefit, the number in its own column, so the
+   five line up down the page */
+.benefit-list {
+  display: grid;
+  gap: 14px;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.benefit-list > li {
+  display: grid;
+  grid-template-columns: 34px minmax(0, 1fr);
+  column-gap: 20px;
+  align-items: start;
+}
+
+.benefit-list > li > * {
+  grid-column: 2;
+}
+
+.benefit-list > li::before {
+  grid-column: 1;
+  grid-row: 1 / span 3;
+  margin: 0;
+  background: var(--teal-600);
+  color: var(--white);
+}
+
+.trust-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin-top: 18px;
+}
+
+.trust-grid > div {
+  background: var(--bg-soft);
+  border-left: 3px solid var(--hivis);
+  border-radius: 10px;
+  padding: 14px 16px;
+}
+
+.trust-grid h4 {
+  font-family: var(--font-head);
+  color: var(--navy-900);
+  font-size: 0.98rem;
+  margin: 0 0 4px;
+}
+
+.trust-grid p {
+  font-size: 0.94rem;
+}
+
+@media (max-width: 800px) {
+  .trust-grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
+}
+
+@media (max-width: 480px) {
+  .benefit-list > li {
+    grid-template-columns: minmax(0, 1fr);
+  }
+  .benefit-list > li > *,
+  .benefit-list > li::before {
+    grid-column: 1;
+    grid-row: auto;
+  }
+  .benefit-list > li::before {
+    margin-bottom: 12px;
+  }
+}

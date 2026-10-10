@@ -16,8 +16,8 @@ tradiesbureau.com  (GitHub Pages, this repo)          portal.tradiesbureau.com  
 ## Pages
 
 ```
-index.html              Home: app beside the headline, trade picker, three feature rows, pricing, three steps
-pricing.html            Pricing: free for 30 days, then $49 a month incl. GST; contact us for builders and other services
+index.html              Home: the pitch, what tradies want, what Tradies Bureau gives you, trade picker, three feature rows, three steps
+pricing.html            Redirects to the home page while pricing is off the site (the old page is in git history)
 features.html           Every feature, grouped, with jump links
 builders.html           Projects, work packages, tenders, client quote sharing, handover certificates
 compliance.html         Victorian compliance guide for trade businesses (free, with sources)

@@ -11,11 +11,13 @@ var HEADER_ROW = 3;
 var FIRST_ROW = 4;
 var EXAMPLE_NOTE = 'EXAMPLE: delete this row';
 var REGISTER_FOLDER = '00 Project Register';
+var FOLDER_MAP_NAMES = ['Google Drive Map', 'Drive Map']; // current name first, then the original
 
 function onOpen() {
   SpreadsheetApp.getUi().createMenu('Owner Builder')
     .addItem('Set up Drive folders', 'setUpDriveFolders')
     .addItem('Check trade paperwork', 'checkTradePaperwork')
+    .addItem('Protect formula columns', 'protectFormulaColumns')
     .addSeparator()
     .addItem('Remove example rows', 'removeExampleRows')
     .addItem('Back up a copy', 'backUpCopy')
@@ -30,7 +32,7 @@ function onEdit(e) {
   if (row < FIRST_ROW) return;
   var cols = headers_(sheet);
   if (sheet.getName() === 'Documents') {
-    var folder = sheet.getRange(row, cols['Folder']).getDisplayValue();
+    var folder = folderCode_(sheet.getRange(row, cols['Folder']).getDisplayValue());
     var type = sheet.getRange(row, cols['Type']).getDisplayValue();
     var noCell = sheet.getRange(row, cols['No.']);
     if (folder && type && noCell.isBlank()) {
@@ -38,7 +40,7 @@ function onEdit(e) {
       var data = sheet.getRange(FIRST_ROW, 1, last - FIRST_ROW + 1, sheet.getLastColumn()).getDisplayValues();
       var max = 0;
       data.forEach(function (r) {
-        if (r[cols['Folder'] - 1] === folder && r[cols['Type'] - 1] === type) {
+        if (folderCode_(r[cols['Folder'] - 1]) === folder && r[cols['Type'] - 1] === type) {
           max = Math.max(max, parseInt(r[cols['No.'] - 1], 10) || 0);
         }
       });
@@ -51,7 +53,7 @@ function onEdit(e) {
 }
 
 // Create (or find) this build's folder tree and write each folder's link into
-// the Drive Map. Every "Open" link in the workbook reads from there.
+// the folder map tab. Every "Open" link in the workbook reads from there.
 function setUpDriveFolders() {
   var ui = SpreadsheetApp.getUi();
   var ss = SpreadsheetApp.getActive();
@@ -84,7 +86,11 @@ function setUpDriveFolders() {
     root = childFolder_(parent, 'Owner Build - ' + name);
   }
 
-  var map = ss.getSheetByName('Drive Map');
+  var map = folderMap_();
+  if (!map) {
+    ui.alert('Set up Drive folders', 'Couldn\'t find the "' + FOLDER_MAP_NAMES[0] + '" tab. Rename your folder map tab back to that and try again.', ui.ButtonSet.OK);
+    return;
+  }
   var cols = headers_(map);
   var rows = map.getRange(FIRST_ROW, 1, map.getLastRow() - FIRST_ROW + 1, map.getLastColumn()).getDisplayValues();
   var made = 0;
@@ -110,13 +116,35 @@ function checkTradePaperwork() {
   var lines = [];
   rows.forEach(function (r) {
     var status = r[cols['Paperwork'] - 1];
-    if (status === 'Expired' || status === 'Expires within 30 days') {
+    if (status && status !== 'OK') {
       lines.push(r[cols['Business name'] - 1] + ' (' + r[cols['Package'] - 1] + '): ' + status +
         '. Licence ' + (r[cols['Licence expiry'] - 1] || 'n/a') + ', insurance ' + (r[cols['PL expiry'] - 1] || 'n/a'));
     }
   });
   SpreadsheetApp.getUi().alert('Trade paperwork',
-    lines.length ? lines.join('\n') : 'Nothing expired or expiring in the next 30 days.', SpreadsheetApp.getUi().ButtonSet.OK);
+    lines.length ? lines.join('\n') : 'Nothing expired, expiring soon, missing or typed as text.', SpreadsheetApp.getUi().ButtonSet.OK);
+}
+
+// Grey (formula) columns get a warning if someone types over them. Warning only, so you can
+// still change one deliberately. Safe to run again: existing protections are replaced.
+function protectFormulaColumns() {
+  var ss = SpreadsheetApp.getActive();
+  var count = 0;
+  ss.getSheets().forEach(function (sheet) {
+    sheet.getProtections(SpreadsheetApp.ProtectionType.RANGE).forEach(function (p) {
+      if (p.getDescription() === 'Owner Builder formula') p.remove();
+    });
+    var last = sheet.getLastRow();
+    if (last < FIRST_ROW) return;
+    var formulas = sheet.getRange(FIRST_ROW, 1, 1, sheet.getLastColumn()).getFormulas()[0];
+    formulas.forEach(function (f, c) {
+      if (!f) return;
+      var p = sheet.getRange(FIRST_ROW, c + 1, last - FIRST_ROW + 1, 1).protect();
+      p.setDescription('Owner Builder formula').setWarningOnly(true);
+      count++;
+    });
+  });
+  SpreadsheetApp.getUi().alert('Done', count + ' formula columns now warn before they are typed over.', SpreadsheetApp.getUi().ButtonSet.OK);
 }
 
 // Clears what you typed in example rows. Formulas stay, so every tab keeps working.
@@ -159,6 +187,21 @@ function headers_(sheet) {
   var cols = {};
   values.forEach(function (h, i) { if (h && !cols[h]) cols[h] = i + 1; });
   return cols;
+}
+
+function folderMap_() {
+  var ss = SpreadsheetApp.getActive();
+  for (var i = 0; i < FOLDER_MAP_NAMES.length; i++) {
+    var sheet = ss.getSheetByName(FOLDER_MAP_NAMES[i]);
+    if (sheet) return sheet;
+  }
+  return null;
+}
+
+// "2" and "02" are the same folder.
+function folderCode_(value) {
+  var v = String(value).trim();
+  return /^\d$/.test(v) ? '0' + v : v;
 }
 
 function childFolder_(parent, name) {

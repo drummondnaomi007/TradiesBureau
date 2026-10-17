@@ -10,6 +10,7 @@ says. By default the prototype is read from this repository's history
     python3 _owner-builder-sheets/build_workbook.py --src path/to/owner-builder-in-a-box
 """
 import argparse
+import datetime
 import html
 import os
 import re
@@ -17,7 +18,7 @@ import subprocess
 
 from openpyxl import Workbook
 from openpyxl.formatting.rule import CellIsRule, FormulaRule
-from openpyxl.styles import Alignment, Border, Font, PatternFill, Side
+from openpyxl.styles import Alignment, Border, Font, PatternFill, Protection, Side
 from openpyxl.utils import get_column_letter
 from openpyxl.worksheet.datavalidation import DataValidation
 from openpyxl.worksheet.formula import ArrayFormula
@@ -263,8 +264,32 @@ LISTS = {
     "LowMedHigh": ["Low", "Med", "High"],
     "RiskStatus": ["Open", "Watching", "Closed"],
     "Level": ["Ground", "First", "Second", "Basement", "External"],
+    "AreaType": ["Internal", "Garage", "External"],
 }
 LIST_REFS = {}  # name -> "Lists!$A$2:$A$9", filled when the Lists sheet is written
+
+DRIVE_MAP = "Google Drive Map"
+
+# Legal thresholds and rules of thumb used by the checks. They live on the Settings tab so
+# they can be updated when the law changes, without touching a formula.
+SETTINGS = [
+    # key, label, value, number format, note
+    ("dep_small", "Deposit cap: contracts under the threshold", 0.10, "0%", "Domestic Building Contracts Act 1995"),
+    ("dep_threshold", "Deposit cap threshold ($)", 20000, MONEY, ""),
+    ("dep_large", "Deposit cap: contracts at or over the threshold", 0.05, "0%", ""),
+    ("mdbc", "Registered builder and written major domestic building contract over ($)", 10000, MONEY,
+     "An increase to $20,000 has been proposed. Change it here if it's adopted."),
+    ("warranty", "Home warranty cover required over ($)", 20000, MONEY, "First Resort Home Warranty Scheme, contracts signed from 1 July 2026"),
+    ("consent", "Certificate of consent required over ($)", 20000, MONEY, "Was $16,000 before 1 July 2026"),
+    ("pc", "Principal contractor required from ($)", 350000, MONEY, "OHS Regulations 2017"),
+    ("expiry_days", "Warn about expiring licences and insurance (days ahead)", 30, "0", ""),
+    ("low_price", "Flag quotes this far under the median", 0.15, "0%", "Something is probably missing from the quote"),
+    ("over_budget", "Flag packages forecast over budget by more than", 0.05, "0%", ""),
+    ("committed", "G3 target: share of package budgets committed", 0.80, "0%", "G3 exit check"),
+    ("ceiling", "Default ceiling height (m)", 2.55, "0.00", "Used on Rooms when Ceiling is blank"),
+    ("waste", "Floor covering waste allowance", 0.10, "0%", "Used on Rooms"),
+]
+SET = {}  # key -> "Settings!$B$5", filled when the Settings sheet is written
 
 # ---------------------------------------------------------------- helpers
 
@@ -340,7 +365,17 @@ class Table:
         ws.auto_filter.ref = f"A{HEADER_ROW}:{get_column_letter(len(columns))}{self.last}"
 
     def formula(self, template, r):
-        return template.format(r=r, last=self.last, first=FIRST, **self.letter)
+        settings = {"S_" + k: v for k, v in SET.items()}
+        return template.format(r=r, last=self.last, first=FIRST, **self.letter, **settings)
+
+    def protect(self, also_locked=()):
+        """Lock formula cells (and any listed columns); leave entry cells open. No password."""
+        for i, (key, _, _, opt) in enumerate(self.cols, start=1):
+            if "f" in opt or key in also_locked:
+                continue
+            for r in range(FIRST, self.last + 1):
+                self.ws.cell(row=r, column=i).protection = Protection(locked=False)
+        lock_sheet(self.ws)
 
     def col(self, key, absolute=True):
         """Full column range for formulas on other tabs, e.g. 'Trades'!$B$4:$B$203."""
@@ -367,8 +402,32 @@ class Table:
         self.ws.conditional_formatting.add(f"{c}{FIRST}:{c}{self.last}", rule)
 
 
+def lock_sheet(ws):
+    """Protect a sheet but still allow filtering, sorting, formatting and adding rows."""
+    p = ws.protection
+    p.sheet = True
+    for allowed in ("autoFilter", "sort", "formatCells", "formatColumns", "formatRows",
+                    "insertRows", "deleteRows", "insertHyperlinks"):
+        setattr(p, allowed, False)
+
+
 def eq_rule(value, fill):
     return CellIsRule(operator="equal", formula=[f'"{value}"'], fill=fill)
+
+
+def starts_rule(cell, prefix, fill):
+    return FormulaRule(formula=[f'LEFT({cell},{len(prefix)})="{prefix}"'], fill=fill)
+
+
+def not_blank_rule(cell, fill):
+    return FormulaRule(formula=[f'LEN({cell})>0'], fill=fill)
+
+
+def bad_chars(expr):
+    """Replace characters that break file names (and Drive for desktop sync) with hyphens."""
+    for ch in ['/', '\\', ':', '*', '?', '""', '<', '>', '|']:
+        expr = f'SUBSTITUTE({expr},"{ch}","-")'
+    return expr
 
 
 def gate_folder(item):
@@ -420,11 +479,31 @@ def build(src, out):
         lists.cell(row=j, column=dt_col + 1, value=meaning)
     lists.column_dimensions[get_column_letter(dt_col + 1)].width = 48
 
+    # Settings, so every check below can point at its threshold.
+    se = wb.create_sheet("Settings")
+    title(se, "Settings", "The legal thresholds and rules of thumb behind the checks. Update a figure here when the law changes and every tab follows.")
+    for i, (h, w) in enumerate(zip(["Setting", "Value", "Notes"], [58, 14, 70]), start=1):
+        c = se.cell(row=HEADER_ROW, column=i, value=h)
+        c.font, c.fill = WHITE_BOLD, F_HEAD
+        se.column_dimensions[get_column_letter(i)].width = w
+    for r, (key, label, value, fmt, note) in enumerate(SETTINGS, start=FIRST):
+        se.cell(row=r, column=1, value=label)
+        v = se.cell(row=r, column=2, value=value)
+        v.number_format, v.fill, v.border = fmt, PatternFill("solid", fgColor="FFFBE6"), THIN
+        se.cell(row=r, column=3, value=note).font = MUTED
+        SET[key] = f"Settings!$B${r}"
+    se.cell(row=FIRST + len(SETTINGS) + 1, column=1,
+            value="Victorian rules checked September 2026. General information, not legal advice.").font = MUTED
+
     # Drive Map rows are fixed (folders + package subfolders), so links can be wired up before it's written.
     dm_last = FIRST + len(FOLDERS) + len(PACKAGE_SHORT) - 1
-    dm_code = f"'Drive Map'!$A${FIRST}:$A${dm_last}"
-    dm_path = f"'Drive Map'!$B${FIRST}:$B${dm_last}"
-    dm_link = f"'Drive Map'!$G${FIRST}:$G${dm_last}"
+    dm_code = f"'{DRIVE_MAP}'!$A${FIRST}:$A${dm_last}"
+    dm_path = f"'{DRIVE_MAP}'!$B${FIRST}:$B${dm_last}"
+    dm_link = f"'{DRIVE_MAP}'!$G${FIRST}:$G${dm_last}"
+
+    def package_folder(pkg_expr):
+        """Folder for a package, found by its two-digit number so renaming a package can't break it."""
+        return f'IFERROR(INDEX({dm_path},MATCH("04/"&LEFT({pkg_expr},2),{dm_code},0)),"04 Trades & Tenders/"&{pkg_expr})'
 
     def open_link(folder_key):
         lookup = f"INDEX({dm_link},MATCH({{{folder_key}}}{{r}},{dm_path},0))"
@@ -471,18 +550,24 @@ def build(src, out):
 
     # ---------------- Rooms
     rm = Table(wb, "Rooms", "Rooms & spaces",
-               "Enter each room once. Ceiling height defaults to 2.55 m if left blank. Wall area is one coat before openings are deducted.",
-               [("name", "Room", 22, {}), ("level", "Level", 11, {"dv": "Level"}),
+               "Enter each room or area once. Internal rooms get every quantity; garages skip skirting; external areas (driveways, paving, decks) get floor area only. Blank area type counts as internal.",
+               [("name", "Room / area", 22, {}), ("level", "Level", 11, {"dv": "Level"}),
+                ("atype", "Area type", 11, {"dv": "AreaType"}),
                 ("l", "Length (m)", 11, {"fmt": "0.00"}), ("w", "Width (m)", 11, {"fmt": "0.00"}),
                 ("h", "Ceiling (m)", 11, {"fmt": "0.00"}),
-                ("area", "Floor area (m²)", 13, {"fmt": "0.0", "f": '=IF(OR({l}{r}="",{w}{r}=""),"",{l}{r}*{w}{r})'}),
-                ("perim", "Skirting (m)", 12, {"fmt": "0.0", "f": '=IF({area}{r}="","",2*({l}{r}+{w}{r}))'}),
-                ("wall", "Wall paint (m²)", 13, {"fmt": "0.0", "f": '=IF({area}{r}="","",{perim}{r}*IF({h}{r}="",2.55,{h}{r}))'}),
-                ("tiles", "Floor tiles +10% (m²)", 14, {"fmt": "0.0", "f": '=IF({area}{r}="","",{area}{r}*1.1)'}),
-                ("squares", "Squares", 10, {"fmt": "0.0", "f": '=IF({area}{r}="","",{area}{r}/9.29)'}),
+                ("area", "Floor area (m²)", 13, {"fmt": "0.0", "f": '=IF(AND(ISNUMBER({l}{r}),ISNUMBER({w}{r})),{l}{r}*{w}{r},"")'}),
+                ("perim", "Skirting (m)", 12, {"fmt": "0.0", "f": '=IF(OR({area}{r}="",{atype}{r}="Garage",{atype}{r}="External"),"",2*({l}{r}+{w}{r}))'}),
+                ("wall", "Wall paint (m²)", 13, {"fmt": "0.0", "f": '=IF(OR({area}{r}="",{atype}{r}="External"),"",2*({l}{r}+{w}{r})*IF(ISNUMBER({h}{r}),{h}{r},{S_ceiling}))'}),
+                ("tiles", "Floor covering + waste (m²)", 14, {"fmt": "0.0", "f": '=IF({area}{r}="","",{area}{r}*(1+{S_waste}))'}),
+                ("squares", "Squares", 10, {"fmt": "0.0", "f": '=IF(OR({area}{r}="",{atype}{r}="External"),"",{area}{r}/9.29)'}),
+                ("issues", "Check", 22, {"f": '=IF(OR(AND({l}{r}<>"",NOT(ISNUMBER({l}{r}))),AND({w}{r}<>"",NOT(ISNUMBER({w}{r}))),AND({h}{r}<>"",NOT(ISNUMBER({h}{r})))),"Type sizes as numbers in metres, e.g. 3.2","")'}),
                 ("dwg", "Drawing ref", 14, {}), ("notes", "Notes", 36, {"wrap": True})],
                rows=60)
-    rm.fill([{"name": "Kitchen / living", "level": "Ground", "l": 7.2, "w": 5.4}], example=True)
+    rm.fill([{"name": "Kitchen / living", "level": "Ground", "atype": "Internal", "l": 7.2, "w": 5.4},
+             {"name": "Driveway", "level": "External", "atype": "External", "l": 12, "w": 3.5}], example=True)
+    rm.ws["B1"] = "Takeoffs"
+    rm.ws["B2"] = "NOTE: Include Garages and Outdoor areas where pricing and quoting is required (i.e driveways, paving etc) "
+    rm.rule("issues", not_blank_rule(f"{rm.letter['issues']}{FIRST}", F_RED))
 
     # ---------------- Selections
     sel = Table(wb, "Selections", "Selections & specs",
@@ -499,6 +584,7 @@ def build(src, out):
     sel.fill([{"item": "Kitchen mixer tap", "cat": "Fit-out", "room": "Kitchen / living",
                "spec": "Gooseneck, brushed nickel, WELS 5-star", "supplier": "Plumbing supplier", "qty": 1,
                "unit": "ea", "price": 420, "status": "Selected", "gate": "G6"}], example=True)
+    sel.ws["B2"] = "Note: You may have a separate spec sheet from your contract but keep this here to track"
     sel.rule("status", eq_rule("To choose", F_RED))
     sel.rule("status", eq_rule("Installed", F_GREEN))
 
@@ -523,17 +609,17 @@ def build(src, out):
                [("date", "Date", 12, {"fmt": DATE}), ("gate", "Stage", 8, {"dv": "Gates"}),
                 ("location", "Location / element", 26, {}), ("hold", "Hold point", 14, {"dv": "HoldPoint"}),
                 ("cover", "Before covering?", 11, {"dv": "YesNo"}), ("desc", "Description", 40, {"wrap": True}),
-                ("doc", "Doc ID / file name", 26, {}), ("link", "Drive link", 30, {}),
+                ("doc", "Doc ID / file name", 26, {}), ("link", "Google Drive link", 30, {}),
                 ("notes", "Notes", 28, {"wrap": True})],
                rows=300)
     ph.fill([{"gate": "G4", "location": "Slab, north side", "hold": "Pre-slab", "cover": "Yes",
               "desc": "Mesh, bar chairs and edge beam before pour", "doc": "06-PHO-001_Slab-mesh-north"}], example=True)
 
     # ---------------- Drive Map (needed by Documents)
-    dm = wb.create_sheet("Drive Map")
-    title(dm, "Google Drive folders",
-          "The folder tree for one build. The Apps Script creates it and fills in the links; offline, create the same names in Drive for desktop.")
-    heads = ["Code", "Folder path", "What goes here", "Compliance stages", "Gateways", "Tabs that point here", "Folder link"]
+    dm = wb.create_sheet(DRIVE_MAP)
+    title(dm, "Folder map",
+          "The folder tree for one build, in Google Drive, Dropbox or OneDrive. Paste each folder's link, or a local folder path, into Folder link; the Open links on other tabs use it. In Google Sheets the Apps Script can create the folders and fill in the links.")
+    heads = ["Code", "Folder path", "What goes here", "Compliance stages", "Gateways", "Tabs that point here", "Folder link (paste)"]
     widths = [8, 44, 70, 12, 12, 30, 40]
     for i, (h, w) in enumerate(zip(heads, widths), start=1):
         c = dm.cell(row=HEADER_ROW, column=i, value=h)
@@ -563,6 +649,10 @@ def build(src, out):
         ("Register every file in the Documents tab first. It builds the Doc ID and file name for you and tells you which folder to save it in.", False),
         ("Trade paperwork goes in that package's subfolder of 04, e.g. 04 Trades & Tenders/08 Roofing/04-CON-003_Roofing-Contract.pdf", False),
         ("When a drawing is replaced, set the old one to Superseded in Documents and move the file to 99 Archive. Never delete.", False),
+        ("Folder links: any provider", True),
+        ("Google Drive, Dropbox, OneDrive or SharePoint: open the folder in your browser, choose Share > Copy link, and paste it into Folder link.", False),
+        ("Working offline on a computer? Paste the local folder path instead, e.g. C:\\Users\\you\\Dropbox\\Owner Build\\02 Design & Engineering or /Users/you/Library/CloudStorage/... It opens without internet.", False),
+        ("Google Sheets: Owner Builder > Set up Drive folders creates the folders and fills in every link for you.", False),
         ("Document types", True),
     ] + [(f"{code}  {meaning}", False) for code, meaning in DOC_TYPES]
     for line, bold in guide:
@@ -573,7 +663,7 @@ def build(src, out):
         r += 1
     # ---------------- Packages (needed by Trades, Tenders, Payments)
     pk = Table(wb, "Packages", "Trade packages & cost control",
-               "Budget, committed (signed contracts + approved variations), paid and forecast for each package. Forecast final is a formula you can overwrite with your own figure.",
+               "Budget, committed (signed contracts + approved variations), paid and forecast for each package. Other tabs find a package by its two-digit No., so you can rename it safely. Type your own forecast in Forecast override if you have one.",
                [("no", "No.", 6, {"text": True}), ("pkg", "Package", 26, {}),
                 ("scope", "Scope", 36, {"wrap": True}), ("basis", "Usual basis", 20, {"wrap": True}),
                 ("licence", "Licence / registration", 22, {"wrap": True}), ("paper", "Paperwork to collect", 28, {"wrap": True}),
@@ -581,15 +671,18 @@ def build(src, out):
                 ("contracted", "Contracted ($)", 13, {"fmt": MONEY}), ("variations", "Approved variations ($)", 13, {"fmt": MONEY}),
                 ("committed", "Committed ($)", 13, {"fmt": MONEY, "f": '=IF({pkg}{r}="","",N({contracted}{r})+N({variations}{r}))'}),
                 ("paid", "Paid ($)", 12, {"fmt": MONEY}),
-                ("forecast", "Forecast final ($)", 14, {"fmt": MONEY, "f": '=IF({pkg}{r}="","",IF(N({committed}{r})>0,{committed}{r},N({budget}{r})))'}),
+                ("override", "Forecast override ($)", 13, {"fmt": MONEY}),
+                ("forecast", "Forecast final ($)", 14, {"fmt": MONEY, "f": '=IF({pkg}{r}="","",IF(ISNUMBER({override}{r}),{override}{r},IF(N({committed}{r})>0,{committed}{r},N({budget}{r}))))'}),
                 ("variance", "Under / (over) budget ($)", 14, {"fmt": '"$"#,##0;[Red]("$"#,##0)', "f": '=IF(OR({pkg}{r}="",N({budget}{r})=0),"",{budget}{r}-{forecast}{r})'}),
-                ("flag", "Flag", 12, {"f": '=IF(OR({pkg}{r}="",N({budget}{r})=0),"",IF({forecast}{r}>{budget}{r}*1.05,"Over >5%",""))'}),
-                ("folder", "Drive folder", 36, {"f": '=IF({pkg}{r}="","","04 Trades & Tenders/"&{pkg}{r})'}),
+                ("flag", "Flag", 12, {"f": '=IF(OR({pkg}{r}="",N({budget}{r})=0),"",IF({forecast}{r}>{budget}{r}*(1+{S_over_budget}),"Over budget",""))'}),
+                ("issues", "Check", 24, {"f": '=IF({pkg}{r}="","",TRIM(IF(OR({no}{r}="",LEFT({pkg}{r},LEN({no}{r})+1)<>{no}{r}&" "),"Start the name with its No. and a space, e.g. 21 Pool. ","")&IF(AND({no}{r}<>"",COUNTIF({no}${first}:{no}${last},{no}{r})>1),"Duplicate No. ","")))'}),
+                ("folder", "Drive folder", 36, {"f": '=IF({pkg}{r}="","",' + package_folder("{pkg}{r}") + ')'}),
                 ("open", "Folder", 8, open_link("folder")), ("notes", "Notes", 30, {"wrap": True})],
                rows=30, freeze_col=2)
     pk.fill([{"no": short[:2], "pkg": short, "scope": row[1], "basis": row[2], "licence": row[3],
               "paper": row[4], "gate": gate} for short, row, gate in zip(PACKAGE_SHORT, package_rows, PACKAGE_GATE)])
-    pk.rule("flag", eq_rule("Over >5%", F_RED))
+    pk.rule("flag", eq_rule("Over budget", F_RED))
+    pk.rule("issues", not_blank_rule(f"{pk.letter['issues']}{FIRST}", F_RED))
     pk_names = f"='Packages'!$B${FIRST}:$B${pk.last}"
 
     # ---------------- Documents
@@ -597,25 +690,28 @@ def build(src, out):
                "Register every plan, permit, quote, contract, certificate and photo set. Pick the folder and type, type the number shown under 'Next free no.', and save the file with the name in column N.",
                [("folder", "Folder", 8, {"dv": "FolderCode", "text": True}), ("type", "Type", 8, {"dv": "DocType"}),
                 ("no", "No.", 6, {}),
-                ("next", "Next free no.", 9, {"f": '=IF(OR({folder}{r}="",{type}{r}=""),"",SUMPRODUCT(MAX(({folder}${first}:{folder}${last}={folder}{r})*({type}${first}:{type}${last}={type}{r})*{no}${first}:{no}${last}))+1)'}),
-                ("docid", "Doc ID", 14, {"f": '=IF(OR({folder}{r}="",{type}{r}="",{no}{r}=""),"",{folder}{r}&"-"&{type}{r}&"-"&TEXT({no}{r},"000"))'}),
+                ("fcode", "Folder code", 6, {"hide": True, "f": '=IF({folder}{r}="","",IF(ISNUMBER({folder}{r}),TEXT({folder}{r},"00"),TRIM({folder}{r})))'}),
+                ("next", "Next free no.", 9, {"arr": True, "f": '=IF(OR({fcode}{r}="",{type}{r}=""),"",MAX(IF(({fcode}${first}:{fcode}${last}={fcode}{r})*({type}${first}:{type}${last}={type}{r})*ISNUMBER({no}${first}:{no}${last}),{no}${first}:{no}${last},0))+1)'}),
+                ("docid", "Doc ID", 14, {"f": '=IF(OR({fcode}{r}="",{type}{r}="",NOT(ISNUMBER({no}{r}))),"",{fcode}{r}&"-"&{type}{r}&"-"&TEXT({no}{r},"000"))'}),
                 ("desc", "Description", 34, {"wrap": True}), ("rev", "Rev", 6, {}),
                 ("date", "Date", 12, {"fmt": DATE}), ("from", "From / issued by", 18, {}),
                 ("pkg", "Trade package", 22, {"dv": pk_names}), ("status", "Status", 11, {"dv": "DocStatus"}),
                 ("gate", "Gateway", 8, {"dv": "Gates"}), ("comp", "Compliance ID", 12, {}),
-                ("file", "File name to use", 40, {"f": '=IF({docid}{r}="","",{docid}{r}&"_"&SUBSTITUTE(TRIM({desc}{r})," ","-")&IF({rev}{r}="","","_Rev"&{rev}{r}))'}),
-                ("where", "Save in Drive folder", 38, {"f": '=IF({folder}{r}="","",IF({status}{r}="Superseded","99 Archive",IFERROR(INDEX(' + dm_path + ',MATCH({folder}{r},' + dm_code + ',0)),"")&IF(AND({folder}{r}="04",{pkg}{r}<>""),"/"&{pkg}{r},"")))'}),
+                ("file", "File name to use", 40, {"f": '=IF({docid}{r}="","",{docid}{r}&"_"&' + bad_chars('SUBSTITUTE(TRIM({desc}{r})," ","-")') + '&IF({rev}{r}="","","_Rev"&{rev}{r}))'}),
+                ("where", "Save in Drive folder", 38, {"f": '=IF({fcode}{r}="","",IF({status}{r}="Superseded","99 Archive",IF(AND({fcode}{r}="04",{pkg}{r}<>""),' + package_folder("{pkg}{r}") + ',IFERROR(INDEX(' + dm_path + ',MATCH({fcode}{r},' + dm_code + ',0)),""))))'}),
                 ("open", "Folder", 8, open_link("where")),
+                ("issues", "Check", 26, {"f": '=IF(AND({folder}{r}="",{type}{r}="",{no}{r}=""),"",TRIM(IF(AND({fcode}{r}<>"",ISNA(MATCH({fcode}{r},' + dm_code + ',0))),"Folder code isn\'t on the folder map. ","")&IF(AND({no}{r}<>"",NOT(ISNUMBER({no}{r}))),"No. must be a whole number. ","")&IF(AND({fcode}{r}<>"",{type}{r}<>"",{no}{r}=""),"Type the next free no. ","")&IF(AND({docid}{r}<>"",COUNTIF({docid}${first}:{docid}${last},{docid}{r})>1),"Duplicate Doc ID. ","")))'}),
                 ("link", "File link", 30, {}), ("notes", "Notes", 28, {"wrap": True})],
-               rows=300, freeze_col=5)
+               rows=300, freeze_col=6)
     dc.fill([{"folder": "02", "type": "DWG", "no": 1, "desc": "Floor plan", "rev": "C", "from": "Draftsperson",
               "status": "Current", "gate": "G2", "comp": "de-drawings"}], example=True)
     dc.rule("docid", FormulaRule(formula=[f'AND({dc.letter["docid"]}{FIRST}<>"",COUNTIF(${dc.letter["docid"]}${FIRST}:${dc.letter["docid"]}${dc.last},{dc.letter["docid"]}{FIRST})>1)'], fill=F_RED))
     dc.rule("status", eq_rule("Superseded", F_AMBER))
+    dc.rule("issues", not_blank_rule(f"{dc.letter['issues']}{FIRST}", F_RED))
 
     # ---------------- Trades
     tr = Table(wb, "Trades", "Trade register",
-               "Every trade you invite or engage. Licence and insurance expiry dates turn amber 30 days out and red once expired.",
+               "Every trade you invite or engage. Licence and insurance dates turn amber before they expire (days set on Settings) and red once expired. Type dates as dates, e.g. 30/06/2027.",
                [("pkg", "Package", 22, {"dv": pk_names}), ("business", "Business name", 24, {}),
                 ("contact", "Contact", 16, {}), ("phone", "Phone", 13, {"text": True}), ("email", "Email", 22, {}),
                 ("abn", "ABN", 14, {"text": True}), ("gst", "GST registered?", 10, {"dv": "YesNo"}),
@@ -627,17 +723,23 @@ def build(src, out):
                 ("status", "Status", 12, {"dv": "TradeStatus"}), ("ctype", "Contract type", 18, {"dv": "ContractType"}),
                 ("signed", "Contract signed?", 10, {"dv": "YesNo"}), ("value", "Contract value inc GST ($)", 14, {"fmt": MONEY}),
                 ("deposit", "Deposit ($)", 11, {"fmt": MONEY}),
-                ("depcheck", "Deposit check", 16, {"f": '=IF(OR(N({value}{r})=0,N({deposit}{r})=0),"",IF({deposit}{r}>{value}{r}*IF({value}{r}<20000,0.1,0.05),"Over statutory cap","OK"))'}),
-                ("alert", "Paperwork", 18, {"f": '=IF({business}{r}="","",IF(OR(AND(ISNUMBER({licexp}{r}),{licexp}{r}<TODAY()),AND(ISNUMBER({plexp}{r}),{plexp}{r}<TODAY())),"Expired",IF(OR(AND(ISNUMBER({licexp}{r}),{licexp}{r}-TODAY()<=30),AND(ISNUMBER({plexp}{r}),{plexp}{r}-TODAY()<=30)),"Expires within 30 days","OK")))'}),
-                ("folder", "Drive folder", 32, {"f": '=IF({pkg}{r}="","","04 Trades & Tenders/"&{pkg}{r})'}),
+                ("depcheck", "Deposit check", 16, {"f": '=IF(OR(N({value}{r})=0,N({deposit}{r})=0),"",IF({deposit}{r}>{value}{r}*IF({value}{r}<{S_dep_threshold},{S_dep_small},{S_dep_large}),"Over statutory cap","OK"))'}),
+                ("alert", "Paperwork", 20, {"f": '=IF({business}{r}="","",IF(OR(AND({licexp}{r}<>"",NOT(ISNUMBER({licexp}{r}))),AND({plexp}{r}<>"",NOT(ISNUMBER({plexp}{r})))),"Check date: typed as text",IF(OR(AND(ISNUMBER({licexp}{r}),{licexp}{r}<TODAY()),AND(ISNUMBER({plexp}{r}),{plexp}{r}<TODAY())),"Expired",IF(OR(AND(ISNUMBER({licexp}{r}),{licexp}{r}-TODAY()<={S_expiry_days}),AND(ISNUMBER({plexp}{r}),{plexp}{r}-TODAY()<={S_expiry_days})),"Expires within "&{S_expiry_days}&" days",IF(AND(OR({status}{r}="Engaged",{signed}{r}="Yes"),OR({licexp}{r}="",{plexp}{r}="")),"Missing expiry date","OK")))))'}),
+                ("checks", "Contract checks", 30, {"wrap": True, "f": '=IF({business}{r}="","",TRIM(IF(COUNTIF({business}${first}:{business}${last},{business}{r})>1,"Duplicate business name. ","")&IF(AND(N({value}{r})>{S_mdbc},{lictype}{r}=""),"Over "&TEXT({S_mdbc},"$#,##0")&": record the builder registration (or exemption) and use a written major domestic building contract. ","")&IF(AND(N({value}{r})>{S_warranty},{warranty}{r}<>"Yes"),"Home warranty cover needed over "&TEXT({S_warranty},"$#,##0")&". ","")))'}),
+                ("folder", "Drive folder", 32, {"f": '=IF({pkg}{r}="","",' + package_folder("{pkg}{r}") + ')'}),
                 ("open", "Folder", 8, open_link("folder")), ("notes", "Notes", 28, {"wrap": True})],
                rows=100, freeze_col=2)
     tr.fill([{"pkg": "08 Roofing", "business": "Ridgeline Metal Roofs", "gst": "Yes", "lictype": "Roof plumbing licence",
               "workcover": "Yes", "warranty": "Yes", "swms": "Yes", "cards": "Yes", "status": "Engaged",
-              "ctype": "Supply & install", "signed": "Yes", "value": 36900, "deposit": 1845}], example=True)
+              "ctype": "Supply & install", "signed": "Yes", "value": 36900, "deposit": 1845,
+              "licexp": datetime.date(2027, 6, 30), "plexp": datetime.date(2027, 3, 31)}], example=True)
+    a1 = f"{tr.letter['alert']}{FIRST}"
     tr.rule("alert", eq_rule("Expired", F_RED))
-    tr.rule("alert", eq_rule("Expires within 30 days", F_AMBER))
+    tr.rule("alert", starts_rule(a1, "Expires", F_AMBER))
+    tr.rule("alert", starts_rule(a1, "Check date", F_RED))
+    tr.rule("alert", starts_rule(a1, "Missing", F_AMBER))
     tr.rule("depcheck", eq_rule("Over statutory cap", F_RED))
+    tr.rule("checks", not_blank_rule(f"{tr.letter['checks']}{FIRST}", F_AMBER))
 
     # ---------------- Tender Setup + Tenders
     ts = Table(wb, "Tender Setup", "Tender weights & recommendations",
@@ -658,30 +760,32 @@ def build(src, out):
             ts.ws[f"{ts.letter[key]}{r}"] = w
 
     tn = Table(wb, "Tenders", "Tender comparison",
-               "One row per quote. Fail any gate and the quote is excluded. Levelling adds exclusions, provisional-sum adjustments and a risk allowance so prices are like-for-like. Scores are 0 to 10.",
+               "One row per quote. Fail any gate and the quote is excluded. Levelling adds exclusions, provisional-sum adjustments and a risk allowance so prices are like-for-like. Scores are 0 to 10. The Check column says why a quote is excluded or needs a look.",
                [("pkg", "Package", 22, {"dv": pk_names}), ("name", "Tenderer", 22, {}),
                 ("recv", "Received", 11, {"fmt": DATE}),
                 ("g_reg", "Registered / licensed", 10, {"dv": "YesNo"}), ("g_ins", "Insurance current", 10, {"dv": "YesNo"}),
                 ("g_abn", "ABN verified", 9, {"dv": "YesNo"}), ("g_swms", "SWMS provided", 9, {"dv": "YesNo"}),
                 ("g_scope", "Scope conforms", 9, {"dv": "YesNo"}),
-                ("compliant", "Compliant?", 10, {"f": '=IF({name}{r}="","",IF(AND({g_reg}{r}="Yes",{g_ins}{r}="Yes",{g_abn}{r}="Yes",{g_swms}{r}="Yes",{g_scope}{r}="Yes",N({price}{r})>0),"Yes","No"))'}),
+                ("compliant", "Compliant?", 10, {"f": '=IF({name}{r}="","",IF(AND(COUNTIF({g_reg}{r}:{g_scope}{r},"Yes")=5,SUMPRODUCT(--ISTEXT({price}{r}:{risk}{r}))=0,N({price}{r})>0,N({levelled}{r})>0,{m}{r}>0),"Yes","No"))'}),
                 ("price", "Quoted price inc GST ($)", 13, {"fmt": MONEY}), ("excl", "+ Cost of exclusions ($)", 12, {"fmt": MONEY}),
                 ("ps", "± Provisional sum adj. ($)", 12, {"fmt": MONEY}), ("risk", "+ Risk allowance ($)", 12, {"fmt": MONEY}),
                 ("levelled", "Levelled price ($)", 13, {"fmt": MONEY, "f": '=IF({name}{r}="","",N({price}{r})+N({excl}{r})+N({ps}{r})+N({risk}{r}))'}),
                 ("s_exp", "Experience & references", 10, {}), ("s_prog", "Program / availability", 10, {}),
                 ("s_qual", "Quality of past work", 10, {}), ("s_comm", "Communication", 10, {}),
                 ("s_warr", "Warranty & defects terms", 10, {}),
-                ("m", "Weights row", 6, {"hide": True, "f": "=IFERROR(MATCH({pkg}{r},'Tender Setup'!$A$4:$A$33,0),0)"}),
+                ("pkey", "Package no.", 6, {"hide": True, "f": '=IF({pkg}{r}="","",LEFT({pkg}{r},2))'}),
+                ("m", "Weights row", 6, {"hide": True, "f": "=IF({pkg}{r}=\"\",0,IFERROR(MATCH(LEFT({pkg}{r},3)&\"*\",'Tender Setup'!$A$4:$A$33,0),0))"}),
                 ("lowest", "Lowest compliant in package ($)", 13, {"fmt": MONEY, "arr": True,
-                 "f": '=IF({compliant}{r}<>"Yes","",MIN(IF(({pkg}${first}:{pkg}${last}={pkg}{r})*({compliant}${first}:{compliant}${last}="Yes"),{levelled}${first}:{levelled}${last})))'}),
+                 "f": '=IF({compliant}{r}<>"Yes","",MIN(IF(({pkey}${first}:{pkey}${last}={pkey}{r})*({compliant}${first}:{compliant}${last}="Yes"),{levelled}${first}:{levelled}${last})))'}),
                 ("median", "Median compliant in package ($)", 13, {"fmt": MONEY, "arr": True,
-                 "f": '=IF({compliant}{r}<>"Yes","",MEDIAN(IF(({pkg}${first}:{pkg}${last}={pkg}{r})*({compliant}${first}:{compliant}${last}="Yes"),{levelled}${first}:{levelled}${last})))'}),
-                ("pricepts", "Price points", 9, {"fmt": "0.0", "f": "=IF(OR({compliant}{r}<>\"Yes\",{m}{r}=0),0,{lowest}{r}/{levelled}{r}*INDEX('Tender Setup'!$C$4:$C$33,{m}{r}))"}),
-                ("critpts", "Other points", 9, {"fmt": "0.0", "f": "=IF(OR({compliant}{r}<>\"Yes\",{m}{r}=0),0,(N({s_exp}{r})*INDEX('Tender Setup'!$D$4:$D$33,{m}{r})+N({s_prog}{r})*INDEX('Tender Setup'!$E$4:$E$33,{m}{r})+N({s_qual}{r})*INDEX('Tender Setup'!$F$4:$F$33,{m}{r})+N({s_comm}{r})*INDEX('Tender Setup'!$G$4:$G$33,{m}{r})+N({s_warr}{r})*INDEX('Tender Setup'!$H$4:$H$33,{m}{r}))/10)"}),
-                ("total", "Total /100", 9, {"fmt": "0.0", "f": '=IF({name}{r}="","",{pricepts}{r}+{critpts}{r})'}),
-                ("rank", "Rank", 9, {"f": '=IF({name}{r}="","",IF({compliant}{r}<>"Yes","Excluded",COUNTIFS({pkg}${first}:{pkg}${last},{pkg}{r},{compliant}${first}:{compliant}${last},"Yes",{total}${first}:{total}${last},">"&{total}{r})+1))'}),
-                ("lowflag", "Price check", 18, {"f": '=IF({compliant}{r}<>"Yes","",IF(AND(COUNTIFS({pkg}${first}:{pkg}${last},{pkg}{r},{compliant}${first}:{compliant}${last},"Yes")>=2,{levelled}{r}<{median}{r}*0.85),"Over 15% under median",""))'}),
-                ("key", "Key", 6, {"hide": True, "f": '={pkg}{r}&"|"&{rank}{r}'}),
+                 "f": '=IF({compliant}{r}<>"Yes","",MEDIAN(IF(({pkey}${first}:{pkey}${last}={pkey}{r})*({compliant}${first}:{compliant}${last}="Yes"),{levelled}${first}:{levelled}${last})))'}),
+                ("pricepts", "Price points", 9, {"fmt": "0.0", "f": "=IF({compliant}{r}<>\"Yes\",0,{lowest}{r}/{levelled}{r}*INDEX('Tender Setup'!$C$4:$C$33,{m}{r}))"}),
+                ("critpts", "Other points", 9, {"fmt": "0.0", "f": "=IF({compliant}{r}<>\"Yes\",0,(MIN(10,MAX(0,N({s_exp}{r})))*INDEX('Tender Setup'!$D$4:$D$33,{m}{r})+MIN(10,MAX(0,N({s_prog}{r})))*INDEX('Tender Setup'!$E$4:$E$33,{m}{r})+MIN(10,MAX(0,N({s_qual}{r})))*INDEX('Tender Setup'!$F$4:$F$33,{m}{r})+MIN(10,MAX(0,N({s_comm}{r})))*INDEX('Tender Setup'!$G$4:$G$33,{m}{r})+MIN(10,MAX(0,N({s_warr}{r})))*INDEX('Tender Setup'!$H$4:$H$33,{m}{r}))/10)"}),
+                ("total", "Total /100", 9, {"fmt": "0.0", "f": "=IF({name}{r}=\"\",\"\",IF({compliant}{r}<>\"Yes\",0,IF(N(INDEX('Tender Setup'!$I$4:$I$33,{m}{r}))=0,0,({pricepts}{r}+{critpts}{r})*100/INDEX('Tender Setup'!$I$4:$I$33,{m}{r}))))"}),
+                ("rank", "Rank", 9, {"f": '=IF({name}{r}="","",IF({compliant}{r}<>"Yes","Excluded",COUNTIFS({pkey}${first}:{pkey}${last},{pkey}{r},{compliant}${first}:{compliant}${last},"Yes",{total}${first}:{total}${last},">"&{total}{r})+1))'}),
+                ("lowflag", "Price check", 18, {"f": '=IF({compliant}{r}<>"Yes","",IF(AND(COUNTIFS({pkey}${first}:{pkey}${last},{pkey}{r},{compliant}${first}:{compliant}${last},"Yes")>=2,{levelled}{r}<{median}{r}*(1-{S_low_price})),"Well under median: check scope",""))'}),
+                ("issues", "Check", 30, {"wrap": True, "f": '=IF({name}{r}="","",TRIM(IF(COUNTIF({g_reg}{r}:{g_scope}{r},"Yes")<5,"Compliance gates not all Yes. ","")&IF(SUMPRODUCT(--ISTEXT({price}{r}:{risk}{r}))>0,"A price cell holds text, not a number. ","")&IF(N({price}{r})<=0,"No quoted price. ",IF(N({levelled}{r})<=0,"Levelled price is $0 or less. ",""))&IF({m}{r}=0,"Package isn\'t on the Packages tab. ","")&IF(SUMPRODUCT(ISTEXT({s_exp}{r}:{s_warr}{r})+({s_exp}{r}:{s_warr}{r}<0)+({s_exp}{r}:{s_warr}{r}>10))>0,"Scores must be 0 to 10 (capped). ","")&IF(AND({rank}{r}=1,COUNTIFS({pkey}${first}:{pkey}${last},{pkey}{r},{rank}${first}:{rank}${last},1)>1),"Tied for 1st: ask both for clarifications. ","")))'}),
+                ("key", "Key", 6, {"hide": True, "f": '={pkey}{r}&"|"&{rank}{r}'}),
                 ("doc", "Quote Doc ID", 15, {}), ("notes", "Notes", 28, {"wrap": True})],
                rows=100, freeze_col=2)
     for key in ["s_exp", "s_prog", "s_qual", "s_comm", "s_warr"]:
@@ -697,7 +801,8 @@ def build(src, out):
     ], example=True)
     tn.rule("compliant", eq_rule("No", F_RED))
     tn.rule("rank", CellIsRule(operator="equal", formula=["1"], fill=F_GREEN))
-    tn.rule("lowflag", eq_rule("Over 15% under median", F_AMBER))
+    tn.rule("lowflag", not_blank_rule(f"{tn.letter['lowflag']}{FIRST}", F_AMBER))
+    tn.rule("issues", not_blank_rule(f"{tn.letter['issues']}{FIRST}", F_AMBER))
     tn.rule("g_reg", eq_rule("No", F_RED))
     for k in ["g_ins", "g_abn", "g_swms", "g_scope"]:
         tn.rule(k, eq_rule("No", F_RED))
@@ -705,11 +810,14 @@ def build(src, out):
     # Tender Setup summary columns now that Tenders exists
     for r in range(FIRST, ts.last + 1):
         a = f"$A{r}"
-        ts.ws[f"{ts.letter['count']}{r}"] = f'=IF({a}="","",COUNTIFS({tn.col("pkg")},{a},{tn.col("compliant")},"Yes"))'
-        ts.ws[f"{ts.letter['rec']}{r}"] = f'=IF({a}="","",IFERROR(INDEX({tn.col("name")},MATCH({a}&"|1",{tn.col("key")},0)),""))'
-        ts.ws[f"{ts.letter['score']}{r}"] = f'=IF({a}="","",IFERROR(INDEX({tn.col("total")},MATCH({a}&"|1",{tn.col("key")},0)),""))'
-        ts.ws[f"{ts.letter['levelled']}{r}"] = f'=IF({a}="","",IFERROR(INDEX({tn.col("levelled")},MATCH({a}&"|1",{tn.col("key")},0)),""))'
-        ts.ws[f"{ts.letter['margin']}{r}"] = f'=IF({a}="","",IFERROR({ts.letter["score"]}{r}-INDEX({tn.col("total")},MATCH({a}&"|2",{tn.col("key")},0)),""))'
+        k = f"LEFT({a},2)"
+        first = f'MATCH({k}&"|1",{tn.col("key")},0)'
+        ties = f'COUNTIF({tn.col("key")},{k}&"|1")'
+        ts.ws[f"{ts.letter['count']}{r}"] = f'=IF({a}="","",COUNTIFS({tn.col("pkey")},{k},{tn.col("compliant")},"Yes"))'
+        ts.ws[f"{ts.letter['rec']}{r}"] = f'=IF({a}="","",IF({ties}>1,"Tie: "&{ties}&" quotes share 1st",IFERROR(INDEX({tn.col("name")},{first}),"")))'
+        ts.ws[f"{ts.letter['score']}{r}"] = f'=IF({a}="","",IFERROR(INDEX({tn.col("total")},{first}),""))'
+        ts.ws[f"{ts.letter['levelled']}{r}"] = f'=IF(OR({a}="",{ties}>1),"",IFERROR(INDEX({tn.col("levelled")},{first}),""))'
+        ts.ws[f"{ts.letter['margin']}{r}"] = f'=IF(OR({a}="",{ties}>1),"",IFERROR({ts.letter["score"]}{r}-INDEX({tn.col("total")},MATCH({k}&"|2",{tn.col("key")},0)),""))'
         for key in ["count", "rec", "score", "levelled", "margin"]:
             ts.ws[f"{ts.letter[key]}{r}"].fill = F_AUTO
     for key in ["count", "rec", "score", "levelled", "margin"]:
@@ -717,6 +825,7 @@ def build(src, out):
     ts.ws.conditional_formatting.add(
         f"{ts.letter['wsum']}{FIRST}:{ts.letter['wsum']}{ts.last}",
         FormulaRule(formula=[f'AND({ts.letter["wsum"]}{FIRST}<>"",{ts.letter["wsum"]}{FIRST}<>100)'], fill=F_RED))
+    ts.rule("rec", starts_rule(f"{ts.letter['rec']}{FIRST}", "Tie", F_AMBER))
 
     # ---------------- Variations
     va = Table(wb, "Variations", "Variations",
@@ -737,7 +846,7 @@ def build(src, out):
                  ("trade", "Trade", 22, {"dv": f"='Trades'!$B${FIRST}:$B${tr.last}"}), ("inv", "Invoice no.", 12, {"text": True}),
                  ("stage", "Stage / claim", 16, {}), ("amount", "Amount inc GST ($)", 13, {"fmt": MONEY}),
                  ("gstcharged", "GST charged?", 9, {"dv": "YesNo"}),
-                 ("tradegst", "Trade GST registered", 10, {"f": "=IF({trade}{r}=\"\",\"\",IFERROR(INDEX(" + tr.col("gst") + ",MATCH({trade}{r}," + tr.col("business") + ",0)),\"\"))"}),
+                 ("tradegst", "Trade GST registered", 10, {"f": "=IF({trade}{r}=\"\",\"\",IFERROR(INDEX(" + tr.col("gst") + ",MATCH({trade}{r}," + tr.col("business") + ",0))&\"\",\"\"))"}),
                  ("gstflag", "GST check", 16, {"f": '=IF(AND({gstcharged}{r}="Yes",{tradegst}{r}="No"),"GST charged, not registered","")'}),
                  ("due", "Due", 12, {"fmt": DATE}), ("paid", "Paid?", 8, {"dv": "YesNo"}),
                  ("paiddate", "Paid date", 12, {"fmt": DATE}), ("retention", "Retention held ($)", 12, {"fmt": MONEY}),
@@ -749,11 +858,12 @@ def build(src, out):
     pay.rule("paid", eq_rule("No", F_AMBER))
 
     # Packages: contracted, variations and paid come from the tabs above
+    # Matched on the two-digit No. ("08 *"), so renaming "08 Roofing" doesn't orphan its rows.
     for r in range(FIRST, pk.last + 1):
-        b = f"$B{r}"
-        pk.ws[f"{pk.letter['contracted']}{r}"] = f'=IF({b}="","",SUMIFS({tr.col("value")},{tr.col("pkg")},{b},{tr.col("signed")},"Yes"))'
-        pk.ws[f"{pk.letter['variations']}{r}"] = f'=IF({b}="","",SUMIFS({va.col("price")},{va.col("pkg")},{b},{va.col("approved")},"Approved"))'
-        pk.ws[f"{pk.letter['paid']}{r}"] = f'=IF({b}="","",SUMIFS({pay.col("amount")},{pay.col("pkg")},{b},{pay.col("paid")},"Yes"))'
+        b, key = f"$B{r}", f'$A{r}&" *"'
+        pk.ws[f"{pk.letter['contracted']}{r}"] = f'=IF(OR({b}="",$A{r}=""),"",SUMIFS({tr.col("value")},{tr.col("pkg")},{key},{tr.col("signed")},"Yes"))'
+        pk.ws[f"{pk.letter['variations']}{r}"] = f'=IF(OR({b}="",$A{r}=""),"",SUMIFS({va.col("price")},{va.col("pkg")},{key},{va.col("approved")},"Approved"))'
+        pk.ws[f"{pk.letter['paid']}{r}"] = f'=IF(OR({b}="",$A{r}=""),"",SUMIFS({pay.col("amount")},{pay.col("pkg")},{key},{pay.col("paid")},"Yes"))'
         for key in ["contracted", "variations", "paid"]:
             pk.ws[f"{pk.letter[key]}{r}"].fill = F_AUTO
     for key in ["contracted", "variations", "paid"]:
@@ -801,7 +911,9 @@ def build(src, out):
                 ("exitd", "Exit checks done", 9, {"f": f'=COUNTIFS({gw.col("gate")},{{gate}}{{r}},{gw.col("type")},"Exit check",{gw.col("done")},"Yes")'}),
                 ("pct", "Exit %", 8, {"fmt": "0%", "f": '=IF({exitn}{r}=0,"",{exitd}{r}/{exitn}{r})'}),
                 ("ready", "Ready to pass?", 11, {"f": '=IF({exitn}{r}=0,"",IF({exitd}{r}={exitn}{r},"Ready","Not yet"))'}),
-                ("decision", "Decision", 9, {"dv": "Decision"}), ("ddate", "Decision date", 12, {"fmt": DATE}),
+                ("decision", "Decision", 9, {}),
+                ("dcheck", "Decision check", 22, {"f": '=IF(AND({decision}{r}="Go",{ready}{r}<>"Ready"),"Go recorded, exit checks open","")'}),
+                ("ddate", "Decision date", 12, {"fmt": DATE}),
                 ("guide", "Decision guide", 44, {"wrap": True}), ("spent", "Typical budget spent", 12, {}),
                 ("duration", "Typical duration", 14, {}), ("notes", "Notes", 30, {"wrap": True})],
                rows=len(gates), freeze_col=2)
@@ -812,6 +924,16 @@ def build(src, out):
     gr.rule("decision", eq_rule("Go", F_GREEN))
     gr.rule("decision", eq_rule("Hold", F_AMBER))
     gr.rule("decision", eq_rule("Stop", F_RED))
+    gr.rule("dcheck", not_blank_rule(f"{gr.letter['dcheck']}{FIRST}", F_RED))
+    # Go is only accepted once every exit check is Yes. (A custom rule replaces the dropdown.)
+    d, rd = f"{gr.letter['decision']}{FIRST}", f"{gr.letter['ready']}{FIRST}"
+    dv = DataValidation(type="custom", allow_blank=True,
+                        formula1=f'OR({d}="Hold",{d}="Stop",AND({d}="Go",{rd}="Ready"))')
+    dv.errorStyle, dv.errorTitle = "stop", "Not ready for Go"
+    dv.error = "Type Go, Hold or Stop. Go is only allowed once every exit check for this gate is Yes on the Gateways tab."
+    dv.prompt, dv.showInputMessage = "Type Go, Hold or Stop. Go needs every exit check done.", True
+    gr.ws.add_data_validation(dv)
+    dv.add(f"{d}:{gr.letter['decision']}{gr.last}")
 
     # ---------------- Project
     pj = wb["Project"]
@@ -830,6 +952,7 @@ def build(src, out):
     pj.column_dimensions["A"].width = 32
     pj.column_dimensions["B"].width = 46
     pj.column_dimensions["C"].width = 50
+    pj["C4"] = "Notes"
     cell_of = {}
     r = HEADER_ROW + 1
     F_INPUT = PatternFill("solid", fgColor="FFFBE6")
@@ -855,7 +978,7 @@ def build(src, out):
     pj.cell(row=int(cell_of["Contingency (%)"].split("$")[-1]), column=3,
             value="10–15% is typical. Owner-builders often underestimate site works, services and finishes.").font = MUTED
     pj.cell(row=int(cell_of["Project folder link"].split("$")[-1]), column=3,
-            value="Filled in by Owner Builder > Set up Drive folders in Google Sheets.").font = MUTED
+            value="Paste your project folder link (any provider), or let Owner Builder > Set up Drive folders fill it in Google Sheets.").font = MUTED
 
     # ---------------- Dashboard
     db = wb["Dashboard"]
@@ -900,12 +1023,23 @@ def build(src, out):
     cont = line("Contingency in the budget", f"={budget}*N({cell_of['Contingency (%)']})", MONEY)
     pkb = line("Allocated to packages", f"=SUM({pk.col('budget')})", MONEY, "Sum of Packages budgets. Should be about the total budget less contingency.")
     com = line("Committed (contracts + approved variations)", f"=SUM({pk.col('committed')})", MONEY)
-    line("Committed as % of package budgets", f'=IF({pkb}=0,"",{com}/{pkb})', "0%", "G3 exit check: at least 80% committed before going to site.")
+    line("Committed as % of package budgets", f'=IF({pkb}=0,"",{com}/{pkb})', "0%", "G3 exit check: compare with the target on Settings before going to site.")
+    line("G3 target", f"={SET['committed']}", "0%")
     paid = line("Spent to date (paid)", f'=SUMIFS({pay.col("amount")},{pay.col("paid")},"Yes")', MONEY)
     line("Budget used", f'=IF({budget}=0,"",{paid}/{budget})', "0%")
     fc = line("Forecast final cost", f"=SUM({pk.col('forecast')})", MONEY)
     line("Forecast under / (over) total budget", f"={budget}-{fc}", '"$"#,##0;[Red]("$"#,##0)')
     line("Selections total", f"=SUM({sel.col('total')})", MONEY)
+    r += 1
+
+    section("Takeoffs (Rooms tab)")
+    a_, t_ = rm.col("area"), rm.col("atype")
+    line("Internal floor area (m²)", f'=SUMIFS({a_},{t_},"<>Garage",{t_},"<>External")', "0.0", "Blank area type counts as internal.")
+    line("Garage floor area (m²)", f'=SUMIFS({a_},{t_},"Garage")', "0.0")
+    line("External areas (m²)", f'=SUMIFS({a_},{t_},"External")', "0.0", "Driveways, paving, decks.")
+    line("Wall paint, one coat (m²)", f"=SUM({rm.col('wall')})", "0.0")
+    line("Skirting (m)", f"=SUM({rm.col('perim')})", "0.0")
+    line("Floor covering incl. waste (m²)", f"=SUM({rm.col('tiles')})", "0.0")
     r += 1
 
     section("Compliance by stage", ["Items", "N/A", "Done", "% done"])
@@ -928,17 +1062,36 @@ def build(src, out):
 
     section("Needs attention", ["Count"])
     alerts_first = r
+    def past_rows(t):
+        """Anything typed below a tab's pre-filled rows, which no total counts."""
+        end = get_column_letter(len(t.cols))
+        return f"COUNTA('{t.name}'!$A${t.last + 1}:${end}${t.last + 1000})"
+
+    budget_ref = cell_of["Total budget inc GST ($)"]
     alerts = [
+        ("Entries past the pre-filled rows (not counted!)", "=" + "+".join(past_rows(t) for t in (gw, cp, rm, sel, di, ph, dc, pk, tr, tn, va, pay, ce, rk)),
+         "Something was typed below the last formula row. Unprotect the sheet and copy the last row down to extend it."),
+        ("Go decisions with exit checks open", f'=COUNTIF({gr.col("dcheck")},"?*")', "Gate Review tab"),
+        ("Earlier gates without a Go decision", f'=SUMPRODUCT(({gr.col("gate")}<{gate_cell})*({gr.col("decision")}<>"Go"))', "Gates before the current gateway on the Project tab."),
+        ("Certificate of consent needed, no number recorded", f'=IF(AND(N({budget_ref})>{SET["consent"]},{cell_of["Certificate of consent no."]}=""),1,0)', "Budget is over the consent threshold on Settings."),
+        ("Principal contractor needed, not done", f'=IF(AND(N({budget_ref})>={SET["pc"]},COUNTIFS({cp.col("id")},"oh-pc",{cp.col("status")},"Done")=0),1,0)', "Budget is at or over the principal contractor threshold (Compliance oh-pc)."),
         ("Trade paperwork expired", f'=COUNTIF({tr.col("alert")},"Expired")', "Trades tab: licence or insurance past its expiry date."),
-        ("Trade paperwork expiring within 30 days", f'=COUNTIF({tr.col("alert")},"Expires within 30 days")', "Ask for new certificates of currency now."),
-        ("Deposits over the statutory cap", f'=COUNTIF({tr.col("depcheck")},"Over statutory cap")', "10% under $20,000, 5% at $20,000 or more."),
+        ("Trade paperwork expiring soon", f'=COUNTIF({tr.col("alert")},"Expires*")', "Ask for new certificates of currency now."),
+        ("Trade dates typed as text or missing", f'=COUNTIF({tr.col("alert")},"Check date*")+COUNTIF({tr.col("alert")},"Missing*")', "A date typed as text can't be checked for expiry."),
+        ("Trade contract checks to look at", f'=COUNTIF({tr.col("checks")},"?*")', "Trades tab: duplicates, registration and home warranty."),
+        ("Deposits over the statutory cap", f'=COUNTIF({tr.col("depcheck")},"Over statutory cap")', "Caps and threshold are on Settings."),
+        ("Quotes needing a look", f'=COUNTIF({tn.col("issues")},"?*")', "Tenders tab: Check column."),
+        ("Tender packages tied for 1st", f'=COUNTIF({ts.col("rec")},"Tie*")', "Tender Setup tab"),
+        ("Documents with problems", f'=COUNTIF({dc.col("issues")},"?*")', "Documents tab: Check column."),
+        ("Packages with naming problems", f'=COUNTIF({pk.col("issues")},"?*")', "Packages tab: names must start with their No."),
+        ("Rooms with sizes typed as text", f'=COUNTIF({rm.col("issues")},"?*")', ""),
         ("Invoices charging GST from unregistered trades", f'=COUNTIF({pay.col("gstflag")},"GST charged, not registered")', ""),
         ("Unpaid invoices", f'=COUNTIFS({pay.col("amount")},">0",{pay.col("paid")},"<>Yes")', ""),
         ("Open defects", f'=COUNTIFS({di.col("type")},"Defect",{di.col("closed")},"<>Yes")', "Diary tab"),
         ("Open questions for the building surveyor", f'=COUNTIFS({di.col("type")},"Question for RBS",{di.col("closed")},"<>Yes")', "Diary tab"),
         ("Pending variations", f'=COUNTIF({va.col("approved")},"Pending")', "Don't let work start before the price is agreed."),
         ("Selections still to choose", f'=COUNTIF({sel.col("status")},"To choose")', "All selections must be locked before G6."),
-        ("Packages forecast more than 5% over budget", f'=COUNTIF({pk.col("flag")},"Over >5%")', ""),
+        ("Packages forecast over budget", f'=COUNTIF({pk.col("flag")},"Over budget")', "By more than the margin on Settings."),
         ("Tender weights that don't add to 100", f'=SUMPRODUCT(({ts.col("pkg")}<>"")*({ts.col("wsum")}<>100))', "Tender Setup tab"),
         ("Must-have certificates not yet passed", f'=COUNTIFS({ce.col("req")},"Must",{ce.col("result")},"<>Pass")', "Certificates tab. Needed before the final inspection."),
         ("High risks still open", f'=COUNTIFS({rk.col("rating")},"High",{rk.col("status")},"<>Closed")', ""),
@@ -948,6 +1101,7 @@ def build(src, out):
     for label, formula, note in alerts:
         line(label, formula, None, note)
     db.conditional_formatting.add(f"B{alerts_first}:B{r - 1}", CellIsRule(operator="notEqual", formula=["0"], fill=F_AMBER))
+    lock_sheet(db)
 
     # ---------------- Guides, Q&A, Reference (read-only)
     gd = wb.create_sheet("Guides")
@@ -1014,37 +1168,42 @@ def build(src, out):
 
     # ---------------- Start
     st = start
-    title(st, "Owner Builder in a Box: offline workbook",
+    title(st, "Owner Builder in a Box: Owner Workbook",
           "Your whole owner-build in one spreadsheet. Works offline in Excel, Numbers, LibreOffice or Google Sheets (offline mode).")
+    st["A3"] = "Includes Guides and common Q&A for tracking your project efficiently"
     st.column_dimensions["A"].width = 22
     st.column_dimensions["B"].width = 100
     r = HEADER_ROW + 1
     guide = [
         ("How it works", None),
-        ("Colours", "White cells are for you. Grey cells are calculated, so don't type over them. Pale yellow rows are examples: delete them when you're ready (the Dashboard counts what's left)."),
+        ("Colours", "White cells are for you. Grey cells are calculated and locked so they can't be typed over by accident (Review > Unprotect sheet if you need to; there's no password). Pale yellow rows are examples: delete them when you're ready (the Dashboard counts what's left)."),
         ("Start here", "1. Fill in the Project tab.  2. Set your budgets on Packages.  3. Work through Compliance and Gateways from G0.  4. Log everything else as it happens."),
-        ("Files", "Documents live in Google Drive, not in the workbook. Register each one on the Documents tab: it builds a Doc ID (e.g. 02-DWG-012), the file name to use, and the Drive folder to save it in. Paste the Drive link once it's uploaded."),
-        ("Offline", "Excel / Numbers / LibreOffice: open this file and work. With Google Drive for desktop the project folder is on your computer too, so you can save files offline and they sync later. Google Sheets: turn on Drive > Settings > Offline, or in the Sheets app tap ⋮ > Make available offline. The Apps Script menu needs a connection."),
-        ("Google Sheets set-up", "Upload this file to Drive, open it, then File > Save as Google Sheets. Then Extensions > Apps Script, paste in Code.gs, save and reload. A new Owner Builder menu appears: Set up Drive folders creates the folder tree for this build and links every folder path in the workbook."),
+        ("Files", "Documents live in Google Drive, not in the workbook. Register each one on the Documents tab: it builds a Doc ID (e.g. 02-DWG-012), the file name to use, and the Drive folder to save it in. Paste the Drive link once it's uploaded.\n"
+                  "Share documents, photos and tender documents with trades and others as needed. (recommend to use suggested naming conventions for files)"),
+        ("Offline", "Excel / Numbers / LibreOffice: open this file and work. With Google Drive / Dropbox / Onedrive for desktop the project folder is on your computer too, so you can save files offline and they sync later. Google Sheets: turn on Drive > Settings > Offline, or in the Sheets app tap ⋮ > Make available offline. The Apps Script menu needs a connection."),
+        ("Folder links", "The Open links work with Google Drive, Dropbox, OneDrive or SharePoint: paste each folder's link (Share > Copy link) into the Google Drive Map tab. Working offline on a computer, paste the local folder path instead and it opens without internet."),
+        ("Google Sheets fast set-up", "Upload this file to Drive, open it, then File > Save as Google Sheets. Then Extensions > Apps Script, paste in Code.gs, save and reload. A new Owner Builder menu appears: Set up Drive folders creates the folder tree for this build and links every folder path in the workbook."),
+        ("Need more rows?", "Each tab has room for hundreds of entries. If you run out, unprotect the sheet and copy the last row down so the formulas come too. The Dashboard warns if anything is typed below the last formula row."),
         ("Tabs", None),
         ("Dashboard", "Current gateway, money, compliance progress and everything that needs attention."),
         ("Project", "Address, title, owners, budget, permits, site classification."),
+        ("Guides / Q&A / Reference", "Buying guides, plain-English answers and key numbers from Owner Builder in a Box. Read-only."),
         ("Gate Review", "G0 to G7: progress against entry, deliverables and exit checks, with your Go / Hold / Stop decision."),
         ("Gateways", "Every entry criterion, deliverable and exit check for each gate."),
         ("Compliance", "The 11-stage Victorian owner-builder checklist, with the folder to file the evidence in."),
-        ("Rooms", "Room sizes give floor area, paint area, skirting length and tile quantities."),
+        ("Risks", "Starter risk register with likelihood × impact ratings."),
+        ("Google Drive Map", "The folder tree, what goes in each folder, the file naming rules, and the folder links."),
+        ("Rooms", "Room sizes give floor area, paint area, skirting length and tile quantities. Area type keeps garages and outdoor areas out of the paint and skirting figures."),
         ("Selections", "Every product decision: spec, supplier, price, status."),
         ("Diary", "Site diary, plan notes, instructions to trades, defects, questions for the building surveyor."),
         ("Photos", "Log of site photos, especially before anything is covered."),
         ("Documents", "The register of every file in Google Drive, with Doc IDs and file names."),
+        ("Tender Setup / Tenders", "Quote comparison: compliance gates, price levelling, weighted scoring and a recommendation per package."),
         ("Packages", "20 trade packages: budget, committed, paid and forecast."),
         ("Trades", "Contacts, licences, insurance, SWMS, contracts, deposit checks, expiry alerts."),
-        ("Tender Setup / Tenders", "Quote comparison: compliance gates, price levelling, weighted scoring and a recommendation per package."),
         ("Variations / Payments", "Written variations and every invoice. They feed the Packages costs."),
         ("Certificates", "Mandatory inspections and the certificates needed for the final inspection."),
-        ("Risks", "Starter risk register with likelihood × impact ratings."),
-        ("Drive Map", "The Google Drive folder tree, what goes in each folder, and the file naming rules."),
-        ("Guides / Q&A / Reference", "Buying guides, plain-English answers and key numbers from Owner Builder in a Box. Read-only."),
+        ("Settings", "The legal thresholds and rules behind the checks (deposit caps, contract, warranty and consent thresholds, warning days). Update them here when the law changes."),
         ("Important", None),
         ("Not advice", "General information only. It is not legal, financial or building advice. Always confirm current requirements with the Building and Plumbing Commission (BPC), your relevant building surveyor, your council and WorkSafe Victoria. Victorian rules checked September 2026."),
     ]
@@ -1059,10 +1218,20 @@ def build(src, out):
             st.cell(row=r, column=2, value=body).alignment = WRAP
         r += 1
 
-    # Tab order and colours
-    final_order = ["Start", "Dashboard", "Project", "Gate Review", "Gateways", "Compliance", "Rooms", "Selections",
-                   "Diary", "Photos", "Documents", "Packages", "Trades", "Tender Setup", "Tenders", "Variations",
-                   "Payments", "Certificates", "Risks", "Drive Map", "Guides", "Q&A", "Reference", "Lists"]
+    lock_sheet(st)
+
+    # Lock formula cells everywhere. Summary columns filled in after the fact are listed explicitly.
+    for t in (gw, cp, rm, sel, di, ph, dc, tr, va, pay, ce, rk, gr):
+        t.protect()
+    pk.protect(also_locked=("contracted", "variations", "paid"))
+    ts.protect(also_locked=("count", "rec", "score", "levelled", "margin"))
+    tn.protect()
+
+    # Tab order (as arranged in the owner's copy) and colours
+    final_order = ["Start", "Dashboard", "Project", "Q&A", "Guides", "Reference", "Gate Review", "Gateways",
+                   "Compliance", "Risks", DRIVE_MAP, "Rooms", "Selections", "Diary", "Photos", "Documents",
+                   "Tender Setup", "Tenders", "Packages", "Trades", "Payments", "Variations", "Certificates",
+                   "Settings", "Lists"]
     wb._sheets = [wb[n] for n in final_order]
     for n in ["Start", "Dashboard", "Project"]:
         wb[n].sheet_properties.tabColor = TEAL

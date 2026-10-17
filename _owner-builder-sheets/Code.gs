@@ -92,6 +92,8 @@ function setUpDriveFolders() {
     return;
   }
   var cols = headers_(map);
+  var linkCol = Object.keys(cols).filter(function (h) { return h.indexOf('Folder link') === 0; })
+    .map(function (h) { return cols[h]; })[0];
   var rows = map.getRange(FIRST_ROW, 1, map.getLastRow() - FIRST_ROW + 1, map.getLastColumn()).getDisplayValues();
   var made = 0;
   for (var i = 0; i < rows.length; i++) {
@@ -99,7 +101,7 @@ function setUpDriveFolders() {
     if (!rows[i][cols['Code'] - 1] || !path) break; // the naming guide below the table
     var folder = root;
     path.split('/').forEach(function (part) { folder = childFolder_(folder, part); });
-    map.getRange(FIRST_ROW + i, cols['Folder link']).setValue(folder.getUrl());
+    map.getRange(FIRST_ROW + i, linkCol).setValue(folder.getUrl());
     made++;
   }
 

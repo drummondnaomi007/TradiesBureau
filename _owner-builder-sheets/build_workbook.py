@@ -442,6 +442,76 @@ def folder_name(code):
     return next(f[1] for f in FOLDERS if f[0] == code)
 
 
+def write_playbook(ws, md):
+    """Lay out OFFLINE-PLAYBOOK.md on a tab: prose spans A:B, tables use A and B."""
+    widths = (34, 90)
+    ws.column_dimensions["A"].width, ws.column_dimensions["B"].width = widths
+    plain = lambda t: re.sub(r"\*\*(.+?)\*\*", r"\1", t).replace("`", "")
+
+    def height(texts, cols):
+        lines = max(sum(max(1, -(-len(part) // int(w * 1.05))) for part in t.split("\n")) for t, w in zip(texts, cols))
+        return max(15, 15 * lines)
+
+    def prose(r, value, font=None, fill=None):
+        ws.merge_cells(start_row=r, start_column=1, end_row=r, end_column=2)
+        c = ws.cell(row=r, column=1, value=value)
+        c.alignment = WRAP
+        if font:
+            c.font = font
+        if fill:
+            c.fill = fill
+            ws.cell(row=r, column=2).fill = fill
+        ws.row_dimensions[r].height = height([value], [sum(widths)])
+
+    lines = md.splitlines()
+    r, i, intro_done = 1, 0, False
+    while i < len(lines):
+        line = lines[i]
+        if line.startswith("# "):
+            ws["A1"] = plain(line[2:])
+            ws["A1"].font = TITLE
+            r = 2
+        elif line.startswith("## "):
+            r += 1
+            prose(r, plain(line[3:]), WHITE_BOLD, F_HEAD)
+            r += 1
+        elif line.startswith("|"):
+            rows = []
+            while i < len(lines) and lines[i].startswith("|"):
+                if not re.match(r"^\|[-| ]+\|$", lines[i]):
+                    rows.append([plain(c.strip()) for c in lines[i].strip("|").split("|")])
+                i += 1
+            for n, row in enumerate(rows):
+                for col, value in enumerate(row[:2], start=1):
+                    c = ws.cell(row=r, column=col, value=value)
+                    c.alignment = WRAP
+                    if n == 0:
+                        c.font, c.fill = WHITE_BOLD, F_AUTO_HEAD
+                    else:
+                        c.border = THIN
+                ws.row_dimensions[r].height = height(row[:2], widths)
+                r += 1
+            r += 1
+            continue
+        elif re.match(r"^(\d+\.|-) ", line):
+            text_ = re.sub(r"^- ", "• ", line)
+            prose(r, plain(text_))
+            ws.cell(row=r, column=1).alignment = Alignment(wrap_text=True, vertical="top", indent=1)
+            r += 1
+        elif line.strip():
+            whole_bold = re.fullmatch(r"\*\*(.+)\*\*", line.strip())
+            if not intro_done and r == 2:
+                prose(r, plain(line), MUTED)
+                intro_done = True
+            else:
+                if whole_bold and not lines[i - 2].startswith("## "):
+                    r += 1
+                prose(r, plain(line), BOLD if whole_bold else None)
+            r += 1
+        i += 1
+    ws.sheet_view.showGridLines = False
+
+
 # ---------------------------------------------------------------- build
 
 
@@ -1161,7 +1231,11 @@ def build(src, out):
         ref_table(heading, [heading], [[i] for i in items])
     ref_table("Who does what (RACI)", raci[0], raci[1:])
 
-    for ws in (gd, qa, rf):
+    op = wb.create_sheet("Offline Playbook")
+    with open(os.path.join(HERE, "OFFLINE-PLAYBOOK.md"), encoding="utf-8") as f:
+        write_playbook(op, f.read())
+
+    for ws in (gd, qa, rf, op):
         ws.protection.sheet = True
         ws.protection.autoFilter = False
         ws.sheet_properties.tabColor = "8A9BAE"
@@ -1188,6 +1262,7 @@ def build(src, out):
         ("Dashboard", "Current gateway, money, compliance progress and everything that needs attention."),
         ("Project", "Address, title, owners, budget, permits, site classification."),
         ("Guides / Q&A / Reference", "Buying guides, plain-English answers and key numbers from Owner Builder in a Box. Read-only."),
+        ("Offline Playbook", "How to work offline without losing anything: choosing one master copy, device set-up, the on-site and back-online routines, backups, sharing, and fixes. Read-only."),
         ("Gate Review", "G0 to G7: progress against entry, deliverables and exit checks, with your Go / Hold / Stop decision."),
         ("Gateways", "Every entry criterion, deliverable and exit check for each gate."),
         ("Compliance", "The 11-stage Victorian owner-builder checklist, with the folder to file the evidence in."),
@@ -1228,7 +1303,7 @@ def build(src, out):
     tn.protect()
 
     # Tab order (as arranged in the owner's copy) and colours
-    final_order = ["Start", "Dashboard", "Project", "Q&A", "Guides", "Reference", "Gate Review", "Gateways",
+    final_order = ["Start", "Dashboard", "Project", "Q&A", "Guides", "Reference", "Offline Playbook", "Gate Review", "Gateways",
                    "Compliance", "Risks", DRIVE_MAP, "Rooms", "Selections", "Diary", "Photos", "Documents",
                    "Tender Setup", "Tenders", "Packages", "Trades", "Payments", "Variations", "Certificates",
                    "Settings", "Lists"]

@@ -136,6 +136,8 @@ After changing pages, update `lastmod` in `sitemap.xml` and resubmit it in Googl
 
 The Owner Builder in a Box prototype used to live in `owner-builder-in-a-box/`. It was moved out so it isn't published on tradiesbureau.com. It will get its own repository. Until then it can be recovered from this repository's history: `git checkout 99fe447 -- owner-builder-in-a-box`.
 
+An offline spreadsheet version (Excel / Google Sheets, with a matching Google Drive folder structure) is in `_owner-builder-sheets/`. The leading `_` keeps GitHub Pages from publishing it. See its README.
+
 ## Before launch
 
 - Replace the placeholder social links (search for `facebook.com/tradiesbureau`, `instagram.com/tradiesbureau`, `linkedin.com/company/tradiesbureau`).

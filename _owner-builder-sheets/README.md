@@ -1,0 +1,79 @@
+# Owner Builder in a Box: offline workbook
+
+An offline, spreadsheet version of the Owner Builder in a Box prototype, with its documents organised in Google Drive.
+
+The folder name starts with `_` so GitHub Pages (Jekyll) doesn't publish it on tradiesbureau.com, the same reason the prototype was moved out of this repo. Move this folder too when Owner Builder in a Box gets its own repository.
+
+| File | What it is |
+|---|---|
+| `Owner-Builder-in-a-Box.xlsx` | The workbook. Works offline in Excel, Numbers, LibreOffice or Google Sheets. |
+| `Code.gs` | Optional Apps Script for Google Sheets: creates the Drive folders, numbers documents, clears example rows. |
+| `build_workbook.py` | Rebuilds the workbook from the prototype's pages (`python3 _owner-builder-sheets/build_workbook.py`, needs `openpyxl`). |
+
+## How the prototype maps to the workbook
+
+| Prototype | Workbook tab | Drive folder |
+|---|---|---|
+| My Build: project | Project, Dashboard | 00 Project Register |
+| My Build: rooms (area, paint, skirting, tiles) | Rooms | 02 Design & Engineering (drawing refs) |
+| My Build: selections & specs | Selections | 05 Selections & Specs |
+| My Build: plan notes & site diary | Diary | 06 Site Diary & Photos |
+| My Build: plans & documents | Documents (register) | All folders, by Doc ID |
+| My Build: site photos | Photos (log; files live in Drive) | 06 Site Diary & Photos |
+| Compliance checklist (11 stages, 61 items) | Compliance | Per item: 01 to 08 |
+| Gateways G0 to G7 | Gateways, Gate Review | Per deliverable |
+| Contracts: trade packages | Packages (budget, committed, paid, forecast) | 04 Trades & Tenders/<package> |
+| Contracts: pre-engagement checks, deposits | Trades (licence and insurance expiry, deposit cap) | 04 Trades & Tenders/<package> |
+| Contracts: variations, paying trades | Variations, Payments | 04 Trades & Tenders/<package> |
+| Tender comparison tool | Tender Setup, Tenders | 04 Trades & Tenders/<package> |
+| Gateways: risk register | Risks | 00 Project Register |
+| Compliance stages 8 and 9: certificates | Certificates | 07 Inspections & Certificates |
+| Buying guides, Q&A, key numbers, contract types, RACI | Guides, Q&A, Reference (read-only) | n/a |
+| Backup / restore (localStorage JSON) | The file itself, or Owner Builder > Back up a copy | 00 Project Register |
+
+The tender scoring is the same as the prototype's: fail any compliance gate and the quote is excluded. The levelled price is quote + exclusions ± provisional sums + risk. Price points are the lowest levelled price ÷ this price × the price weight. Other points are each score × its weight ÷ 10. A quote more than 15% under the median gets flagged. With the example quotes, Ridgeline scores 90.2 and is recommended, Summit scores 86.0, and Budget Roofs is excluded on insurance.
+
+## Google Drive folders
+
+```
+Owner Build - <project>/
+  00 Project Register             the workbook and its backups
+  01 Eligibility, Land & Planning eLearning, white card, consent, title, s173, planning, LPOD
+  02 Design & Engineering         drawings, engineering, energy, BAL, survey, soil
+  03 Permits, Insurance & Finance RBS, building permit, asset protection, your policies, loan
+  04 Trades & Tenders
+     01 Surveyor ... 20 Floor coverings & landscaping
+                                  quotes, contract, variations, licence/insurance/SWMS, invoices
+  05 Selections & Specs
+  06 Site Diary & Photos
+  07 Inspections & Certificates   RBS reports, PCC, CoES, waterproofing, termite, glazing
+  08 Handover, Records & Sale     occupancy permit, warranties, manuals, s137B, s32
+  99 Archive                      superseded drawings, unsuccessful quotes
+```
+
+The **Drive Map** tab lists every folder, what goes in it, and which compliance stages and gateways use it. Its *Folder link* column feeds the **Open** links on the Compliance, Gateways, Packages, Trades and Documents tabs.
+
+### File names: `DocID_Description_Rev`
+
+A Doc ID is the folder code, document type and number, e.g. `02-DWG-012`. Register a file on the **Documents** tab: pick the folder and type, and the tab shows the next free number (in Google Sheets the script fills it in). It then gives you the file name, e.g. `02-DWG-012_Floor-Plan_RevC`, and the folder to save it in. Trade paperwork goes in that package's subfolder of 04. Superseded files move to 99 Archive. Document type codes are listed on the Drive Map tab.
+
+## Setting it up in Google Sheets
+
+1. Upload `Owner-Builder-in-a-Box.xlsx` to Drive, open it and choose **File > Save as Google Sheets** (or use the copy already in Drive, below).
+2. **Extensions > Apps Script**, replace the contents with `Code.gs`, save, then reload the sheet. An **Owner Builder** menu appears. The first run asks for permission to manage Drive files.
+3. Fill in the project name on the **Project** tab, then choose **Owner Builder > Set up Drive folders**. It creates `Owner Build - <project>` with the tree above, moves the sheet into `00 Project Register` and fills in the Drive Map links.
+4. When you've seen how each tab works, choose **Owner Builder > Remove example rows**. The pale yellow rows are examples, and the Dashboard counts how many are left.
+
+For each new build: **File > Make a copy** of the template sheet, then run step 3 on the copy. Drive can't copy folders, so the script creates the folders for each build.
+
+## Working offline
+
+- **Excel, Numbers or LibreOffice**: everything except the script menu works. Fill in Drive Map's Folder link column by hand if you want the Open links.
+- **Google Sheets**: turn on offline in Drive (**Settings > Offline**), or in the Sheets app tap **⋮ > Make available offline**. Edits sync when you reconnect. The script menu needs a connection.
+- **Files**: with Google Drive for desktop, the project folder is on your computer. Save files into it offline and they upload when you're back online.
+
+## Keeping it current
+
+The checklist, gateway, package, guide and Q&A text comes from the prototype at commit `99fe447` (Victorian rules checked September 2026). After the content changes there, rebuild with `build_workbook.py --src <path to owner-builder-in-a-box>`. Tab layouts, Drive folders and certificates are defined at the top of the script.
+
+General information only, not legal, financial or building advice.

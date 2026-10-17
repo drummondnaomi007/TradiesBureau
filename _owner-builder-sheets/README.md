@@ -10,6 +10,7 @@ The folder name starts with `_` so GitHub Pages (Jekyll) doesn't publish it on t
 |---|---|
 | `Owner-Builder-in-a-Box.xlsx` | The workbook. Opened, edited and recalculated in Excel; checked in LibreOffice; converts to Google Sheets. |
 | `Code.gs` | Optional Apps Script for Google Sheets: creates the Drive folders, numbers documents, protects formula columns, clears example rows. |
+| `OFFLINE-PLAYBOOK.md` | How to work offline without losing anything: choosing a master copy, device set-up, the on-site and back-online routines, backups, sharing, fixes. A copy is in the Drive template folder. |
 | `build_workbook.py` | Rebuilds the workbook from the prototype's pages (`python3 _owner-builder-sheets/build_workbook.py`, needs `openpyxl`). |
 
 ## How the prototype maps to the workbook

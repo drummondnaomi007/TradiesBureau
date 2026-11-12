@@ -48,7 +48,7 @@ if (!fs.existsSync(path.join(APP, "packs/vic-core.json"))) {
 
 const pack = JSON.parse(fs.readFileSync(path.join(APP, "packs/vic-core.json"), "utf8"));
 const { conditionHolds } = await import(pathToFileURL(path.join(APP, "src/lib/requirements/conditions.ts")));
-const { DOCS } = await import(pathToFileURL(path.join(APP, "src/lib/docsContent.ts")));
+const { docsForRole } = await import(pathToFileURL(path.join(APP, "src/lib/docsContent.ts")));
 const { DEMO_TRADES } = await import(pathToFileURL(path.join(APP, "src/lib/demo/trades.ts")));
 
 // ---------------------------------------------------------------- trades
@@ -226,10 +226,12 @@ inject("trades.html", "trades", tradeSections);
 
 // ---------------------------------------------------------------- guide.html
 
-// Left out of the public site: it's about how the app's storage is wired up.
-const SKIP_DOCS = new Set(["document-storage"]);
-const SECTION_NAMES = { "Admin Guide": "Running the business", "User Guide": "For you and your crew", "Trade Guides": "Your trade" };
-const docs = DOCS.filter((d) => !SKIP_DOCS.has(d.slug));
+// Only what the app itself shows to someone who isn't signed in: the articles it
+// marks open, and the ones written for everybody. Asking the app (no role) means
+// the site follows it if that changes.
+const SECTION_NAMES = { "Admin Guide": "Running the business", "User Guide": "Common questions", "Trade Guides": "Your trade" };
+// The trade guides first: they're what most visitors come for.
+const docs = docsForRole(undefined).sort((a, b) => (b.section === "Trade Guides") - (a.section === "Trade Guides"));
 
 // Paths the articles mention (/check, /compliance/map) become links into the app.
 function prose(s) {

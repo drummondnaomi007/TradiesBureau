@@ -72,7 +72,7 @@ Run the last one after any change to the site or a deploy of the app. It also ca
 The trade picker on the home page, `trades.html` and `guide.html` are written from the app's own files, so the site can't say something different from the app:
 
 - what applies to each trade comes from the app's rule pack (`packs/vic-core.json`), decided by the app's own rule code
-- the how-to articles come from the app's guide (`src/lib/docsContent.ts`), including the trade guides. The Google Drive storage article is left out. The app's decision-tree blocks become a link to the trade's section on `trades.html`.
+- the how-to articles come from the app's guide (`src/lib/docsContent.ts`): only what the app shows someone who isn't signed in (the articles it marks `open`, and the ones written for everybody), using the app's own `docsForRole`. The app's decision-tree blocks become a link to the trade's section on `trades.html`.
 - the demo links (picker, `trades.html`) come from the app's demo trades (`src/lib/demo/trades.ts`), which have a tour at `/tour/{trade}`
 
 After the rules or the guide change in the app, rebuild and commit what changes:

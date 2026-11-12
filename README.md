@@ -16,10 +16,12 @@ tradiesbureau.com  (GitHub Pages, this repo)          portal.tradiesbureau.com  
 ## Pages
 
 ```
-index.html              Home: the pitch, what tradies want, what Tradies Bureau gives you, trade picker, three feature rows, three steps
+index.html              Home: the pitch, what tradies want beside what they get, the trade picker, three feature rows, three steps
 pricing.html            Redirects to the home page while pricing is off the site (the old page is in git history)
 features.html           Every feature, grouped, with jump links
 builders.html           Projects, work packages, tenders, client quote sharing, handover certificates
+trades.html             What each of the twelve trades needs, written from the app's rules (see "Pages built from the app")
+guide.html              The app's how-to articles (see "Pages built from the app")
 compliance.html         Victorian compliance guide for trade businesses (free, with sources)
 workcover-declaration-2026.html  WorkCover wage declaration dates for this cycle (24 October 2026 for payrolls over $200,000)
 whats-new.html          Release notes, newest first
@@ -29,12 +31,15 @@ privacy.html            Privacy policy: the message form and visitor statistics
 portal/index.html       Help signing in: sign in, create an account, links from tradies and builders
 compliance-tracker.html Redirects to features.html (old address kept working)
 services.html           Redirects to features.html (old address kept working)
-css/style.css           Navy, teal and hi-vis theme (Plus Jakarta Sans headings, Inter body; the 2026 refresh is layered at the end)
+css/style.css           Navy, teal and hi-vis theme (Barlow Semi Condensed headings, Barlow body; the newest layer is at the end)
 js/main.js              Mobile menu, footer year, screen tabs, "you've logged out" note
+js/trades.js            The trade picker on the home page, and the side rail on trades.html and guide.html
+js/trade-data.js        What applies to each trade. Written by scripts/build-from-app.mjs, not by hand
 js/enquiry.js           Sends the contact form to the app
 js/analytics.js         Visitor statistics (Google Analytics), off until a Measurement ID is added
 js/portal.js            Points app links at localhost:8080 when testing locally
 scripts/check-portal-links.py   Checks every link into the app
+scripts/build-from-app.mjs      Rebuilds the trade picker data, trades.html and guide.html from the app
 research/                       Research briefs behind the compliance guide
 assets/logo-mark.svg            Navy logo for the white header (logo-mark-white.svg for the footer)
 ```
@@ -61,6 +66,21 @@ python3 scripts/check-portal-links.py --base https://portal.tradiesbureau.com   
 ```
 
 Run the last one after any change to the site or a deploy of the app. It also calls `/api/health`, which reports whether the database answers, whether every migration is applied and whether the requirement rules are loaded.
+
+## Pages built from the app
+
+The trade picker on the home page, `trades.html` and `guide.html` are written from the app's own files, so the site can't say something different from the app:
+
+- what applies to each trade comes from the app's rule pack (`packs/vic-core.json`), decided by the app's own rule code
+- the how-to articles come from the app's guide (`src/lib/docsContent.ts`). The Google Drive storage article is left out.
+
+After the rules or the guide change in the app, rebuild and commit what changes:
+
+```bash
+node --experimental-strip-types scripts/build-from-app.mjs ../SKHB
+```
+
+It needs Node 22.6 or newer. It only replaces what's between the `<!-- ...:start -->` and `<!-- ...:end -->` comments in the two pages, so the rest of each page is edited by hand as usual.
 
 ## Test the site and app together locally
 

@@ -122,6 +122,11 @@ document.addEventListener("DOMContentLoaded", function () {
     var more = el("a", "text-link", "Read the full list");
     more.href = "trades.html#" + trade.key.replace(/([a-z])([A-Z])/g, "$1-$2").toLowerCase();
     foot.appendChild(go);
+    if (trade.demo) {
+      var tour = el("a", "text-link", "Tour the " + trade.demo.business + " demo");
+      tour.href = PORTAL + "/tour/" + trade.demo.slug;
+      foot.appendChild(tour);
+    }
     foot.appendChild(more);
     result.appendChild(foot);
   }

@@ -25,9 +25,31 @@ if (!fs.existsSync(path.join(APP, "packs/vic-core.json"))) {
   process.exit(1);
 }
 
+// The app's files import each other as "@/lib/x" with no file extension, which
+// plain Node can't follow. This lets it: "@/" means the app's src folder, and
+// a path with no extension is tried as .ts, .tsx and /index.ts.
+{
+  const hook = `
+    import fs from "node:fs";
+    import path from "node:path";
+    import { fileURLToPath, pathToFileURL } from "node:url";
+    const SRC = ${JSON.stringify(path.join(APP, "src"))};
+    const tryFile = (p) => [p, p + ".ts", p + ".tsx", path.join(p, "index.ts")].find((f) => fs.existsSync(f) && fs.statSync(f).isFile());
+    export async function resolve(specifier, context, next) {
+      let target = null;
+      if (specifier.startsWith("@/")) target = path.join(SRC, specifier.slice(2));
+      else if (specifier.startsWith(".") && context.parentURL?.startsWith("file:")) target = path.resolve(path.dirname(fileURLToPath(context.parentURL)), specifier);
+      const found = target && tryFile(target);
+      return found ? next(pathToFileURL(found).href, context) : next(specifier, context);
+    }`;
+  const { register } = await import("node:module");
+  register("data:text/javascript," + encodeURIComponent(hook));
+}
+
 const pack = JSON.parse(fs.readFileSync(path.join(APP, "packs/vic-core.json"), "utf8"));
 const { conditionHolds } = await import(pathToFileURL(path.join(APP, "src/lib/requirements/conditions.ts")));
 const { DOCS } = await import(pathToFileURL(path.join(APP, "src/lib/docsContent.ts")));
+const { DEMO_TRADES } = await import(pathToFileURL(path.join(APP, "src/lib/demo/trades.ts")));
 
 // ---------------------------------------------------------------- trades
 
@@ -99,7 +121,15 @@ const trades = TRADE_ORDER.map((key) => {
   const on = new Set([...(t.suggestedCapabilities || []), ...(t.suggestedWorkTypes || [])]);
   for (const q of questions) q.on = on.has(q.key);
   [...always, ...questions.flatMap((q) => q.adds)].forEach((c) => usedCodes.add(c));
-  return { key, name: TRADE_NAMES[key] || t.label, always: [...always], questions };
+  const demo = DEMO_TRADES.find((d) => d.key === key);
+  return {
+    key,
+    name: TRADE_NAMES[key] || t.label,
+    always: [...always],
+    questions,
+    // The portal's tour for this trade (/tour/{slug}), where there is one.
+    demo: demo ? { slug: demo.slug, business: demo.businessName, summary: demo.summary } : null,
+  };
 });
 
 function firstSentenceRegulator(req) {
@@ -182,7 +212,11 @@ const tradeSections = trades
       `<p class="trade-doc-count">${t.always.length} things apply to every Victorian business in this trade. More depend on the work you take on.</p>\n` +
       `<h3>Every business in this trade</h3>\n${grouped(t.always)}\n` +
       (qs ? `<h3>Depending on your work</h3>\n${qs}\n` : "") +
-      `<p class="trade-doc-cta"><a class="btn btn-primary" href="${LIVE}${check}" data-portal="${check}">Check your own business</a> <a class="text-link" href="index.html#trades">Try it here first</a></p>\n` +
+      `<p class="trade-doc-cta"><a class="btn btn-primary" href="${LIVE}${check}" data-portal="${check}">Check your own business</a> ` +
+      (t.demo
+        ? `<a class="text-link" href="${LIVE}/tour/${t.demo.slug}" data-portal="/tour/${t.demo.slug}">Tour the ${esc(t.demo.business)} demo</a> <a class="text-link" href="guide.html#trade-${t.demo.slug}">Read the ${esc(t.name.toLowerCase())} guide</a>`
+        : `<a class="text-link" href="index.html#trades">Try it here first</a>`) +
+      `</p>\n` +
       `</section>`
     );
   })
@@ -194,7 +228,7 @@ inject("trades.html", "trades", tradeSections);
 
 // Left out of the public site: it's about how the app's storage is wired up.
 const SKIP_DOCS = new Set(["document-storage"]);
-const SECTION_NAMES = { "Admin Guide": "Running the business", "User Guide": "For you and your crew" };
+const SECTION_NAMES = { "Admin Guide": "Running the business", "User Guide": "For you and your crew", "Trade Guides": "Your trade" };
 const docs = DOCS.filter((d) => !SKIP_DOCS.has(d.slug));
 
 // Paths the articles mention (/check, /compliance/map) become links into the app.
@@ -204,6 +238,11 @@ function prose(s) {
 
 function block(b) {
   if (typeof b === "string") return `<p>${prose(b)}</p>`;
+  // The app draws a decision tree here. The site already lists the same rules by trade.
+  if ("tree" in b) {
+    const t = trades.find((x) => x.key === b.tree);
+    return t ? `<p>The full list is on <a href="trades.html#${slug(t.key)}">What each trade needs</a>, under ${esc(t.name)}.</p>` : "";
+  }
   if ("heading" in b) return `<h3>${esc(b.heading)}</h3>`;
   if ("steps" in b) return `<ol class="doc-steps">\n${b.steps.map((s) => `<li>${prose(s)}</li>`).join("\n")}\n</ol>`;
   if ("list" in b) return `<ul>\n${b.list.map((s) => `<li>${prose(s)}</li>`).join("\n")}\n</ul>`;

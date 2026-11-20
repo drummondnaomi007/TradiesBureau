@@ -19,6 +19,7 @@ tradiesbureau.com  (GitHub Pages, this repo)          portal.tradiesbureau.com  
 index.html              Home: the pitch, what tradies want beside what they get, the trade picker, three feature rows, three steps
 pricing.html            Redirects to the home page while pricing is off the site (the old page is in git history)
 features.html           Every feature, grouped, with jump links
+problems.html           The problems tradies face (running the business, staff, subbies, audits, builders, contract administrators) and what the app does about each
 builders.html           Projects, work packages, tenders, client quote sharing, handover certificates
 trades.html             What each of the twelve trades needs, written from the app's rules (see "Pages built from the app")
 guide.html              The app's how-to articles (see "Pages built from the app")
@@ -40,7 +41,7 @@ js/analytics.js         Visitor statistics (Google Analytics), off until a Measu
 js/portal.js            Points app links at localhost:8080 when testing locally
 scripts/check-portal-links.py   Checks every link into the app
 scripts/build-from-app.mjs      Rebuilds the trade picker data, trades.html and guide.html from the app
-research/                       Research briefs behind the compliance guide
+research/                       Research briefs behind the compliance guide, and problems-we-solve.md (the full problem list, gaps and ideas)
 assets/logo-mark.svg            Navy logo for the white header (logo-mark-white.svg for the footer)
 ```
 
